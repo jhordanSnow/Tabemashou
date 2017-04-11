@@ -40,7 +40,7 @@ namespace WebApplication.Controllers
             {
                 return HttpNotFound();
             }
-            return View(restaurant);
+            return RedirectToAction("Index", "Locals", new {id});
         }
 
         // GET: Restaurants/Create
@@ -87,12 +87,7 @@ namespace WebApplication.Controllers
 
         public byte[] FileUpload(HttpPostedFileBase file)
         {
-            string pic = System.IO.Path.GetFileName(file.FileName);
-            string path = System.IO.Path.Combine(
-                                    Server.MapPath("~/Images/RestaurantLogos"), pic);
-            // file is uploaded
-            file.SaveAs(path);
-
+     
             // save the image path path to the database or you can send image
             // directly to database
             // in-case if you want to store byte[] ie. for DB
