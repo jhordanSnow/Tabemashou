@@ -647,8 +647,15 @@
         <Function Name="PR_DeleteRestaurant" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="RestaurantId" Type="int" Mode="In" />
         </Function>
+        <Function Name="PR_DeleteRestaurantTypes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="RestaurantId" Type="int" Mode="In" />
+        </Function>
         <Function Name="PR_RestaurantInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AminId" Type="numeric" Mode="In" />
+        </Function>
+        <Function Name="PR_UpdateRestaurantTypes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="RestaurantId" Type="int" Mode="In" />
+          <Parameter Name="TypeList" Type="varchar(max)" Mode="In" />
         </Function>
         <EntityContainer Name="TabemashouModelStoreContainer">
           <EntitySet Name="Achievement" EntityType="Self.Achievement" Schema="dbo" store:Type="Tables" />
@@ -1466,10 +1473,23 @@
             <Parameter Name="SecondLastName" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="PR_DeleteRestaurant">
-            <Parameter Name="RestaurantId" Mode="In" Type="Int32" />
+          <Parameter Name="RestaurantId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="PR_RestaurantInfo" ReturnType="Collection(TabemashouModel.PR_RestaurantInfo_Result)">
-            <Parameter Name="AminId" Mode="In" Type="Decimal" />
+          <Parameter Name="AminId" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="PR_RestaurantTypes">
+            <Parameter Name="RestaurantId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="PR_DropRestaurantTypes">
+            <Parameter Name="RestaurantId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="PR_UpdateRestaurantTypes">
+            <Parameter Name="RestaurantId" Mode="In" Type="Int32" />
+            <Parameter Name="TypeList" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="PR_DeleteRestaurantTypes">
+            <Parameter Name="RestaurantId" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="RestaurantInfo_Result">
@@ -1747,6 +1767,8 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="PR_UpdateRestaurantTypes" FunctionName="TabemashouModel.Store.PR_UpdateRestaurantTypes" />
+          <FunctionImportMapping FunctionImportName="PR_DeleteRestaurantTypes" FunctionName="TabemashouModel.Store.PR_DeleteRestaurantTypes" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
