@@ -174,6 +174,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DishesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LocalsController.cs" />
     <Compile Include="Controllers\MyIdentity.cs" />
@@ -527,7 +528,6 @@
     <Content Include="Scripts\Mailbox\Inbox.js" />
     <Content Include="Scripts\Mailbox\Read-menu.js" />
     <Content Include="Scripts\Restaurants\Create.js" />
-    <Content Include="Scripts\Restaurants\Edit.js" />
     <Content Include="Scripts\Restaurants\Index-menu.js" />
     <Content Include="Scripts\Restaurants\Index.js" />
     <Content Include="Scripts\Shared\_Layout.js" />
@@ -580,7 +580,12 @@
     <Content Include="Views\Locals\Details.cshtml" />
     <Content Include="Views\Locals\Edit.cshtml" />
     <Content Include="Views\Locals\Index.cshtml" />
-    <Content Include="Views\Restaurants\_MenuPartial.cshtml" />
+    <Content Include="Views\Locals\_MenuPartial.cshtml" />
+    <Content Include="Views\Dishes\Create.cshtml" />
+    <Content Include="Views\Dishes\Delete.cshtml" />
+    <Content Include="Views\Dishes\Details.cshtml" />
+    <Content Include="Views\Dishes\Edit.cshtml" />
+    <Content Include="Views\Dishes\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

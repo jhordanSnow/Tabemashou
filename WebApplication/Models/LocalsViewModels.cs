@@ -9,5 +9,6 @@ namespace WebApplication.Models
     {
         public Restaurant restaurant { get; set; }
         public IEnumerable<Local> locals { get; set; }
+        public IEnumerable<Dish> menu { get; set; }
     }
 }

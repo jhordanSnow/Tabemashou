@@ -1,9 +1,8 @@
-﻿ using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
- using System.Diagnostics;
- using System.Linq;
+using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
@@ -11,127 +10,112 @@ using WebApplication.Models;
 
 namespace WebApplication.Controllers
 {
-    public class LocalsController : Controller
+    public class DishesController : Controller
     {
         private TabemashouEntities db = new TabemashouEntities();
 
-        // GET: Locals
-        public ActionResult Index(int? id)
+        // GET: Dishes
+        public ActionResult Index()
         {
-            var locals = (from loc in db.Local
-                where loc.IdRestaurant == id
-                select loc);
-
-            var dishes = (from loc in db.Dish
-                where loc.IdRestaurant == id
-                select loc);
-
-            LocalsViewModels model = new LocalsViewModels();
-            model.restaurant = db.Restaurant.Find(id);
-            model.locals = locals;
-            model.menu = dishes;
-            return View(model);
+            var dish = db.Dish.Include(d => d.Restaurant);
+            return View(dish.ToList());
         }
 
-        // GET: Locals/Details/5
+        // GET: Dishes/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Local local = db.Local.Find(id);
-            if (local == null)
+            Dish dish = db.Dish.Find(id);
+            if (dish == null)
             {
                 return HttpNotFound();
             }
-            return View(local);
+            return View(dish);
         }
 
-        // GET: Locals/Create
+        // GET: Dishes/Create
         public ActionResult Create()
         {
-            ViewBag.IdDistrict = new SelectList(db.District, "IdDistrict", "Name");
             ViewBag.IdRestaurant = new SelectList(db.Restaurant, "IdRestaurant", "Name");
             return View();
         }
 
-        // POST: Locals/Create
+        // POST: Dishes/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdLocal,Latitude,Longitude,IdDistrict,Detail,IdRestaurant")] Local local)
+        public ActionResult Create([Bind(Include = "IdDish,Description,Name,IdRestaurant")] Dish dish)
         {
             if (ModelState.IsValid)
             {
-                db.Local.Add(local);
+                db.Dish.Add(dish);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.IdDistrict = new SelectList(db.District, "IdDistrict", "Name", local.IdDistrict);
-            ViewBag.IdRestaurant = new SelectList(db.Restaurant, "IdRestaurant", "Name", local.IdRestaurant);
-            return View(local);
+            ViewBag.IdRestaurant = new SelectList(db.Restaurant, "IdRestaurant", "Name", dish.IdRestaurant);
+            return View(dish);
         }
 
-        // GET: Locals/Edit/5
+        // GET: Dishes/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Local local = db.Local.Find(id);
-            if (local == null)
+            Dish dish = db.Dish.Find(id);
+            if (dish == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.IdDistrict = new SelectList(db.District, "IdDistrict", "Name", local.IdDistrict);
-            ViewBag.IdRestaurant = new SelectList(db.Restaurant, "IdRestaurant", "Name", local.IdRestaurant);
-            return View(local);
+            ViewBag.IdRestaurant = new SelectList(db.Restaurant, "IdRestaurant", "Name", dish.IdRestaurant);
+            return View(dish);
         }
 
-        // POST: Locals/Edit/5
+        // POST: Dishes/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IdLocal,Latitude,Longitude,IdDistrict,Detail,IdRestaurant")] Local local)
+        public ActionResult Edit([Bind(Include = "IdDish,Description,Name,IdRestaurant")] Dish dish)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(local).State = EntityState.Modified;
+                db.Entry(dish).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.IdDistrict = new SelectList(db.District, "IdDistrict", "Name", local.IdDistrict);
-            ViewBag.IdRestaurant = new SelectList(db.Restaurant, "IdRestaurant", "Name", local.IdRestaurant);
-            return View(local);
+            ViewBag.IdRestaurant = new SelectList(db.Restaurant, "IdRestaurant", "Name", dish.IdRestaurant);
+            return View(dish);
         }
 
-        // GET: Locals/Delete/5
+        // GET: Dishes/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Local local = db.Local.Find(id);
-            if (local == null)
+            Dish dish = db.Dish.Find(id);
+            if (dish == null)
             {
                 return HttpNotFound();
             }
-            return View(local);
+            return View(dish);
         }
 
-        // POST: Locals/Delete/5
+        // POST: Dishes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Local local = db.Local.Find(id);
-            db.Local.Remove(local);
+            Dish dish = db.Dish.Find(id);
+            db.Dish.Remove(dish);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
