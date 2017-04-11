@@ -18,7 +18,7 @@
                     value: typeId,
                     text: nameType
                 }));
-                $(selectType).select2();
+                $(selectType).select2({ width: '100%' });
                 $("#tipos_Name").val("");
             },
             error: function (xhr) {
