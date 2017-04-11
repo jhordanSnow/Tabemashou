@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -36,28 +37,30 @@ namespace WebApplication.Controllers
             return View(dish);
         }
 
-        // GET: Dishes/Create
-        public ActionResult Create()
+        // GET: Dishes1/Create
+        public ActionResult Create(int? id)
         {
-            ViewBag.IdRestaurant = new SelectList(db.Restaurant, "IdRestaurant", "Name");
+            ViewBag.restId = id;
+            Session["restId"] = id;
             return View();
         }
 
-        // POST: Dishes/Create
+        // POST: Dishes1/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "IdDish,Description,Name,IdRestaurant")] Dish dish)
         {
+
             if (ModelState.IsValid)
             {
+                dish.IdRestaurant = (int) Session["restId"];
                 db.Dish.Add(dish);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Locals", new { id = dish.IdRestaurant });
             }
 
-            ViewBag.IdRestaurant = new SelectList(db.Restaurant, "IdRestaurant", "Name", dish.IdRestaurant);
             return View(dish);
         }
 
@@ -73,7 +76,7 @@ namespace WebApplication.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.IdRestaurant = new SelectList(db.Restaurant, "IdRestaurant", "Name", dish.IdRestaurant);
+            Session["DishId"] = id;
             return View(dish);
         }
 
@@ -82,15 +85,17 @@ namespace WebApplication.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IdDish,Description,Name,IdRestaurant")] Dish dish)
+        public ActionResult Edit(Dish model)
         {
+            Dish dish = db.Dish.Find(Session["DishId"]);
             if (ModelState.IsValid)
             {
+                dish.Name = model.Name;
+                dish.Description = model.Description;
                 db.Entry(dish).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Locals", new { id = dish.IdRestaurant });
             }
-            ViewBag.IdRestaurant = new SelectList(db.Restaurant, "IdRestaurant", "Name", dish.IdRestaurant);
             return View(dish);
         }
 
@@ -111,13 +116,12 @@ namespace WebApplication.Controllers
 
         // POST: Dishes/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             Dish dish = db.Dish.Find(id);
             db.Dish.Remove(dish);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Locals", new { id = dish.IdRestaurant });
         }
 
         protected override void Dispose(bool disposing)

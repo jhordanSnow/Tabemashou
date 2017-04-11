@@ -18,6 +18,10 @@ namespace WebApplication.Controllers
         // GET: Locals
         public ActionResult Index(int? id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             var locals = (from loc in db.Local
                 where loc.IdRestaurant == id
                 select loc);
@@ -29,7 +33,9 @@ namespace WebApplication.Controllers
             LocalsViewModels model = new LocalsViewModels();
             model.restaurant = db.Restaurant.Find(id);
             model.locals = locals;
-            model.menu = dishes;
+            model.menu = new DishesViewModels();
+            model.menu.dishes = dishes;
+            model.menu.restaurant = model.restaurant;
             return View(model);
         }
 

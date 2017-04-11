@@ -15,6 +15,8 @@ namespace WebApplication
             RegisterHome(bundles);
 
             RegisterRestaurants(bundles);
+
+            RegisterDishes(bundles);
         }
 
       
@@ -66,6 +68,15 @@ namespace WebApplication
             bundles.Add(new StyleBundle("~/AdminLTE/plugins/croppie/css").Include(
                                          "~/AdminLTE/plugins/croppie/js/croppie.css"));
 
+        }
+
+        private static void RegisterDishes(BundleCollection bundles)
+        {
+            bundles.Add(new ScriptBundle("~/Scripts/Dishes/Index").Include(
+                "~/Scripts/Dishes/Index.js"));
+
+            bundles.Add(new ScriptBundle("~/Scripts/Dishes/Index/menu").Include(
+                "~/Scripts/Dishes/Index-menu.js"));
         }
 
         private static void RegisterShared(BundleCollection bundles)

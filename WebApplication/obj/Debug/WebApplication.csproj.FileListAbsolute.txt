@@ -499,6 +499,7 @@ E:\Tabemashou\WebApplication\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 E:\Tabemashou\WebApplication\obj\Debug\WebApplication.dll
 E:\Tabemashou\WebApplication\obj\Debug\WebApplication.pdb
 E:\Tabemashou\WebApplication\obj\Debug\WebApplication.csprojResolveAssemblyReference.cache
+C:\Users\Brayinja\Documents\GitHub\Tabemashou\WebApplication\bin\Microsoft.Owin.Security.Facebook.dll
 C:\Users\Brayinja\Documents\GitHub\Tabemashou\WebApplication\bin\roslyn\csc.exe
 C:\Users\Brayinja\Documents\GitHub\Tabemashou\WebApplication\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
 C:\Users\Brayinja\Documents\GitHub\Tabemashou\WebApplication\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
@@ -526,7 +527,6 @@ C:\Users\Brayinja\Documents\GitHub\Tabemashou\WebApplication\bin\Microsoft.Owin.
 C:\Users\Brayinja\Documents\GitHub\Tabemashou\WebApplication\bin\Microsoft.Owin.Host.SystemWeb.dll
 C:\Users\Brayinja\Documents\GitHub\Tabemashou\WebApplication\bin\Microsoft.Owin.Security.Cookies.dll
 C:\Users\Brayinja\Documents\GitHub\Tabemashou\WebApplication\bin\Microsoft.Owin.Security.dll
-C:\Users\Brayinja\Documents\GitHub\Tabemashou\WebApplication\bin\Microsoft.Owin.Security.Facebook.dll
 C:\Users\Brayinja\Documents\GitHub\Tabemashou\WebApplication\bin\Microsoft.Owin.Security.Google.dll
 C:\Users\Brayinja\Documents\GitHub\Tabemashou\WebApplication\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
 C:\Users\Brayinja\Documents\GitHub\Tabemashou\WebApplication\bin\Microsoft.Owin.Security.OAuth.dll
@@ -568,6 +568,6 @@ C:\Users\Brayinja\Documents\GitHub\Tabemashou\WebApplication\bin\Microsoft.Owin.
 C:\Users\Brayinja\Documents\GitHub\Tabemashou\WebApplication\bin\Microsoft.Owin.Security.Google.xml
 C:\Users\Brayinja\Documents\GitHub\Tabemashou\WebApplication\bin\Microsoft.Owin.Security.Twitter.xml
 C:\Users\Brayinja\Documents\GitHub\Tabemashou\WebApplication\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-C:\Users\Brayinja\Documents\GitHub\Tabemashou\WebApplication\obj\Debug\WebApplication.csprojResolveAssemblyReference.cache
 C:\Users\Brayinja\Documents\GitHub\Tabemashou\WebApplication\obj\Debug\WebApplication.dll
 C:\Users\Brayinja\Documents\GitHub\Tabemashou\WebApplication\obj\Debug\WebApplication.pdb
+C:\Users\Brayinja\Documents\GitHub\Tabemashou\WebApplication\obj\Debug\WebApplication.csprojResolveAssemblyReference.cache
