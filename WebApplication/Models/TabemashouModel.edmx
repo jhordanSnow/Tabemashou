@@ -1489,7 +1489,7 @@
             <Parameter Name="TypeList" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="PR_DeleteRestaurantTypes">
-            <Parameter Name="RestaurantId" Mode="In" Type="Int32" />
+          <Parameter Name="RestaurantId" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="RestaurantInfo_Result">

@@ -527,6 +527,7 @@
     <Content Include="Scripts\Mailbox\Inbox.js" />
     <Content Include="Scripts\Mailbox\Read-menu.js" />
     <Content Include="Scripts\Restaurants\Create.js" />
+    <Content Include="Scripts\Restaurants\Edit.js" />
     <Content Include="Scripts\Restaurants\Index-menu.js" />
     <Content Include="Scripts\Restaurants\Index.js" />
     <Content Include="Scripts\Shared\_Layout.js" />
