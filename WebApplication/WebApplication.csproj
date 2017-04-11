@@ -230,6 +230,9 @@
     <Compile Include="Models\Province.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PR_RestaurantInfo_Result.cs">
+      <DependentUpon>TabemashouModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Restaurant.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>

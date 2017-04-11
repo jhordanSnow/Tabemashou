@@ -24,7 +24,7 @@ namespace WebApplication.Controllers
             User loggedUser = db.User.Find(identity.User.IdCard);
 
             RestaurantsViewModel model = new RestaurantsViewModel();
-            model.restaurant = db.RestaurantInfo(identity.User.IdCard).ToList();
+            model.restaurant = db.PR_RestaurantInfo(identity.User.IdCard).ToList();
             return View(model);
         }
 
@@ -186,8 +186,7 @@ namespace WebApplication.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
-            Restaurant restaurant = db.Restaurant.Find(id);
-            db.Restaurant.Remove(restaurant);
+            db.PR_DeleteRestaurant(id);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
