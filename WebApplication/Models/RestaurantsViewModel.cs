@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace WebApplication.Models
 {
@@ -16,5 +17,6 @@ namespace WebApplication.Models
         public Type tipos { get; set; }
         public List<Type> restTypes { get; set; }
         public int[] restTypesId { get; set; }
+        public MultiSelectList selectedItems { get; set; }
     }
 }

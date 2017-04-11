@@ -55,6 +55,9 @@ namespace WebApplication
             bundles.Add(new ScriptBundle("~/Scripts/Restaurants/Create").Include(
                "~/Scripts/Restaurants/Create.js"));
 
+            bundles.Add(new ScriptBundle("~/Scripts/Restaurants/Edit").Include(
+                "~/Scripts/Restaurants/Edit.js"));
+
             // Croppie
             bundles.Add(new ScriptBundle("~/AdminLTE/plugins/croppie/js").Include(
                                          "~/AdminLTE/plugins/croppie/js/croppie.js",

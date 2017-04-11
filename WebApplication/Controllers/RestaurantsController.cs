@@ -135,8 +135,8 @@ namespace WebApplication.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Type = new SelectList(db.Type, "IdType", "Name");
-            RegisterRestaurantModel model = new RegisterRestaurantModel {restaurant = restaurant};
+            RegisterRestaurantModel model = new RegisterRestaurantModel { restaurant = restaurant };
+            model.selectedItems = new MultiSelectList(db.Type, "IdType", "Name", restaurant.Type.Select(t => t.IdType));
             return View(model);
         }
 
