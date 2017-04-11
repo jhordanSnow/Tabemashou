@@ -254,5 +254,45 @@ namespace WebApplication.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PR_RestaurantInfo_Result>("PR_RestaurantInfo", aminIdParameter);
         }
+    
+        public virtual int PR_RestaurantTypes(Nullable<int> restaurantId)
+        {
+            var restaurantIdParameter = restaurantId.HasValue ?
+                new ObjectParameter("RestaurantId", restaurantId) :
+                new ObjectParameter("RestaurantId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_RestaurantTypes", restaurantIdParameter);
+        }
+    
+        public virtual int PR_DropRestaurantTypes(Nullable<int> restaurantId)
+        {
+            var restaurantIdParameter = restaurantId.HasValue ?
+                new ObjectParameter("RestaurantId", restaurantId) :
+                new ObjectParameter("RestaurantId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_DropRestaurantTypes", restaurantIdParameter);
+        }
+    
+        public virtual int PR_UpdateRestaurantTypes(Nullable<int> restaurantId, string typeList)
+        {
+            var restaurantIdParameter = restaurantId.HasValue ?
+                new ObjectParameter("RestaurantId", restaurantId) :
+                new ObjectParameter("RestaurantId", typeof(int));
+    
+            var typeListParameter = typeList != null ?
+                new ObjectParameter("TypeList", typeList) :
+                new ObjectParameter("TypeList", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_UpdateRestaurantTypes", restaurantIdParameter, typeListParameter);
+        }
+    
+        public virtual int PR_DeleteRestaurantTypes(Nullable<int> restaurantId)
+        {
+            var restaurantIdParameter = restaurantId.HasValue ?
+                new ObjectParameter("RestaurantId", restaurantId) :
+                new ObjectParameter("RestaurantId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_DeleteRestaurantTypes", restaurantIdParameter);
+        }
     }
 }

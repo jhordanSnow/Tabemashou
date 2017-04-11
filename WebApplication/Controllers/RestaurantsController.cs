@@ -143,23 +143,38 @@ namespace WebApplication.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "IdRestaurant,Name,Logo,IdAdmin")] Restaurant restaurant, HttpPostedFileBase image)
+        public ActionResult Edit(RegisterRestaurantModel model, HttpPostedFileBase image)
         {
             Restaurant dbRest = db.Restaurant.Find(Session["RestId"]);
             if (ModelState.IsValid)
             {
+
+                if (model.restTypesId != null && model.restTypesId.Any())
+                {
+                    String typeList = "";
+                    foreach (var typeId in model.restTypesId)
+                    {
+                        typeList += typeId + ",";
+                    }
+                    db.PR_UpdateRestaurantTypes(model.restaurant.IdRestaurant, typeList.Remove(typeList.Length - 1));
+                }
+                else
+                {
+                    db.PR_DeleteRestaurantTypes(model.restaurant.IdRestaurant);
+                }
+
                 if (image != null && image.ContentLength > 0)
                 {
                     byte[] dbImage = FileUpload(image);
                     dbRest.Logo = dbImage;
                 }
-                dbRest.Name = restaurant.Name;
+                dbRest.Name = model.restaurant.Name;
                 db.Entry(dbRest).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.IdAdmin = new SelectList(db.Administrator, "IdCard", "IdCard", restaurant.IdAdmin);
-            return View(restaurant);
+            ViewBag.IdAdmin = new SelectList(db.Administrator, "IdCard", "IdCard", model.restaurant.IdAdmin);
+            return View(model);
         }
 
         // GET: Restaurants/Delete/5
