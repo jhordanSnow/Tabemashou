@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel.DataAnnotations;
+
 namespace WebApplication.Models
 {
     using System;
@@ -23,6 +25,8 @@ namespace WebApplication.Models
         }
     
         public int IdRestaurant { get; set; }
+        [Required]
+        [Display(Name = "Name")]
         public string Name { get; set; }
         public byte[] Logo { get; set; }
         public decimal IdAdmin { get; set; }

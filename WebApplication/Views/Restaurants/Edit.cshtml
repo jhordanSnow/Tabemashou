@@ -1,11 +1,11 @@
 ﻿@using WebApplication.Models
-@model RegisterRestaurantModel
+@model RegisterRestaurantModel  
 
 @{
     ViewBag.Breadcrumb = new Breadcrumb(new []
     {
-        new Crumb("Restaurant", "Index", "fa-cutlery"),
-        new Crumb("Edit", "", ""),
+        new Crumb("Restaurant", "", "fa-cutlery"),
+        new Crumb("Edit"),
 
     });
 }
@@ -14,10 +14,19 @@
 @Styles.Render("~/AdminLTE/plugins/select2/css")
 @Styles.Render("~/AdminLTE/dist/css")
 
+@if (!ViewContext.ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <h4><i class="icon fa fa-ban"></i> Error!</h4>
+        @Html.ValidationSummary("", new { @class = "text" })
+    </div>
+}
+
 <div class="col-md-12">
     <div class="box box-solid box-default">
         <div class="box-header with-border">
-            <h3 class="box-title">Register a new Restaurant</h3>
+            <h3 class="box-title">Edit a Restaurant</h3>
             <div class="box-tools pull-right">
             </div>
         </div>
@@ -36,7 +45,7 @@
                                 <div class="row">
                                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                     <div class="form-group col-md-12">
-                                        <img src=@Url.Action("Show", "Restaurants", new {id = Model.restaurant.IdRestaurant}) class="img-responsive" OnClick="uploadImage();" style="cursor: pointer" />
+                                        <img src=@Url.Action("Show", "Restaurants", new {id = Model.restaurant.IdRestaurant}) class="img-responsive"  id="preImage" OnClick="uploadImage();" style="cursor: pointer" />
                                         <input style="visibility: hidden" type="file" name="image" id="image">
                                     </div>
                                 </div>
