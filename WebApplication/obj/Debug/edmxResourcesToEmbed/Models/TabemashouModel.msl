@@ -242,11 +242,12 @@
         <ScalarProperty Name="IdType" ColumnName="IdType" />
       </EndProperty>
     </AssociationSetMapping>
-    <FunctionImportMapping FunctionImportName="CreateAdministrator" FunctionName="TabemashouModel.Store.CreateAdministrator" />
-    <FunctionImportMapping FunctionImportName="CreateUser" FunctionName="TabemashouModel.Store.CreateUser" />
-    <FunctionImportMapping FunctionImportName="RestaurantInfo" FunctionName="TabemashouModel.Store.RestaurantInfo">
+    <FunctionImportMapping FunctionImportName="PR_CreateAdministrator" FunctionName="TabemashouModel.Store.PR_CreateAdministrator" />
+    <FunctionImportMapping FunctionImportName="PR_CreateUser" FunctionName="TabemashouModel.Store.PR_CreateUser" />
+    <FunctionImportMapping FunctionImportName="PR_DeleteRestaurant" FunctionName="TabemashouModel.Store.PR_DeleteRestaurant" />
+    <FunctionImportMapping FunctionImportName="PR_RestaurantInfo" FunctionName="TabemashouModel.Store.PR_RestaurantInfo">
       <ResultMapping>
-        <ComplexTypeMapping TypeName="TabemashouModel.RestaurantInfo_Result">
+        <ComplexTypeMapping TypeName="TabemashouModel.PR_RestaurantInfo_Result">
           <ScalarProperty Name="IdRestaurant" ColumnName="IdRestaurant" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Logo" ColumnName="Logo" />

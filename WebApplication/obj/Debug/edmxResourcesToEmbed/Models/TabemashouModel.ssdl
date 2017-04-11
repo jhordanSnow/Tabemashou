@@ -446,7 +446,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_IdRestaurant">
-    <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="1" />
+    <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="TypesPerRestaurant" Type="Self.TypesPerRestaurant" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Restaurant">
@@ -613,7 +615,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Function Name="CreateAdministrator" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+  <Function Name="PR_CreateAdministrator" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="IdCard" Type="numeric" Mode="In" />
     <Parameter Name="Username" Type="varchar" Mode="In" />
     <Parameter Name="Password" Type="varchar" Mode="In" />
@@ -625,7 +627,7 @@
     <Parameter Name="LastName" Type="varchar" Mode="In" />
     <Parameter Name="SecondLastName" Type="varchar" Mode="In" />
   </Function>
-  <Function Name="CreateUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+  <Function Name="PR_CreateUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="IdCard" Type="numeric" Mode="In" />
     <Parameter Name="Username" Type="varchar" Mode="In" />
     <Parameter Name="Password" Type="varchar" Mode="In" />
@@ -637,7 +639,10 @@
     <Parameter Name="LastName" Type="varchar" Mode="In" />
     <Parameter Name="SecondLastName" Type="varchar" Mode="In" />
   </Function>
-  <Function Name="RestaurantInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+  <Function Name="PR_DeleteRestaurant" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="RestaurantId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="PR_RestaurantInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="AminId" Type="numeric" Mode="In" />
   </Function>
   <EntityContainer Name="TabemashouModelStoreContainer">

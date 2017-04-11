@@ -635,8 +635,45 @@
     <FunctionImport Name="RestaurantInfo" ReturnType="Collection(TabemashouModel.RestaurantInfo_Result)">
       <Parameter Name="AminId" Mode="In" Type="Decimal" />
     </FunctionImport>
+    <FunctionImport Name="PR_CreateAdministrator">
+      <Parameter Name="IdCard" Mode="In" Type="Decimal" />
+      <Parameter Name="Username" Mode="In" Type="String" />
+      <Parameter Name="Password" Mode="In" Type="String" />
+      <Parameter Name="Gender" Mode="In" Type="String" />
+      <Parameter Name="BirthDate" Mode="In" Type="DateTime" />
+      <Parameter Name="Nationality" Mode="In" Type="Int32" />
+      <Parameter Name="FirstName" Mode="In" Type="String" />
+      <Parameter Name="MiddleName" Mode="In" Type="String" />
+      <Parameter Name="LastName" Mode="In" Type="String" />
+      <Parameter Name="SecondLastName" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="PR_CreateUser">
+      <Parameter Name="IdCard" Mode="In" Type="Decimal" />
+      <Parameter Name="Username" Mode="In" Type="String" />
+      <Parameter Name="Password" Mode="In" Type="String" />
+      <Parameter Name="Gender" Mode="In" Type="String" />
+      <Parameter Name="BirthDate" Mode="In" Type="DateTime" />
+      <Parameter Name="Nationality" Mode="In" Type="Int32" />
+      <Parameter Name="FirstName" Mode="In" Type="String" />
+      <Parameter Name="MiddleName" Mode="In" Type="String" />
+      <Parameter Name="LastName" Mode="In" Type="String" />
+      <Parameter Name="SecondLastName" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="PR_DeleteRestaurant">
+      <Parameter Name="RestaurantId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="PR_RestaurantInfo" ReturnType="Collection(TabemashouModel.PR_RestaurantInfo_Result)">
+      <Parameter Name="AminId" Mode="In" Type="Decimal" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="RestaurantInfo_Result">
+    <Property Type="Int32" Name="IdRestaurant" Nullable="false" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+    <Property Type="Binary" Name="Logo" Nullable="true" />
+    <Property Type="Decimal" Name="IdAdmin" Nullable="false" Precision="20" Scale="0" />
+    <Property Type="Int32" Name="CantLocal" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="PR_RestaurantInfo_Result">
     <Property Type="Int32" Name="IdRestaurant" Nullable="false" />
     <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
     <Property Type="Binary" Name="Logo" Nullable="true" />

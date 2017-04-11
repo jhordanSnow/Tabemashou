@@ -8,7 +8,7 @@ namespace WebApplication.Models
 {
     public class RestaurantsViewModel
     {
-        public IEnumerable<RestaurantInfo_Result> restaurant { get; set; }
+        public IEnumerable<PR_RestaurantInfo_Result> restaurant { get; set; }
     }
 
     public class RegisterRestaurantModel
