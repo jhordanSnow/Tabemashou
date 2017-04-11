@@ -1,0 +1,795 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TabemashouModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Achievement">
+    <Key>
+      <PropertyRef Name="IdAchivement" />
+    </Key>
+    <Property Name="IdAchivement" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Description" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Icon" Type="varbinary(max)" />
+    <Property Name="Experience" Type="numeric" Precision="20" Scale="0" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AchievementsByCustomer">
+    <Key>
+      <PropertyRef Name="IdCard" />
+      <PropertyRef Name="IdAchievement" />
+    </Key>
+    <Property Name="IdCard" Type="numeric" Precision="20" Scale="0" Nullable="false" />
+    <Property Name="IdAchievement" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Administrator">
+    <Key>
+      <PropertyRef Name="IdCard" />
+    </Key>
+    <Property Name="IdCard" Type="numeric" Precision="20" Scale="0" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Canton">
+    <Key>
+      <PropertyRef Name="IdCanton" />
+    </Key>
+    <Property Name="IdCanton" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="IdProvince" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Check">
+    <Key>
+      <PropertyRef Name="IdCheck" />
+    </Key>
+    <Property Name="IdCheck" Type="int" Nullable="false" />
+    <Property Name="TotalPrice" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Country">
+    <Key>
+      <PropertyRef Name="IdCountry" />
+    </Key>
+    <Property Name="IdCountry" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="IdCard" />
+    </Key>
+    <Property Name="IdCard" Type="numeric" Precision="20" Scale="0" Nullable="false" />
+    <Property Name="AccountNumber" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Photo" Type="varbinary(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Dish">
+    <Key>
+      <PropertyRef Name="IdDish" />
+    </Key>
+    <Property Name="IdDish" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Description" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="IdRestaurant" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DishesByCheck">
+    <Key>
+      <PropertyRef Name="IdDish" />
+      <PropertyRef Name="IdCheck" />
+    </Key>
+    <Property Name="UnitaryPrice" Type="numeric" Precision="20" Scale="0" Nullable="false" />
+    <Property Name="Quantity" Type="numeric" Precision="3" Scale="0" Nullable="false" />
+    <Property Name="SellTax" Type="numeric" Precision="3" Scale="0" Nullable="false" />
+    <Property Name="ServiceTax" Type="numeric" Precision="3" Scale="0" Nullable="false" />
+    <Property Name="IdDish" Type="int" Nullable="false" />
+    <Property Name="IdCheck" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DishesPerLocal">
+    <Key>
+      <PropertyRef Name="IdLocal" />
+      <PropertyRef Name="IdDish" />
+    </Key>
+    <Property Name="IdLocal" Type="int" Nullable="false" />
+    <Property Name="IdDish" Type="int" Nullable="false" />
+    <Property Name="State" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="District">
+    <Key>
+      <PropertyRef Name="IdDistrict" />
+    </Key>
+    <Property Name="IdDistrict" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="IdCanton" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FriendsByCustomer">
+    <Key>
+      <PropertyRef Name="IdCard" />
+      <PropertyRef Name="IdFriend" />
+    </Key>
+    <Property Name="IdCard" Type="numeric" Precision="20" Scale="0" Nullable="false" />
+    <Property Name="IdFriend" Type="numeric" Precision="20" Scale="0" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Local">
+    <Key>
+      <PropertyRef Name="IdLocal" />
+    </Key>
+    <Property Name="IdLocal" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Latitude" Type="decimal" Precision="12" Scale="9" Nullable="false" />
+    <Property Name="Longitude" Type="decimal" Precision="12" Scale="9" Nullable="false" />
+    <Property Name="IdDistrict" Type="int" Nullable="false" />
+    <Property Name="Detail" Type="varchar" MaxLength="50" />
+    <Property Name="IdRestaurant" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PARAMETER">
+    <Key>
+      <PropertyRef Name="PARAMETER" />
+      <PropertyRef Name="VALUE" />
+    </Key>
+    <Property Name="PARAMETER" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="VALUE" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PaymentByCustomer">
+    <Key>
+      <PropertyRef Name="IdCard" />
+      <PropertyRef Name="IdCheck" />
+    </Key>
+    <Property Name="IdCard" Type="numeric" Precision="20" Scale="0" Nullable="false" />
+    <Property Name="IdCheck" Type="int" Nullable="false" />
+    <Property Name="TotalPrice" Type="numeric" Precision="20" Scale="0" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Photo">
+    <Key>
+      <PropertyRef Name="IdPhoto" />
+    </Key>
+    <Property Name="IdPhoto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Photo" Type="varbinary(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PhotosPerDish">
+    <Key>
+      <PropertyRef Name="IdDish" />
+      <PropertyRef Name="IdPhoto" />
+    </Key>
+    <Property Name="IdDish" Type="int" Nullable="false" />
+    <Property Name="IdPhoto" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PhotosPerLocal">
+    <Key>
+      <PropertyRef Name="IdLocal" />
+      <PropertyRef Name="IdPhoto" />
+    </Key>
+    <Property Name="IdLocal" Type="int" Nullable="false" />
+    <Property Name="IdPhoto" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Province">
+    <Key>
+      <PropertyRef Name="IdProvince" />
+    </Key>
+    <Property Name="IdProvince" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="IdCountry" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Restaurant">
+    <Key>
+      <PropertyRef Name="IdRestaurant" />
+    </Key>
+    <Property Name="IdRestaurant" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Logo" Type="varbinary(max)" />
+    <Property Name="IdAdmin" Type="numeric" Precision="20" Scale="0" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Review">
+    <Key>
+      <PropertyRef Name="IdReview" />
+    </Key>
+    <Property Name="IdReview" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="Description" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Price" Type="numeric" Precision="1" Scale="0" Nullable="false" />
+    <Property Name="Quality" Type="numeric" Precision="1" Scale="0" Nullable="false" />
+    <Property Name="IdCustomer" Type="numeric" Precision="20" Scale="0" Nullable="false" />
+    <Property Name="IdLocal" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Table">
+    <Key>
+      <PropertyRef Name="IdTable" />
+    </Key>
+    <Property Name="IdTable" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DistinctiveName" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="IdLocal" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Type">
+    <Key>
+      <PropertyRef Name="IdType" />
+    </Key>
+    <Property Name="IdType" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TypesPerDish">
+    <Key>
+      <PropertyRef Name="IdDish" />
+      <PropertyRef Name="IdType" />
+    </Key>
+    <Property Name="IdDish" Type="int" Nullable="false" />
+    <Property Name="IdType" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TypesPerRestaurant">
+    <Key>
+      <PropertyRef Name="IdRestaurant" />
+      <PropertyRef Name="IdType" />
+    </Key>
+    <Property Name="IdRestaurant" Type="int" Nullable="false" />
+    <Property Name="IdType" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="IdCard" />
+    </Key>
+    <Property Name="IdCard" Type="numeric" Precision="20" Scale="0" Nullable="false" />
+    <Property Name="Username" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Gender" Type="char" MaxLength="1" Nullable="false" />
+    <Property Name="BirthDate" Type="date" Nullable="false" />
+    <Property Name="Nationality" Type="int" Nullable="false" />
+    <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="MiddleName" Type="varchar" MaxLength="50" />
+    <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="SecondLastName" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK_AchievementsByCustomerAchievement">
+    <End Role="Achievement" Type="Self.Achievement" Multiplicity="1" />
+    <End Role="AchievementsByCustomer" Type="Self.AchievementsByCustomer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Achievement">
+        <PropertyRef Name="IdAchivement" />
+      </Principal>
+      <Dependent Role="AchievementsByCustomer">
+        <PropertyRef Name="IdAchievement" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AchievementsByCustomerCard">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+    <End Role="AchievementsByCustomer" Type="Self.AchievementsByCustomer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="IdCard" />
+      </Principal>
+      <Dependent Role="AchievementsByCustomer">
+        <PropertyRef Name="IdCard" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CustomerIdCard">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="IdCard" />
+      </Principal>
+      <Dependent Role="Customer">
+        <PropertyRef Name="IdCard" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DishesByCheckCheck">
+    <End Role="Check" Type="Self.Check" Multiplicity="1" />
+    <End Role="DishesByCheck" Type="Self.DishesByCheck" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Check">
+        <PropertyRef Name="IdCheck" />
+      </Principal>
+      <Dependent Role="DishesByCheck">
+        <PropertyRef Name="IdDish" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DishesByCheckDish">
+    <End Role="Dish" Type="Self.Dish" Multiplicity="1" />
+    <End Role="DishesByCheck" Type="Self.DishesByCheck" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dish">
+        <PropertyRef Name="IdDish" />
+      </Principal>
+      <Dependent Role="DishesByCheck">
+        <PropertyRef Name="IdDish" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DishIdLocal">
+    <End Role="Local" Type="Self.Local" Multiplicity="1" />
+    <End Role="DishesPerLocal" Type="Self.DishesPerLocal" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Local">
+        <PropertyRef Name="IdLocal" />
+      </Principal>
+      <Dependent Role="DishesPerLocal">
+        <PropertyRef Name="IdLocal" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DishIdRestaurant">
+    <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Dish" Type="Self.Dish" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Restaurant">
+        <PropertyRef Name="IdRestaurant" />
+      </Principal>
+      <Dependent Role="Dish">
+        <PropertyRef Name="IdRestaurant" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FriendsIdCustomer">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+    <End Role="FriendsByCustomer" Type="Self.FriendsByCustomer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="IdCard" />
+      </Principal>
+      <Dependent Role="FriendsByCustomer">
+        <PropertyRef Name="IdCard" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FriendsIdFriend">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+    <End Role="FriendsByCustomer" Type="Self.FriendsByCustomer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="IdCard" />
+      </Principal>
+      <Dependent Role="FriendsByCustomer">
+        <PropertyRef Name="IdFriend" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_IdAdmin">
+    <End Role="Administrator" Type="Self.Administrator" Multiplicity="1" />
+    <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Administrator">
+        <PropertyRef Name="IdCard" />
+      </Principal>
+      <Dependent Role="Restaurant">
+        <PropertyRef Name="IdAdmin" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_IdCanton">
+    <End Role="Canton" Type="Self.Canton" Multiplicity="1" />
+    <End Role="District" Type="Self.District" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Canton">
+        <PropertyRef Name="IdCanton" />
+      </Principal>
+      <Dependent Role="District">
+        <PropertyRef Name="IdCanton" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_IdCard">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Administrator" Type="Self.Administrator" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="IdCard" />
+      </Principal>
+      <Dependent Role="Administrator">
+        <PropertyRef Name="IdCard" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Fk_IdCountry">
+    <End Role="Country" Type="Self.Country" Multiplicity="1" />
+    <End Role="Province" Type="Self.Province" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Country">
+        <PropertyRef Name="IdCountry" />
+      </Principal>
+      <Dependent Role="Province">
+        <PropertyRef Name="IdCountry" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_IdDish">
+    <End Role="Dish" Type="Self.Dish" Multiplicity="1" />
+    <End Role="TypesPerDish" Type="Self.TypesPerDish" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dish">
+        <PropertyRef Name="IdDish" />
+      </Principal>
+      <Dependent Role="TypesPerDish">
+        <PropertyRef Name="IdDish" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_IdDishType">
+    <End Role="Type" Type="Self.Type" Multiplicity="1" />
+    <End Role="TypesPerDish" Type="Self.TypesPerDish" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Type">
+        <PropertyRef Name="IdType" />
+      </Principal>
+      <Dependent Role="TypesPerDish">
+        <PropertyRef Name="IdType" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_IdDistrict">
+    <End Role="District" Type="Self.District" Multiplicity="1" />
+    <End Role="Local" Type="Self.Local" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="District">
+        <PropertyRef Name="IdDistrict" />
+      </Principal>
+      <Dependent Role="Local">
+        <PropertyRef Name="IdDistrict" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_idPhoto">
+    <End Role="Photo" Type="Self.Photo" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="PhotosPerDish" Type="Self.PhotosPerDish" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Photo">
+        <PropertyRef Name="IdPhoto" />
+      </Principal>
+      <Dependent Role="PhotosPerDish">
+        <PropertyRef Name="IdPhoto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_IdProvince">
+    <End Role="Province" Type="Self.Province" Multiplicity="1" />
+    <End Role="Canton" Type="Self.Canton" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Province">
+        <PropertyRef Name="IdProvince" />
+      </Principal>
+      <Dependent Role="Canton">
+        <PropertyRef Name="IdProvince" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_IdRestaurant">
+    <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="1" />
+    <End Role="TypesPerRestaurant" Type="Self.TypesPerRestaurant" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Restaurant">
+        <PropertyRef Name="IdRestaurant" />
+      </Principal>
+      <Dependent Role="TypesPerRestaurant">
+        <PropertyRef Name="IdRestaurant" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_IdType">
+    <End Role="Type" Type="Self.Type" Multiplicity="1" />
+    <End Role="TypesPerRestaurant" Type="Self.TypesPerRestaurant" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Type">
+        <PropertyRef Name="IdType" />
+      </Principal>
+      <Dependent Role="TypesPerRestaurant">
+        <PropertyRef Name="IdType" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LocalDish">
+    <End Role="Dish" Type="Self.Dish" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="DishesPerLocal" Type="Self.DishesPerLocal" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dish">
+        <PropertyRef Name="IdDish" />
+      </Principal>
+      <Dependent Role="DishesPerLocal">
+        <PropertyRef Name="IdDish" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LocalIdRestaurant">
+    <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Local" Type="Self.Local" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Restaurant">
+        <PropertyRef Name="IdRestaurant" />
+      </Principal>
+      <Dependent Role="Local">
+        <PropertyRef Name="IdRestaurant" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LocalTable">
+    <End Role="Local" Type="Self.Local" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Table" Type="Self.Table" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Local">
+        <PropertyRef Name="IdLocal" />
+      </Principal>
+      <Dependent Role="Table">
+        <PropertyRef Name="IdLocal" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PaymentByCustomerIdCard">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+    <End Role="PaymentByCustomer" Type="Self.PaymentByCustomer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="IdCard" />
+      </Principal>
+      <Dependent Role="PaymentByCustomer">
+        <PropertyRef Name="IdCard" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PaymentByCustomerIdCheck">
+    <End Role="Check" Type="Self.Check" Multiplicity="1" />
+    <End Role="PaymentByCustomer" Type="Self.PaymentByCustomer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Check">
+        <PropertyRef Name="IdCheck" />
+      </Principal>
+      <Dependent Role="PaymentByCustomer">
+        <PropertyRef Name="IdCheck" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PhotosPerDishIdDish">
+    <End Role="Dish" Type="Self.Dish" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="PhotosPerDish" Type="Self.PhotosPerDish" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dish">
+        <PropertyRef Name="IdDish" />
+      </Principal>
+      <Dependent Role="PhotosPerDish">
+        <PropertyRef Name="IdDish" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PhotosPerLocalIdIdLocal">
+    <End Role="Local" Type="Self.Local" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="PhotosPerLocal" Type="Self.PhotosPerLocal" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Local">
+        <PropertyRef Name="IdLocal" />
+      </Principal>
+      <Dependent Role="PhotosPerLocal">
+        <PropertyRef Name="IdLocal" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PhotosPerLocalIdPhoto">
+    <End Role="Photo" Type="Self.Photo" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="PhotosPerLocal" Type="Self.PhotosPerLocal" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Photo">
+        <PropertyRef Name="IdPhoto" />
+      </Principal>
+      <Dependent Role="PhotosPerLocal">
+        <PropertyRef Name="IdPhoto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ReviewIdCustmoer">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+    <End Role="Review" Type="Self.Review" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="IdCard" />
+      </Principal>
+      <Dependent Role="Review">
+        <PropertyRef Name="IdCustomer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ReviewIdLocal">
+    <End Role="Local" Type="Self.Local" Multiplicity="1" />
+    <End Role="Review" Type="Self.Review" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Local">
+        <PropertyRef Name="IdLocal" />
+      </Principal>
+      <Dependent Role="Review">
+        <PropertyRef Name="IdLocal" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserCountry">
+    <End Role="Country" Type="Self.Country" Multiplicity="1" />
+    <End Role="User" Type="Self.User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Country">
+        <PropertyRef Name="IdCountry" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="Nationality" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="CreateAdministrator" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdCard" Type="numeric" Mode="In" />
+    <Parameter Name="Username" Type="varchar" Mode="In" />
+    <Parameter Name="Password" Type="varchar" Mode="In" />
+    <Parameter Name="Gender" Type="char" Mode="In" />
+    <Parameter Name="BirthDate" Type="date" Mode="In" />
+    <Parameter Name="Nationality" Type="int" Mode="In" />
+    <Parameter Name="FirstName" Type="varchar" Mode="In" />
+    <Parameter Name="MiddleName" Type="varchar" Mode="In" />
+    <Parameter Name="LastName" Type="varchar" Mode="In" />
+    <Parameter Name="SecondLastName" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="CreateUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdCard" Type="numeric" Mode="In" />
+    <Parameter Name="Username" Type="varchar" Mode="In" />
+    <Parameter Name="Password" Type="varchar" Mode="In" />
+    <Parameter Name="Gender" Type="char" Mode="In" />
+    <Parameter Name="BirthDate" Type="date" Mode="In" />
+    <Parameter Name="Nationality" Type="int" Mode="In" />
+    <Parameter Name="FirstName" Type="varchar" Mode="In" />
+    <Parameter Name="MiddleName" Type="varchar" Mode="In" />
+    <Parameter Name="LastName" Type="varchar" Mode="In" />
+    <Parameter Name="SecondLastName" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="RestaurantInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="AminId" Type="numeric" Mode="In" />
+  </Function>
+  <EntityContainer Name="TabemashouModelStoreContainer">
+    <EntitySet Name="Achievement" EntityType="Self.Achievement" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AchievementsByCustomer" EntityType="Self.AchievementsByCustomer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Administrator" EntityType="Self.Administrator" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Canton" EntityType="Self.Canton" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Check" EntityType="Self.Check" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Dish" EntityType="Self.Dish" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DishesByCheck" EntityType="Self.DishesByCheck" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DishesPerLocal" EntityType="Self.DishesPerLocal" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="District" EntityType="Self.District" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FriendsByCustomer" EntityType="Self.FriendsByCustomer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Local" EntityType="Self.Local" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PARAMETER" EntityType="Self.PARAMETER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PaymentByCustomer" EntityType="Self.PaymentByCustomer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Photo" EntityType="Self.Photo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PhotosPerDish" EntityType="Self.PhotosPerDish" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PhotosPerLocal" EntityType="Self.PhotosPerLocal" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Province" EntityType="Self.Province" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Restaurant" EntityType="Self.Restaurant" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Review" EntityType="Self.Review" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Table" EntityType="Self.Table" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Type" EntityType="Self.Type" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TypesPerDish" EntityType="Self.TypesPerDish" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TypesPerRestaurant" EntityType="Self.TypesPerRestaurant" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_AchievementsByCustomerAchievement" Association="Self.FK_AchievementsByCustomerAchievement">
+      <End Role="Achievement" EntitySet="Achievement" />
+      <End Role="AchievementsByCustomer" EntitySet="AchievementsByCustomer" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AchievementsByCustomerCard" Association="Self.FK_AchievementsByCustomerCard">
+      <End Role="Customer" EntitySet="Customer" />
+      <End Role="AchievementsByCustomer" EntitySet="AchievementsByCustomer" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CustomerIdCard" Association="Self.FK_CustomerIdCard">
+      <End Role="User" EntitySet="User" />
+      <End Role="Customer" EntitySet="Customer" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DishesByCheckCheck" Association="Self.FK_DishesByCheckCheck">
+      <End Role="Check" EntitySet="Check" />
+      <End Role="DishesByCheck" EntitySet="DishesByCheck" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DishesByCheckDish" Association="Self.FK_DishesByCheckDish">
+      <End Role="Dish" EntitySet="Dish" />
+      <End Role="DishesByCheck" EntitySet="DishesByCheck" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DishIdLocal" Association="Self.FK_DishIdLocal">
+      <End Role="Local" EntitySet="Local" />
+      <End Role="DishesPerLocal" EntitySet="DishesPerLocal" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DishIdRestaurant" Association="Self.FK_DishIdRestaurant">
+      <End Role="Restaurant" EntitySet="Restaurant" />
+      <End Role="Dish" EntitySet="Dish" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FriendsIdCustomer" Association="Self.FK_FriendsIdCustomer">
+      <End Role="Customer" EntitySet="Customer" />
+      <End Role="FriendsByCustomer" EntitySet="FriendsByCustomer" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FriendsIdFriend" Association="Self.FK_FriendsIdFriend">
+      <End Role="Customer" EntitySet="Customer" />
+      <End Role="FriendsByCustomer" EntitySet="FriendsByCustomer" />
+    </AssociationSet>
+    <AssociationSet Name="FK_IdAdmin" Association="Self.FK_IdAdmin">
+      <End Role="Administrator" EntitySet="Administrator" />
+      <End Role="Restaurant" EntitySet="Restaurant" />
+    </AssociationSet>
+    <AssociationSet Name="FK_IdCanton" Association="Self.FK_IdCanton">
+      <End Role="Canton" EntitySet="Canton" />
+      <End Role="District" EntitySet="District" />
+    </AssociationSet>
+    <AssociationSet Name="FK_IdCard" Association="Self.FK_IdCard">
+      <End Role="User" EntitySet="User" />
+      <End Role="Administrator" EntitySet="Administrator" />
+    </AssociationSet>
+    <AssociationSet Name="Fk_IdCountry" Association="Self.Fk_IdCountry">
+      <End Role="Country" EntitySet="Country" />
+      <End Role="Province" EntitySet="Province" />
+    </AssociationSet>
+    <AssociationSet Name="FK_IdDish" Association="Self.FK_IdDish">
+      <End Role="Dish" EntitySet="Dish" />
+      <End Role="TypesPerDish" EntitySet="TypesPerDish" />
+    </AssociationSet>
+    <AssociationSet Name="FK_IdDishType" Association="Self.FK_IdDishType">
+      <End Role="Type" EntitySet="Type" />
+      <End Role="TypesPerDish" EntitySet="TypesPerDish" />
+    </AssociationSet>
+    <AssociationSet Name="FK_IdDistrict" Association="Self.FK_IdDistrict">
+      <End Role="District" EntitySet="District" />
+      <End Role="Local" EntitySet="Local" />
+    </AssociationSet>
+    <AssociationSet Name="FK_idPhoto" Association="Self.FK_idPhoto">
+      <End Role="Photo" EntitySet="Photo" />
+      <End Role="PhotosPerDish" EntitySet="PhotosPerDish" />
+    </AssociationSet>
+    <AssociationSet Name="FK_IdProvince" Association="Self.FK_IdProvince">
+      <End Role="Province" EntitySet="Province" />
+      <End Role="Canton" EntitySet="Canton" />
+    </AssociationSet>
+    <AssociationSet Name="FK_IdRestaurant" Association="Self.FK_IdRestaurant">
+      <End Role="Restaurant" EntitySet="Restaurant" />
+      <End Role="TypesPerRestaurant" EntitySet="TypesPerRestaurant" />
+    </AssociationSet>
+    <AssociationSet Name="FK_IdType" Association="Self.FK_IdType">
+      <End Role="Type" EntitySet="Type" />
+      <End Role="TypesPerRestaurant" EntitySet="TypesPerRestaurant" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LocalDish" Association="Self.FK_LocalDish">
+      <End Role="Dish" EntitySet="Dish" />
+      <End Role="DishesPerLocal" EntitySet="DishesPerLocal" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LocalIdRestaurant" Association="Self.FK_LocalIdRestaurant">
+      <End Role="Restaurant" EntitySet="Restaurant" />
+      <End Role="Local" EntitySet="Local" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LocalTable" Association="Self.FK_LocalTable">
+      <End Role="Local" EntitySet="Local" />
+      <End Role="Table" EntitySet="Table" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PaymentByCustomerIdCard" Association="Self.FK_PaymentByCustomerIdCard">
+      <End Role="Customer" EntitySet="Customer" />
+      <End Role="PaymentByCustomer" EntitySet="PaymentByCustomer" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PaymentByCustomerIdCheck" Association="Self.FK_PaymentByCustomerIdCheck">
+      <End Role="Check" EntitySet="Check" />
+      <End Role="PaymentByCustomer" EntitySet="PaymentByCustomer" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PhotosPerDishIdDish" Association="Self.FK_PhotosPerDishIdDish">
+      <End Role="Dish" EntitySet="Dish" />
+      <End Role="PhotosPerDish" EntitySet="PhotosPerDish" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PhotosPerLocalIdIdLocal" Association="Self.FK_PhotosPerLocalIdIdLocal">
+      <End Role="Local" EntitySet="Local" />
+      <End Role="PhotosPerLocal" EntitySet="PhotosPerLocal" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PhotosPerLocalIdPhoto" Association="Self.FK_PhotosPerLocalIdPhoto">
+      <End Role="Photo" EntitySet="Photo" />
+      <End Role="PhotosPerLocal" EntitySet="PhotosPerLocal" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ReviewIdCustmoer" Association="Self.FK_ReviewIdCustmoer">
+      <End Role="Customer" EntitySet="Customer" />
+      <End Role="Review" EntitySet="Review" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ReviewIdLocal" Association="Self.FK_ReviewIdLocal">
+      <End Role="Local" EntitySet="Local" />
+      <End Role="Review" EntitySet="Review" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserCountry" Association="Self.FK_UserCountry">
+      <End Role="Country" EntitySet="Country" />
+      <End Role="User" EntitySet="User" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
