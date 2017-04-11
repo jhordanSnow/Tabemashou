@@ -59,11 +59,14 @@ namespace WebApplication.Controllers
             if (ModelState.IsValid)
             {
                 Restaurant restaurant = model.restaurant;
-                foreach (var typeId in model.restTypesId)
+                if(model.restTypesId != null)
                 {
-                    Models.Type restType = db.Type.Find(typeId);
-                    restType.Restaurant.Add(restaurant);
-                    restaurant.Type.Add(restType);
+                    foreach (var typeId in model.restTypesId)
+                    {
+                        Models.Type restType = db.Type.Find(typeId);
+                        restType.Restaurant.Add(restaurant);
+                        restaurant.Type.Add(restType);
+                    }
                 }
                 if (image != null)
                 {
@@ -135,6 +138,7 @@ namespace WebApplication.Controllers
             {
                 return HttpNotFound();
             }
+            Session["RestId"] = id;
             RegisterRestaurantModel model = new RegisterRestaurantModel { restaurant = restaurant };
             model.selectedItems = new MultiSelectList(db.Type, "IdType", "Name", restaurant.Type.Select(t => t.IdType));
             return View(model);
@@ -144,19 +148,18 @@ namespace WebApplication.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-
         public ActionResult Edit([Bind(Include = "IdRestaurant,Name,Logo,IdAdmin")] Restaurant restaurant, HttpPostedFileBase image)
         {
+            Restaurant dbRest = db.Restaurant.Find(Session["RestId"]);
             if (ModelState.IsValid)
             {
-
-                if (image != null)
+                if (image != null && image.ContentLength > 0)
                 {
                     byte[] dbImage = FileUpload(image);
-                    restaurant.Logo = dbImage;
-
+                    dbRest.Logo = dbImage;
                 }
-                db.Entry(restaurant).State = EntityState.Modified;
+                dbRest.Name = restaurant.Name;
+                db.Entry(dbRest).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
