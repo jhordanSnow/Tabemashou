@@ -175,6 +175,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LocalsController.cs" />
     <Compile Include="Controllers\MyIdentity.cs" />
     <Compile Include="Controllers\RestaurantsController.cs" />
     <Compile Include="Controllers\TypesController.cs" />
@@ -218,6 +219,7 @@
     <Compile Include="Models\Local.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\LocalsViewModels.cs" />
     <Compile Include="Models\PARAMETER.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>
@@ -572,6 +574,11 @@
     <Content Include="Views\Restaurants\Details.cshtml" />
     <Content Include="Views\Restaurants\Edit.cshtml" />
     <Content Include="Views\Restaurants\Index.cshtml" />
+    <Content Include="Views\Locals\Create.cshtml" />
+    <Content Include="Views\Locals\Delete.cshtml" />
+    <Content Include="Views\Locals\Details.cshtml" />
+    <Content Include="Views\Locals\Edit.cshtml" />
+    <Content Include="Views\Locals\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
