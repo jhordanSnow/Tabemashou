@@ -120,4 +120,6 @@ _[Ss]cripts
 *.dll
 *.nupkg
 *.ncrunchsolution
+<<<<<<< HEAD
 *.dot[Cc]over
+>>>>>>> origin/master
