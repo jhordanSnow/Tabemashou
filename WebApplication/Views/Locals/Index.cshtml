@@ -1,51 +1,58 @@
 ﻿@model WebApplication.Models.LocalsViewModels
 
 @{
-    ViewBag.Title = "Locales @NOMBRE XD";
+    ViewBag.Title = "Locales @NOMBRE XD ";
 }
-<div class="row">
-    <div class="col-md-4"><a href="@Url.Action("Create", "Locals")" class="btn btn-block btn-success"><i class="fa fa-plus"></i> Create New</a></div>
-</div>
 
-<div class="box-body table-responsive no-padding row">
+    <div class="col-md-3">
+        @Html.Partial("_MenuPartial")
+        
+    </div>
+<div class="col-md-9">
+    <div class="row">
+        <div class="col-md-4"><a href="@Url.Action("Create", "Locals")" class="btn btn-block btn-success"><i class="fa fa-plus"></i> Create New</a></div>
+    </div>
 
-    <div class="row" style="display: inline;">
-        @foreach (var item in Model.locals)
-        {
-            <div class="col-md-4 ">
-                <div class="box box-solid box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">@Html.DisplayFor(modelItem => item.IdLocal)</h3>
-                    </div>
-                    <div class="box-body row">
-                        <div class="col-md-5">
-                            <img src=@Url.Action("Show", "Restaurants", new {id = item.IdRestaurant}) class="img-responsive" style="height: 120px; width: auto" />
+    <div class="box-body table-responsive no-padding row">
+
+        <div class="row" style="display: inline;">
+            @foreach (var item in Model.locals)
+            {
+                <div class="col-md-4 ">
+                    <div class="box box-solid box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">@Html.DisplayFor(modelItem => item.IdLocal)</h3>
                         </div>
-                        <div class="col-md-3">
-                            <blockquote>
-                                <small> Detail</small>
-                            </blockquote>
-                        </div>
+                        <div class="box-body row">
+                            <div class="col-md-5">
+                                <img src=@Url.Action("Show", "Restaurants", new {id = item.IdRestaurant}) class="img-responsive" style="height: 120px; width: auto" />
+                            </div>
+                            <div class="col-md-3">
+                                <blockquote>
+                                    <small> Detail</small>
+                                </blockquote>
+                            </div>
 
-                        <div class="col-md-4 pull-right">
-                            <div class="btn-group-vertical">
-                                <a class="btn btn-primary" href="@Url.Action("Edit", "Locals", new {id = item.IdLocal})">
-                                    <i class="fa fa-edit"></i> Edit
-                                </a>
-                                <a class="btn btn-danger" data-toggle="modal" data-target="#modalDelete" data-restaurantName="" data-restaurantId="@item.IdRestaurant">
-                                    <i class="fa fa-trash"></i> Delete
-                                </a>
-                                <a class="btn btn-warning" href="@Url.Action("Details", "Locals", new {id = item.IdLocal})">
-                                    <i class="fa fa-eye"></i> View
-                                </a>
+                            <div class="col-md-4 pull-right">
+                                <div class="btn-group-vertical">
+                                    <a class="btn btn-primary" href="@Url.Action("Edit", "Locals", new {id = item.IdLocal})">
+                                        <i class="fa fa-edit"></i> Edit
+                                    </a>
+                                    <a class="btn btn-danger" data-toggle="modal" data-target="#modalDelete" data-restaurantName="" data-restaurantId="@item.IdRestaurant">
+                                        <i class="fa fa-trash"></i> Delete
+                                    </a>
+                                    <a class="btn btn-warning" href="@Url.Action("Details", "Locals", new {id = item.IdLocal})">
+                                        <i class="fa fa-eye"></i> View
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        }
+            }
+        </div>
     </div>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
 </div>
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>    
