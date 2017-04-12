@@ -11,6 +11,15 @@
     @Scripts.Render("~/Scripts/Restaurants/Index/menu")
 }
 
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <h4><i class="icon fa fa-check"></i> Success!</h4>
+        @TempData["Success"]
+    </div>
+}
+
 <div class="row">
     <div class="col-md-4"><a href="@Url.Action("Create", "Restaurants")" class="btn btn-block btn-success"><i class="fa fa-plus"></i> Create New</a></div>
 </div>

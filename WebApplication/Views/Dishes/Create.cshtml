@@ -4,7 +4,9 @@
     ViewBag.Title = "Create a Dish";
     ViewBag.Breadcrumb = new Breadcrumb(new[]
 {
-        new Crumb("Dishes", @Url.Action("Index", "Locals", new { id = ViewBag.restId }), "fa-spoon"),
+        new Crumb("Restaurants", @Url.Action("Index","Restaurants"), "fa-cutlery"),
+        new Crumb(Session["restName"].ToString(), @Url.Action("Index", "Locals", new { id =  Session["restId"] })),
+        new Crumb("Menu", "", "fa-spoon"),
         new Crumb("Create", "", ""),
 
     });

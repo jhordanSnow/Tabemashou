@@ -79,6 +79,7 @@ namespace WebApplication.Controllers
                 db.Restaurant.Add(restaurant);
 
                 db.SaveChanges();
+                TempData["Success"] = restaurant.Name + " created successfully.";
                 return RedirectToAction("Index");
             }
             ViewBag.Type = new SelectList(db.Type, "IdType", "Name");
@@ -171,9 +172,10 @@ namespace WebApplication.Controllers
                 dbRest.Name = model.restaurant.Name;
                 db.Entry(dbRest).State = EntityState.Modified;
                 db.SaveChanges();
+                TempData["Success"] = dbRest.Name + " edited successfully.";
                 return RedirectToAction("Index");
             }
-            ViewBag.IdAdmin = new SelectList(db.Administrator, "IdCard", "IdCard", model.restaurant.IdAdmin);
+            model.selectedItems = new MultiSelectList(db.Type, "IdType", "Name", dbRest.Type.Select(t => t.IdType));
             return View(model);
         }
 
@@ -196,6 +198,13 @@ namespace WebApplication.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
+            string restName;
+            using (TabemashouEntities dc = new TabemashouEntities())
+            {
+                Restaurant restaurant = dc.Restaurant.Find(id);
+                restName = restaurant.Name;
+            }
+            TempData["Success"] = restName + " deleted successfully.";
             db.PR_DeleteRestaurant(id);
             db.SaveChanges();
             return RedirectToAction("Index");
