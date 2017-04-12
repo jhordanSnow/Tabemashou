@@ -650,6 +650,7 @@
         <Function Name="PR_DeleteRestaurantTypes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="RestaurantId" Type="int" Mode="In" />
         </Function>
+        <Function Name="PR_GetDistricts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="PR_RestaurantInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AminId" Type="numeric" Mode="In" />
         </Function>
@@ -1491,6 +1492,7 @@
           <FunctionImport Name="PR_DeleteRestaurantTypes">
           <Parameter Name="RestaurantId" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="PR_GetDistricts" ReturnType="Collection(TabemashouModel.PR_GetDistricts_Result)" />
         </EntityContainer>
         <ComplexType Name="RestaurantInfo_Result">
           <Property Type="Int32" Name="IdRestaurant" Nullable="false" />
@@ -1505,6 +1507,10 @@
           <Property Type="Binary" Name="Logo" Nullable="true" />
           <Property Type="Decimal" Name="IdAdmin" Nullable="false" Precision="20" Scale="0" />
           <Property Type="Int32" Name="CantLocal" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="PR_GetDistricts_Result">
+          <Property Type="Int32" Name="IdDistrict" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="156" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1769,6 +1775,14 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="PR_UpdateRestaurantTypes" FunctionName="TabemashouModel.Store.PR_UpdateRestaurantTypes" />
           <FunctionImportMapping FunctionImportName="PR_DeleteRestaurantTypes" FunctionName="TabemashouModel.Store.PR_DeleteRestaurantTypes" />
+          <FunctionImportMapping FunctionImportName="PR_GetDistricts" FunctionName="TabemashouModel.Store.PR_GetDistricts">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TabemashouModel.PR_GetDistricts_Result">
+                <ScalarProperty Name="IdDistrict" ColumnName="IdDistrict" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

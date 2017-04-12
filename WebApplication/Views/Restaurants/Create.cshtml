@@ -2,8 +2,8 @@
 @model WebApplication.Models.RegisterRestaurantModel
 
 @{
-    ViewBag.Breadcrumb = new Breadcrumb(new []
-    {
+    
+    ViewBag.Breadcrumb = new Breadcrumb(new []{
         new Crumb("Restaurant", "Index", "fa-cutlery"),
         new Crumb("Create", "", ""),
 
@@ -44,7 +44,7 @@
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             <div class="form-group col-md-12">
                                 <img class="img-responsive" id="preImage" OnClick="uploadImage();" style="cursor: pointer" src="~/Images/RestaurantLogos/default.png"/>
-                                <input style="visibility: hidden" type="file" name="image" id="image"> 
+                                <input style="visibility: hidden" accept=".jpg,.jpeg,.png" type="file" name="image" id="image"> 
                             </div>
                         </div>
                     </div>

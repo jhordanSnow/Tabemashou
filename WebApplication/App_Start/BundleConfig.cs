@@ -15,6 +15,8 @@ namespace WebApplication
             RegisterHome(bundles);
 
             RegisterRestaurants(bundles);
+
+            RegisterLocals(bundles);
         }
 
       
@@ -66,6 +68,32 @@ namespace WebApplication
             bundles.Add(new StyleBundle("~/AdminLTE/plugins/croppie/css").Include(
                                          "~/AdminLTE/plugins/croppie/js/croppie.css"));
 
+        }
+
+
+        private static void RegisterLocals(BundleCollection bundles)
+        {
+            bundles.Add(new ScriptBundle("~/Scripts/Locals/Index").Include(
+               "~/Scripts/Locals/Index.js"));
+
+            bundles.Add(new ScriptBundle("~/Scripts/Locals/Index/menu").Include(
+               "~/Scripts/Locals/Index-menu.js"));
+
+            bundles.Add(new ScriptBundle("~/Scripts/Locals/Create").Include(
+               "~/Scripts/Locals/Create.js"));
+
+            bundles.Add(new ScriptBundle("~/Scripts/Locals/geocomplete").Include(
+               "~/Scripts/Locals/jquery.geocomplete.js"));
+
+            bundles.Add(new ScriptBundle("~/AdminLTE/plugins/fileUpload/js").IncludeDirectory(
+                "~/AdminLTE/plugins/fileUpload/js", "*.js", true));
+
+            bundles.Add(new StyleBundle("~/AdminLTE/plugins/fileUpload/css").Include(
+                "~/AdminLTE/plugins/fileUpload/css/jquery.fileupload.css",
+                "~/AdminLTE/plugins/fileUpload/css/jquery.fileupload-noscript.css",
+                "~/AdminLTE/plugins/fileUpload/css/jquery.fileupload-ui.css",
+                "~/AdminLTE/plugins/fileUpload/css/jquery.fileupload-ui-noscript.css",
+                "~/AdminLTE/plugins/fileUpload/css/style.css"));
         }
 
         private static void RegisterShared(BundleCollection bundles)

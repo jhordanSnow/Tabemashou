@@ -49,11 +49,18 @@ namespace WebApplication.Controllers
         }
 
         // GET: Locals/Create
-        public ActionResult Create()
+        public ActionResult Create(int? id)
         {
             ViewBag.IdDistrict = new SelectList(db.District, "IdDistrict", "Name");
             ViewBag.IdRestaurant = new SelectList(db.Restaurant, "IdRestaurant", "Name");
-            return View();
+
+            localRegister model = new localRegister();
+            model.restaurant = db.Restaurant.Find(id);
+            model.menu = (from loc in db.Dish
+                          where loc.IdRestaurant == id
+                          select loc);
+            model.local = new Local();
+            return View(model);
         }
 
         // POST: Locals/Create

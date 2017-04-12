@@ -10,7 +10,7 @@
     </div>
 <div class="col-md-9">
     <div class="row">
-        <div class="col-md-4"><a href="@Url.Action("Create", "Locals")" class="btn btn-block btn-success"><i class="fa fa-plus"></i> Create New</a></div>
+        <div class="col-md-4"><a href="@Url.Action("Create", "Locals", new {id = Model.restaurant.IdRestaurant})" class="btn btn-block btn-success"><i class="fa fa-plus"></i> Create New</a></div>
     </div>
 
     <div class="box-body table-responsive no-padding row">

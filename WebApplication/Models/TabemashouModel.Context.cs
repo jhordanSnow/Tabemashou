@@ -294,5 +294,10 @@ namespace WebApplication.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_DeleteRestaurantTypes", restaurantIdParameter);
         }
+    
+        public virtual ObjectResult<PR_GetDistricts_Result> PR_GetDistricts()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PR_GetDistricts_Result>("PR_GetDistricts");
+        }
     }
 }

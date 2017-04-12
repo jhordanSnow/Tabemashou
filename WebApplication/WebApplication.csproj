@@ -233,6 +233,9 @@
     <Compile Include="Models\Province.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PR_GetDistricts_Result.cs">
+      <DependentUpon>TabemashouModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PR_RestaurantInfo_Result.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>
@@ -343,10 +346,6 @@
     <Content Include="AdminLTE\plugins\colorpicker\img\saturation.png" />
     <Content Include="AdminLTE\plugins\colorpicker\js\bootstrap-colorpicker.js" />
     <Content Include="AdminLTE\plugins\colorpicker\js\bootstrap-colorpicker.min.js" />
-    <Content Include="AdminLTE\plugins\croppie\css\croppie.css" />
-    <Content Include="AdminLTE\plugins\croppie\js\croppie.js" />
-    <Content Include="AdminLTE\plugins\croppie\js\croppie.min.js" />
-    <Content Include="AdminLTE\plugins\croppie\js\deploy.js" />
     <Content Include="AdminLTE\plugins\datatables\css\dataTables.bootstrap.css" />
     <Content Include="AdminLTE\plugins\datatables\css\jquery.dataTables.css" />
     <Content Include="AdminLTE\plugins\datatables\css\jquery.dataTables.min.css" />
@@ -368,6 +367,28 @@
     <Content Include="AdminLTE\plugins\daterangepicker\js\moment.min.js" />
     <Content Include="AdminLTE\plugins\fastclick\js\fastclick.js" />
     <Content Include="AdminLTE\plugins\fastclick\js\fastclick.min.js" />
+    <Content Include="AdminLTE\plugins\fileUpload\css\demo-ie8.css" />
+    <Content Include="AdminLTE\plugins\fileUpload\css\demo.css" />
+    <Content Include="AdminLTE\plugins\fileUpload\css\jquery.fileupload-noscript.css" />
+    <Content Include="AdminLTE\plugins\fileUpload\css\jquery.fileupload-ui-noscript.css" />
+    <Content Include="AdminLTE\plugins\fileUpload\css\jquery.fileupload-ui.css" />
+    <Content Include="AdminLTE\plugins\fileUpload\css\jquery.fileupload.css" />
+    <Content Include="AdminLTE\plugins\fileUpload\css\style.css" />
+    <Content Include="AdminLTE\plugins\fileUpload\js\app.js" />
+    <Content Include="AdminLTE\plugins\fileUpload\js\jquery.postmessage-transport.js" />
+    <Content Include="AdminLTE\plugins\fileUpload\js\jquery.xdr-transport.js" />
+    <Content Include="AdminLTE\plugins\fileUpload\js\jquery.fileupload-angular.js" />
+    <Content Include="AdminLTE\plugins\fileUpload\js\jquery.fileupload-audio.js" />
+    <Content Include="AdminLTE\plugins\fileUpload\js\jquery.fileupload-image.js" />
+    <Content Include="AdminLTE\plugins\fileUpload\js\jquery.fileupload-jquery-ui.js" />
+    <Content Include="AdminLTE\plugins\fileUpload\js\jquery.fileupload-process.js" />
+    <Content Include="AdminLTE\plugins\fileUpload\js\jquery.fileupload-ui.js" />
+    <Content Include="AdminLTE\plugins\fileUpload\js\jquery.fileupload-validate.js" />
+    <Content Include="AdminLTE\plugins\fileUpload\js\jquery.fileupload-video.js" />
+    <Content Include="AdminLTE\plugins\fileUpload\js\jquery.fileupload.js" />
+    <Content Include="AdminLTE\plugins\fileUpload\js\jquery.iframe-transport.js" />
+    <Content Include="AdminLTE\plugins\fileUpload\js\main.js" />
+    <Content Include="AdminLTE\plugins\fileUpload\js\jquery.ui.widget.js" />
     <Content Include="AdminLTE\plugins\flot\js\excanvas.js" />
     <Content Include="AdminLTE\plugins\flot\js\excanvas.min.js" />
     <Content Include="AdminLTE\plugins\flot\js\jquery.colorhelpers.js" />
@@ -522,11 +543,16 @@
     <Content Include="Scripts\Home\DashboardV1.js" />
     <Content Include="Scripts\Home\DashboardV2-menu.js" />
     <Content Include="Scripts\Home\DashboardV2.js" />
+    <Content Include="Scripts\Locals\jquery.geocomplete.js" />
+    <Content Include="Scripts\Locals\jquery.geocomplete.min.js" />
     <Content Include="Scripts\Mailbox\Compose-menu.js" />
     <Content Include="Scripts\Mailbox\Compose.js" />
     <Content Include="Scripts\Mailbox\Inbox-menu.js" />
     <Content Include="Scripts\Mailbox\Inbox.js" />
     <Content Include="Scripts\Mailbox\Read-menu.js" />
+    <Content Include="Scripts\Locals\Create.js" />
+    <Content Include="Scripts\Locals\Index-menu.js" />
+    <Content Include="Scripts\Locals\Index.js" />
     <Content Include="Scripts\Restaurants\Create.js" />
     <Content Include="Scripts\Restaurants\Index-menu.js" />
     <Content Include="Scripts\Restaurants\Index.js" />
