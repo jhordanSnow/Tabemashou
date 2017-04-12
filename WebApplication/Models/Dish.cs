@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel.DataAnnotations;
+
 namespace WebApplication.Models
 {
     using System;
@@ -24,7 +26,10 @@ namespace WebApplication.Models
         }
     
         public int IdDish { get; set; }
+        [Required]
+        [MaxLength(255, ErrorMessage = "The description must have less than 255 characters")]
         public string Description { get; set; }
+        [Required]
         public string Name { get; set; }
         public int IdRestaurant { get; set; }
     

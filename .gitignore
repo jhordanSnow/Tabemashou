@@ -122,6 +122,7 @@ _[Ss]cripts
 *.ncrunchsolution
 *.suo
 *.cache
+.txt
 <<<<<<< HEAD
 *.dot[Cc]over
 >>>>>>> origin/master

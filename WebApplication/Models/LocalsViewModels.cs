@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using WebApplication.Models;
 
 namespace WebApplication.Models
 {
@@ -9,13 +10,27 @@ namespace WebApplication.Models
     {
         public Restaurant restaurant { get; set; }
         public IEnumerable<Local> locals { get; set; }
-        public IEnumerable<Dish> menu { get; set; }
+        public DishesViewModels menu { get; set; }
     }
+
 
     public class localRegister
     {
         public Restaurant restaurant { get; set; }
         public Local local { get; set; }
         public IEnumerable<Dish> menu { get; set; }
+    }
+
+    public class DishesRegisterModels
+    {
+        public Restaurant restaurant { get; set; }
+        public Dish dish { get; set; }
+    }
+
+
+    public class DishesViewModels
+    {
+        public Restaurant restaurant { get; set; }
+        public IEnumerable<Dish> dishes { get; set; }
     }
 }
