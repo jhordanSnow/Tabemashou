@@ -16,11 +16,9 @@ namespace WebApplication
 
             RegisterRestaurants(bundles);
 
-<<<<<<< HEAD
             RegisterLocals(bundles);
-=======
+
             RegisterDishes(bundles);
->>>>>>> origin/master
         }
 
       
@@ -74,21 +72,20 @@ namespace WebApplication
 
         }
 
-<<<<<<< HEAD
 
         private static void RegisterLocals(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/Scripts/Locals/Index").Include(
-               "~/Scripts/Locals/Index.js"));
+                "~/Scripts/Locals/Index.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/Locals/Index/menu").Include(
-               "~/Scripts/Locals/Index-menu.js"));
+                "~/Scripts/Locals/Index-menu.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/Locals/Create").Include(
-               "~/Scripts/Locals/Create.js"));
+                "~/Scripts/Locals/Create.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/Locals/geocomplete").Include(
-               "~/Scripts/Locals/jquery.geocomplete.js"));
+                "~/Scripts/Locals/jquery.geocomplete.js"));
 
             bundles.Add(new ScriptBundle("~/AdminLTE/plugins/fileUpload/js").IncludeDirectory(
                 "~/AdminLTE/plugins/fileUpload/js", "*.js", true));
@@ -99,7 +96,8 @@ namespace WebApplication
                 "~/AdminLTE/plugins/fileUpload/css/jquery.fileupload-ui.css",
                 "~/AdminLTE/plugins/fileUpload/css/jquery.fileupload-ui-noscript.css",
                 "~/AdminLTE/plugins/fileUpload/css/style.css"));
-=======
+        }
+
         private static void RegisterDishes(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/Scripts/Dishes/Index").Include(
@@ -107,7 +105,6 @@ namespace WebApplication
 
             bundles.Add(new ScriptBundle("~/Scripts/Dishes/Index/menu").Include(
                 "~/Scripts/Dishes/Index-menu.js"));
->>>>>>> origin/master
         }
 
         private static void RegisterShared(BundleCollection bundles)
