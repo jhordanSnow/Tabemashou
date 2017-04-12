@@ -1,9 +1,13 @@
 ﻿@model WebApplication.Models.LocalsViewModels
 
 @{
-    ViewBag.Title = Model.restaurant.Name
-        ;
+    ViewBag.Title = Model.restaurant.Name;
+    ViewBag.Breadcrumb = new Breadcrumb(new[] {
+        new Crumb("Restaurants", @Url.Action("Index","Restaurants"), "fa-cutlery"),
+        new Crumb(Model.restaurant.Name, "", ""),
+    });
 }
+
 
 @section Menu {
     @Scripts.Render("~/Scripts/Dishes/Index/menu")

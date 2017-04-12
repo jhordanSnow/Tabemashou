@@ -1,6 +1,13 @@
 ﻿@model WebApplication.Models.Dish
+
 @{
     ViewBag.Title = "Edit a Dish";
+    ViewBag.Breadcrumb = new Breadcrumb(new[]
+{
+        new Crumb(Model.Name, @Url.Action("Index", "Locals", new { id = Model.IdRestaurant }), "fa-spoon"),
+        new Crumb("Edit", "", ""),
+
+    });
 }
 
 @if (!ViewContext.ViewData.ModelState.IsValid )
