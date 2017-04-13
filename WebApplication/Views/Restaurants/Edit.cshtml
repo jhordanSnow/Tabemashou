@@ -5,7 +5,7 @@
     ViewBag.Breadcrumb = new Breadcrumb(new []
     {
         new Crumb("Restaurant",  @Url.Action("Index","Restaurants"), "fa-cutlery"),
-        new Crumb("Edit"), 
+        new Crumb(Model.restaurant.Name), 
 
     });
 }
@@ -23,6 +23,17 @@
     </div>
 }
 
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <h4><i class="icon fa fa-check"></i> Success!</h4>
+        @TempData["Success"]
+    </div>
+}
+
+
 <div class="col-md-12">
     <div class="box box-solid box-default">
         <div class="box-header with-border">
@@ -33,6 +44,7 @@
         <div class="box-body">
             @using (Html.BeginForm("Edit", "Restaurants", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
+                @Html.ValidationSummary(true)
                 <div class="row">
                     <div class="col-md-4">
                         <div class="box box-primary">

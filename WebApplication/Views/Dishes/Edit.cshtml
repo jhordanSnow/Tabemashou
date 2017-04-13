@@ -2,10 +2,11 @@
 
 @{
     ViewBag.Title = "Edit a Dish";
-    ViewBag.Breadcrumb = new Breadcrumb(new[]
-{
-        new Crumb(Model.Name, @Url.Action("Index", "Locals", new { id = Model.IdRestaurant }), "fa-spoon"),
-        new Crumb("Edit", "", ""),
+    ViewBag.Breadcrumb = new Breadcrumb(new[]{
+        new Crumb("Restaurants", @Url.Action("Index","Restaurants"), "fa-cutlery"),
+        new Crumb(Model.Restaurant.Name, @Url.Action("Index", "Locals", new { id = Model.IdRestaurant })),
+        new Crumb("Menu", "","fa-spoon"),
+        new Crumb(Model.Name, "", ""),
 
     });
 }

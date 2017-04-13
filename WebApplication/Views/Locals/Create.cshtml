@@ -1,13 +1,20 @@
 ﻿@using WebApplication.Models
 @model WebApplication.Models.localRegister
 
+@{
+    ViewBag.Title = "Restaurants";
+    ViewBag.Breadcrumb = new Breadcrumb(new[] {
+        new Crumb("Restaurants", @Url.Action("Index","Restaurants"), "fa-cutlery"),
+        new Crumb(Model.restaurant.Name, @Url.Action("Index", "Locals", new { id = Model.restaurant.IdRestaurant }), ""),
+        new Crumb("Create new Local"), 
+    });
+}
+
+
+
 @Styles.Render("~/AdminLTE/plugins/select2/css")
 @Styles.Render("~/AdminLTE/plugins/fileUpload/css")
 
-<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-
-
-<div class="col-md-12">
     <div class="box box-solid box-default">
         <div class="box-header with-border">
             <h3 class="box-title">Register a new Local</h3>
@@ -104,7 +111,6 @@
             }
         </div>
     </div>
-</div>
 
 @section Scripts {
     @Scripts.Render("~/Scripts/Locals/Create")

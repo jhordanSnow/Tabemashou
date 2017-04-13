@@ -42,6 +42,7 @@ namespace WebApplication.Controllers
         {
             ViewBag.restId = id;
             Session["restId"] = id;
+            Session["restName"] = db.Restaurant.Find(id).Name;
             return View();
         }
 
@@ -52,7 +53,6 @@ namespace WebApplication.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "IdDish,Description,Name,IdRestaurant")] Dish dish)
         {
-
             if (ModelState.IsValid)
             {
                 dish.IdRestaurant = (int) Session["restId"];
