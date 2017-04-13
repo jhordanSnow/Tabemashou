@@ -1,0 +1,148 @@
+﻿@model Tabemashou_Admin.Models.ProfileEditViewModel
+@{
+    ViewBag.Title = "Profile";
+    ViewBag.Breadcrumb = new Breadcrumb(new Crumb[] {
+        new Crumb("Account", "", "fa-dashboard")
+    });
+
+}
+
+@Styles.Render("~/AdminLTE/plugins/datepicker/css")
+
+@if (!ViewContext.ViewData.ModelState.IsValid || TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <h4><i class="icon fa fa-ban"></i> Error!</h4>
+        @TempData["Error"]
+        @Html.ValidationSummary("", new { @class = "text" })
+    </div>
+}
+@if (TempData["Success"] != null)
+{
+<div class="alert alert-success alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <h4><i class="icon fa fa-check"></i> Success!</h4>
+    @TempData["Success"]
+</div>
+}
+<div class="row">
+    <div class="col-md-4">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">Change Password</h3>
+                <div class="box-tools pull-right">
+                </div>
+            </div>
+            <div class="box-body">
+                @using (Html.BeginForm("ChangePassword", "Account", FormMethod.Post, new {role = "form"}))
+                {
+                    <div class="form-group has-feedback">
+                        @Html.PasswordFor(m => m.changePass.OldPassword, new {@class = "form-control", @placeholder = "Current Password"})
+                        <span class="fa fa-key form-control-feedback"></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        @Html.PasswordFor(m => m.changePass.NewPassword, new {@class = "form-control", @placeholder = "New Password"})
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        @Html.PasswordFor(m => m.changePass.ConfirmPassword, new {@class = "form-control", @placeholder = "Confirm new Password"})
+                        <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">Change Password</button>
+                }
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-8">
+        <div class="box box-solid box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">Profile</h3>
+                <div class="box-tools pull-right">
+                </div>
+            </div>
+            <div class="box-body">
+
+                <div class="register-box-body">
+                    @using (Html.BeginForm("UserProfile", "Account", FormMethod.Post, new { role = "form" }))
+                    {
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group has-feedback">
+                                    @Html.TextBoxFor(m => m.profileData.IdCard, new { @class = "form-control", @placeholder = "Identification Card"})
+                                    <span class="glyphicon glyphicon-credit-card form-control-feedback"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group has-feedback">
+                                    @Html.TextBoxFor(m => m.profileData.Username, new { @class = "form-control", @placeholder = "Username"})
+                                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group has-feedback">
+                                    @Html.TextBoxFor(m => m.profileData.FirstName, new { @class = "form-control", @placeholder = "First Name"})
+                                    <span class="glyphicon glyphicon-font form-control-feedback"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group has-feedback">
+                                    @Html.TextBoxFor(m => m.profileData.MiddleName, new { @class = "form-control", @placeholder = "Middle Name"})
+                                    <span class="glyphicon glyphicon-font form-control-feedback"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group has-feedback">
+                                    @Html.TextBoxFor(m => m.profileData.LastName, new { @class = "form-control", @placeholder = "Last Name"})
+                                    <span class="glyphicon glyphicon-font form-control-feedback"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group has-feedback">
+                                    @Html.TextBoxFor(m => m.profileData.SecondLastName, new { @class = "form-control", @placeholder = "Second Last Name"})
+                                    <span class="glyphicon glyphicon-font form-control-feedback"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group has-feedback">
+                                    @Html.TextBoxFor(m => m.profileData.BirthDate, new { @class = "form-control", @placeholder = "Birthday", id = "BirthDate", @Value = Model.profileData.BirthDate.ToString("yyyy-M-d") })
+                                    <span class="fa fa-birthday-cake form-control-feedback"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group has-feedback">
+                                    @Html.DropDownListFor(m => m.profileData.Gender, new List<SelectListItem>() { new SelectListItem { Text = "Male", Value = "M", Selected = (Model.profileData.Gender == "M") }, new SelectListItem { Text = "Female", Value = "F", Selected = (Model.profileData.Gender == "F") }}, "Gender", new { @class = "form-control"})
+                                    <span class="fa fa-venus-mars form-control-feedback" style="padding-right: 16px;"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group has-feedback">
+                                    @Html.DropDownListFor(m => m.profileData.Nationality, new SelectList(new TabemashouEntities().Country, "IdCountry", "Name", Model.profileData.Nationality), "Nationality", htmlAttributes: new { @class = "form-control"})
+                                    <span class="glyphicon glyphicon-globe form-control-feedback" style="padding-right: 16px;"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-primary btn-block btn-flat">Save Changes</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {    
+    @Scripts.Render("~/AdminLTE/plugins/datepicker/js")
+    @Scripts.Render("~/Scripts/Account/UserProfile")
+}

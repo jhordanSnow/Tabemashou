@@ -1,0 +1,91 @@
+﻿@model Tabemashou_Admin.Models.RestaurantsViewModel
+
+@{
+    ViewBag.Title = "Restaurants";
+    ViewBag.Breadcrumb = new Breadcrumb(new [] {
+        new Crumb("Restaurants", "", "fa-cutlery")
+    });
+}
+
+@section Menu {
+    @Scripts.Render("~/Scripts/Restaurants/Index/menu")
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <h4><i class="icon fa fa-check"></i> Success!</h4>
+        @TempData["Success"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-4"><a href="@Url.Action("Create", "Restaurants")" class="btn btn-block btn-success"><i class="fa fa-plus"></i> Create New</a></div>
+</div>
+
+<div class="box-body table-responsive no-padding row" >
+                
+    <div class="row" style="display: inline;">
+        @foreach (var item in Model.restaurant)
+        {
+            <div class="col-md-4">
+                <div class="box box-solid box-primary"> 
+                    <div class="box-header with-border">
+                        <h3 class="box-title">@Html.DisplayFor(modelItem => item.Name)</h3>
+                    </div>
+                    <div class="box-body row">
+                        <div class="col-md-5">
+                            <img src=@Url.Action("Show", "Restaurants", new {id = item.IdRestaurant}) class="img-responsive" style="height: 120px; width: auto" />
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Locales:</strong>
+                            @item.CantLocal
+                        </div>
+                        <div class="col-md-4">
+                            <div class="btn-group-vertical">
+                                <a class="btn btn-primary" href="@Url.Action("Edit", "Restaurants", new {id = item.IdRestaurant})">
+                                    <i class="fa fa-edit"></i> Edit
+                                </a>
+                                <a class="btn btn-danger" data-toggle="modal" data-target="#modalDelete" data-restaurantName="@item.Name" data-restaurantId="@item.IdRestaurant">
+                                    <i class="fa fa-trash"></i> Delete
+                                </a>
+                                <a class="btn btn-warning" href="@Url.Action("Details", "Restaurants", new {id = item.IdRestaurant})">
+                                    <i class="fa fa-eye"></i> View
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="modal modal-danger" id="modalDelete">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <form id="deleteForm" action="" method="post">
+                <div class="modal-body">
+                    <p>Bruh .. do you even wanna delete this shit ? </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-outline">Delete</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+@section Scripts {
+    @Scripts.Render("~/Scripts/Restaurants/Index")
+}

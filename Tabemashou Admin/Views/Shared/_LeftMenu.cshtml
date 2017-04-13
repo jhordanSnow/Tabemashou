@@ -1,0 +1,67 @@
+﻿@using Tabemashou_Admin.Controllers
+@* 
+ This partial controls the left menu of the AdminLTE dashboard and is called automatically by _AdminLteLayout
+    This is where you can add, modify, or remove navigation options in your app
+    TODO: This preserves the links as-is for the demo, which lead to broken pages!
+    It's up to you to make sure these links either get deleted or lead somewhere REAL!
+*@
+
+
+@{
+    Layout = null;
+}
+<aside class="main-sidebar">
+    <section class="sidebar">
+        <div class="user-panel">
+            <div class="pull-left image">
+                <img src="~/AdminLTE/dist/img/user.svg" class="img-circle" alt="User Image">
+            </div>
+            <div class="pull-left info">
+                <p>@{
+                    if (Request.IsAuthenticated)
+                    {
+                        var identity = (HttpContext.Current.User as MyIdentity.MyPrincipal).Identity as MyIdentity;
+                        <text>@string.Format("{0} {1}", identity.User.FirstName, identity.User.LastName)</text>
+                    }
+                }</p>
+                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+            </div>
+        </div>
+        <form action="#" method="get" class="sidebar-form">
+            <div class="input-group">
+                <input type="text" name="q" class="form-control" placeholder="Search...">
+                <span class="input-group-btn">
+                    <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </span>
+            </div>
+        </form>
+        <ul class="sidebar-menu">
+            <li class="header">MAIN NAVIGATION</li>
+            <li id="left-sidebar-menu-dashboard" class="treeview">
+                <a href="#">
+                    <i class="fa fa-chrome"></i> <span>Index</span> <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li id="left-sidebar-menu-dashboard-dashboardV1"><a href="@Url.Action("Index", "Home")"><i class="fa fa-circle-o"></i> Index1</a></li>
+                </ul>
+            </li>
+            <li id="left-sidebar-menu-restaurant" class="treeview">
+                <a href="#">
+                    <i class="fa fa-cutlery"></i>
+                    <span>Restaurant</span>
+                    <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li id="left-sidebar-menu-restaurants-index"><a href="@Url.Action("Index", "Restaurants")"><i class="fa fa-circle-o"></i>Index</a></li>
+                </ul>
+            </li>
+
+            <li class="header">LABELS</li>
+            <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
+            <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
+            <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
+        </ul>
+    </section>
+</aside>
