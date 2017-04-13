@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace Tabemashou_UserApp.Controllers
+namespace Tabemashou_User.Controllers
 {
     public class HomeController : Controller
     {

@@ -199,7 +199,9 @@ namespace Tabemashou_Admin.Controllers
         {
             if (ModelState.IsValid && ValidateUserName(model.Username) && ValidateIdCard(model.IdCard))
             {
-                RegisterNewUser(model);
+
+                int query = db.PR_CreateAdministrator(model.IdCard, model.Username, hashPassword(model.Password), model.Gender, model.BirthDate,
+                                          model.Nationality, model.FirstName, model.MiddleName, model.LastName, model.SecondLastName);
                 TempData["Success"] = "Success.";
                 return RedirectToAction("Index", "Home");
             }
@@ -214,7 +216,6 @@ namespace Tabemashou_Admin.Controllers
         {
             Authentication.SignOut();
             FormsAuthentication.SignOut();
-            IdentityUserLogOff();
             return RedirectToAction("Login", "Account");
         }
 
@@ -230,41 +231,6 @@ namespace Tabemashou_Admin.Controllers
                 sBuilder.Append(hashedBytes[i].ToString("x2"));
             }
             return sBuilder.ToString();
-        }
-
-        //Set User CACA CAMBIAR DESCRIPCION COMENTARIO
-        public void IdentityUser(User user)
-        {
-            Session["FullName"] = user.FirstName + " " + user.MiddleName + " " + user.LastName + " " + user.SecondLastName;
-            Session["Name"] = user.FirstName + " " + user.LastName;
-            Session["UserId"] = user.IdCard;
-        }
-
-        public void IdentityUserLogOff()
-        {
-            Session["FullName"] = "";
-            Session["UserId"] = "";
-        }
-
-        public void RegisterNewUser(RegisterViewModel model)
-        {
-            User user = new User();
-            user.IdCard = model.IdCard;
-            user.Username = model.Username;
-            user.FirstName = model.FirstName;
-            user.MiddleName = model.MiddleName;
-            user.LastName = model.LastName;
-            user.SecondLastName = model.SecondLastName;
-            user.Gender = model.Gender;
-            user.BirthDate = model.BirthDate;
-            user.Nationality = model.Nationality;
-            user.Password = hashPassword(model.Password);
-
-            Administrator admin = new Administrator();
-            admin.IdCard = user.IdCard;
-            db.User.Add(user);
-            db.Administrator.Add(admin);
-            db.SaveChanges();
         }
     }
 }

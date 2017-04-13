@@ -1,6 +1,6 @@
 ﻿using System.Web.Optimization;
 
-namespace Tabemashou_UserApp {
+namespace Tabemashou_User {
     public class BundleConfig {
         public static void RegisterBundles(BundleCollection bundles) {
             bundles.Add(new StyleBundle("~/Bundles/css")
