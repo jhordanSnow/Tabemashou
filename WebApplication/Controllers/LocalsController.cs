@@ -1,9 +1,12 @@
-﻿ using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
- using System.Diagnostics;
- using System.Linq;
+using System.Data.Entity.Migrations;
+using System.Data.SqlClient;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
@@ -62,30 +65,99 @@ namespace WebApplication.Controllers
 
             localRegister model = new localRegister();
             model.restaurant = db.Restaurant.Find(id);
-            model.menu = (from loc in db.Dish
-                          where loc.IdRestaurant == id
-                          select loc);
+            model.idRestaurant = (int) id;
+            model.menu = GetMenuLocal(id);
             model.local = new Local();
             return View(model);
+        }
+
+        public List<DishLocal> GetMenuLocal(int? idRestaurant)
+        {
+            var dishes = (from loc in db.Dish
+                          where loc.IdRestaurant == idRestaurant
+                          select loc);
+            List<DishLocal> result = new List<DishLocal>();
+            foreach (Dish tmpDish in dishes)
+            {
+                DishLocal tmpDishesPerLocal = new DishLocal();
+                tmpDishesPerLocal.dish = tmpDish;
+                tmpDishesPerLocal.idDish = tmpDish.IdDish;
+                tmpDishesPerLocal.state = true;
+                result.Add(tmpDishesPerLocal);
+            }
+
+            return result;
+        }
+
+        public byte[] FileUpload(HttpPostedFileBase file)
+        {
+
+            // save the image path path to the database or you can send image
+            // directly to database
+            // in-case if you want to store byte[] ie. for DB
+            byte[] array;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                file.InputStream.CopyTo(ms);
+                array = ms.GetBuffer();
+            }
+
+            return array;
         }
 
         // POST: Locals/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdLocal,Latitude,Longitude,IdDistrict,Detail,IdRestaurant")] Local local)
+        public ActionResult Create(localRegister dataModel)
         {
             if (ModelState.IsValid)
             {
-                db.Local.Add(local);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+                using (var dbTran = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        int idLocal = Convert.ToInt32(db.PR_CreateLocal(dataModel.idRestaurant, dataModel.local.IdDistrict,
+                            dataModel.local.Detail, dataModel.local.Latitude, dataModel.local.Longitude).ToList()[0]);
 
-            ViewBag.IdDistrict = new SelectList(db.District, "IdDistrict", "Name", local.IdDistrict);
-            ViewBag.IdRestaurant = new SelectList(db.Restaurant, "IdRestaurant", "Name", local.IdRestaurant);
-            return View(local);
+                        if (dataModel.menu != null) {
+                            foreach (DishLocal localDish in dataModel.menu)
+                            {
+                                DishesPerLocal tmpDishesPerLocal = new DishesPerLocal();
+                                tmpDishesPerLocal.IdLocal = idLocal;
+                                tmpDishesPerLocal.IdDish = localDish.idDish;
+                                tmpDishesPerLocal.State = localDish.state;
+                                db.DishesPerLocal.Add(tmpDishesPerLocal);
+                            }
+                        }
+                        Local tmpLocal = db.Local.Find(idLocal);
+                        for (int i = 0; i < Request.Files.Count; i++)
+                        {
+                            HttpPostedFileBase tmpFile = Request.Files[i];
+                            if (tmpFile != null)
+                            {
+                                byte[] dbImage = FileUpload(tmpFile);
+                                Photo tmpPhoto = new Photo();
+                                tmpPhoto.Photo1 = dbImage;
+                                db.Photo.Add(tmpPhoto);
+
+                                tmpLocal.Photo.Add(tmpPhoto);
+                                tmpPhoto.Local.Add(tmpLocal);
+                            }
+                        }
+
+                        db.SaveChanges();
+                        dbTran.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        dbTran.Rollback();
+                        return RedirectToAction("Create", "Locals", new { id = dataModel.idRestaurant });
+                    }
+                }
+                return RedirectToAction("Index", "Locals", new { id = dataModel.idRestaurant });
+            }
+            return RedirectToAction("Create", "Locals", new { id = dataModel.idRestaurant });
         }
 
         // GET: Locals/Edit/5
@@ -140,13 +212,14 @@ namespace WebApplication.Controllers
 
         // POST: Locals/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+
             Local local = db.Local.Find(id);
-            db.Local.Remove(local);
+            int restId = local.Restaurant.IdRestaurant;
+            db.PR_DeleteLocal(id);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index","Locals", new {id = restId });
         }
 
         protected override void Dispose(bool disposing)

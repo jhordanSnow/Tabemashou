@@ -242,9 +242,6 @@
     <Compile Include="Models\Restaurant.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\RestaurantInfo_Result.cs">
-      <DependentUpon>TabemashouModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\RestaurantsViewModel.cs" />
     <Compile Include="Models\Review.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>

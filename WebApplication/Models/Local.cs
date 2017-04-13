@@ -24,8 +24,9 @@ namespace WebApplication.Models
         }
     
         public int IdLocal { get; set; }
-        public decimal Latitude { get; set; }
-        public decimal Longitude { get; set; }
+        public int Name { get; set; }
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
         public int IdDistrict { get; set; }
         public string Detail { get; set; }
         public int IdRestaurant { get; set; }

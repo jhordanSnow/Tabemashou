@@ -17,8 +17,17 @@ namespace WebApplication.Models
     public class localRegister
     {
         public Restaurant restaurant { get; set; }
+        public int idRestaurant { get; set; }
         public Local local { get; set; }
-        public IEnumerable<Dish> menu { get; set; }
+        public List<DishLocal> menu { get; set; }
+        public IEnumerable<Photo> photos { get; set; }
+    }
+
+    public class DishLocal
+    {
+        public Dish dish { get; set; }
+        public bool state { get; set; }
+        public int idDish { get; set; }
     }
 
     public class DishesRegisterModels
