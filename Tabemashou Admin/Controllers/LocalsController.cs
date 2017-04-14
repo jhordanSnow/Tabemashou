@@ -208,7 +208,9 @@ namespace Tabemashou_Admin.Controllers
                 idRestaurant = local.IdRestaurant,
                 menu = GetMenuLocalEdit(id),
                 local = local,
-                photos = db.Photo.ToList().Where(m=>m.Local.Any(n => n.IdLocal == local.IdLocal))
+                photos = db.Photo.ToList().Where(m=>m.Local.Any(n => n.IdLocal == local.IdLocal)),
+                uploadFilesNames =  "",
+                deletedFilesIds = ""
             };
             return View(model);
         }
@@ -262,25 +264,29 @@ namespace Tabemashou_Admin.Controllers
                             }
                         }
                         
-                        foreach (var idPhotoDelete in dataModel.deletedFilesIds.Split(','))
-                        {
-                            db.PR_DeleteLocalPhoto(local.IdLocal, int.Parse(idPhotoDelete));
-                        }
-                        
-                        string[] uploadFiles = dataModel.uploadFilesNames.Split(',');
-                        for (int i = 0; i < Request.Files.Count; i++)
-                        {
-                            HttpPostedFileBase tmpFile = Request.Files[i];
-                            if (tmpFile != null && uploadFiles.Any(name => name == tmpFile.FileName) && uploadFiles.Length > 0)
+                        if (dataModel.deletedFilesIds != null) { 
+                            foreach (var idPhotoDelete in dataModel.deletedFilesIds.Split(','))
                             {
-                                byte[] dbImage = FileUpload(tmpFile);
-                                Photo tmpPhoto = new Photo();
-                                tmpPhoto.Photo1 = dbImage;
-                                db.Photo.Add(tmpPhoto);
+                                db.PR_DeleteLocalPhoto(local.IdLocal, int.Parse(idPhotoDelete));
+                            }
+                        }
 
-                                local.Photo.Add(tmpPhoto);
-                                tmpPhoto.Local.Add(local);
-                                uploadFiles = uploadFiles.Where(name => name != tmpFile.FileName).ToArray();
+                        if (dataModel.uploadFilesNames != null) { 
+                            string[] uploadFiles = dataModel.uploadFilesNames.Split(',');
+                            for (int i = 0; i < Request.Files.Count; i++)
+                            {
+                                HttpPostedFileBase tmpFile = Request.Files[i];
+                                if (tmpFile != null && uploadFiles.Any(name => name == tmpFile.FileName) && uploadFiles.Length > 0)
+                                {
+                                    byte[] dbImage = FileUpload(tmpFile);
+                                    Photo tmpPhoto = new Photo();
+                                    tmpPhoto.Photo1 = dbImage;
+                                    db.Photo.Add(tmpPhoto);
+
+                                    local.Photo.Add(tmpPhoto);
+                                    tmpPhoto.Local.Add(local);
+                                    uploadFiles = uploadFiles.Where(name => name != tmpFile.FileName).ToArray();
+                                }
                             }
                         }
 
@@ -295,7 +301,7 @@ namespace Tabemashou_Admin.Controllers
                     }
                 }
             }
-            return RedirectToAction("Edit", "Locals", new { id = dataModel.local.IdLocal});
+            return RedirectToAction("Edit", "Locals", new { id = dataModel.local.IdLocal });
         }
 
         // GET: Locals/Delete/5

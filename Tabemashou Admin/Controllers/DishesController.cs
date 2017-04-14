@@ -113,7 +113,10 @@ namespace Tabemashou_Admin.Controllers
             {
                 dish = dish,
                 photos = db.Photo.ToList().Where(m => m.Dish.Any(n => n.IdDish == dish.IdDish)),
-                restaurant = db.Restaurant.Find(dish.IdRestaurant)
+                restaurant = db.Restaurant.Find(dish.IdRestaurant),
+                deletedFilesIds = "",
+                uploadFilesNames = "",
+                idRestaurant = dish.IdRestaurant
             };
             return View(model);
         }
@@ -131,25 +134,32 @@ namespace Tabemashou_Admin.Controllers
                 dish.Description = model.dish.Description;
                 db.Entry(dish).State = EntityState.Modified;
 
-                foreach (var idPhotoDelete in model.deletedFilesIds.Split(','))
+                if (model.deletedFilesIds != null)
                 {
-                    db.PR_DeleteDishPhoto(dish.IdDish, int.Parse(idPhotoDelete));
+                    foreach (var idPhotoDelete in model.deletedFilesIds.Split(','))
+                    {
+                        db.PR_DeleteDishPhoto(dish.IdDish, int.Parse(idPhotoDelete));
+                    }
                 }
 
-                string[] uploadFiles = model.uploadFilesNames.Split(',');
-                for (int i = 0; i < Request.Files.Count; i++)
+                if (model.uploadFilesNames != null)
                 {
-                    HttpPostedFileBase tmpFile = Request.Files[i];
-                    if (tmpFile != null && uploadFiles.Any(name => name == tmpFile.FileName) && uploadFiles.Length > 0)
+                    string[] uploadFiles = model.uploadFilesNames.Split(',');
+                    for (int i = 0; i < Request.Files.Count; i++)
                     {
-                        byte[] dbImage = FileUpload(tmpFile);
-                        Photo tmpPhoto = new Photo();
-                        tmpPhoto.Photo1 = dbImage;
-                        db.Photo.Add(tmpPhoto);
+                        HttpPostedFileBase tmpFile = Request.Files[i];
+                        if (tmpFile != null && uploadFiles.Any(name => name == tmpFile.FileName) &&
+                            uploadFiles.Length > 0)
+                        {
+                            byte[] dbImage = FileUpload(tmpFile);
+                            Photo tmpPhoto = new Photo();
+                            tmpPhoto.Photo1 = dbImage;
+                            db.Photo.Add(tmpPhoto);
 
-                        dish.Photo.Add(tmpPhoto);
-                        tmpPhoto.Dish.Add(dish);
-                        uploadFiles = uploadFiles.Where(name => name != tmpFile.FileName).ToArray();
+                            dish.Photo.Add(tmpPhoto);
+                            tmpPhoto.Dish.Add(dish);
+                            uploadFiles = uploadFiles.Where(name => name != tmpFile.FileName).ToArray();
+                        }
                     }
                 }
 
