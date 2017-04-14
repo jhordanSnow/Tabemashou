@@ -542,6 +542,7 @@
     <Content Include="Scripts\Home\DashboardV1.js" />
     <Content Include="Scripts\Home\DashboardV2-menu.js" />
     <Content Include="Scripts\Home\DashboardV2.js" />
+    <Content Include="Scripts\Locals\Edit.js" />
     <Content Include="Scripts\Locals\jquery.geocomplete.js" />
     <Content Include="Scripts\Locals\jquery.geocomplete.min.js" />
     <Content Include="Scripts\Mailbox\Compose-menu.js" />
