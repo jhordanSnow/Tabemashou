@@ -173,11 +173,13 @@ namespace Tabemashou_Admin.Controllers
 
                         db.SaveChanges();
                         dbTran.Commit();
+                        TempData["Success"] = "Local created successfully";
                         return RedirectToAction("Index", "Locals", new { id = dataModel.idRestaurant });
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         dbTran.Rollback();
+                        TempData["Error"] = ex.ToString();
                         return RedirectToAction("Create", "Locals", new { id = dataModel.idRestaurant });
                     }
                 }
@@ -294,9 +296,10 @@ namespace Tabemashou_Admin.Controllers
                         dbTran.Commit();
                         return RedirectToAction("Index", "Locals", new { id = dataModel.idRestaurant });
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         dbTran.Rollback();
+                        TempData["Error"] = ex.ToString();
                         return RedirectToAction("Edit", "Locals", new { id = dataModel.local.IdLocal });
                     }
                 }
@@ -340,11 +343,25 @@ namespace Tabemashou_Admin.Controllers
             base.Dispose(disposing);
         }
 
-        public FileContentResult Show(int id)
+        public FileContentResult ShowPhotoById(int id)
         {
             Photo restaurant = db.Photo.Find(id);
             var imagedata = restaurant.Photo1;
             if (imagedata != null) return File(imagedata, "image/jpg");
+            string path = Server.MapPath("~/Images/RestaurantLogos/default.png");
+            byte[] array;
+            using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))
+            {
+                array = new byte[fs.Length];
+                fs.Read(array, 0, (int)fs.Length);
+            }
+            return File(array, "image/jpg");
+        }
+
+        public FileContentResult ShowLocalPhoto(int id)
+        {
+            var photos = db.Photo.ToList().Where(m => m.Local.Any(n => n.IdLocal == id));
+            if (photos.Any() && photos.FirstOrDefault().Photo1 != null && photos.FirstOrDefault().Photo1.Length > 0) return File(photos.FirstOrDefault().Photo1, "image/jpg");
             string path = Server.MapPath("~/Images/RestaurantLogos/default.png");
             byte[] array;
             using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))

@@ -113,7 +113,7 @@
                                 {
                                     <div class="col-md-3" style="overflow: hidden; height: 250px;margin-bottom:10px;" id="image_@photo.IdPhoto" >
                                         <a class="fa fa-remove btn btn-danger" style="float:right;position: absolute;" OnClick="deleteImageId(this)" index-element="@photo.IdPhoto"></a>
-                                        <img class='img-responsive img-rounded' src=@Url.Action("Show", "Locals", new {id = photo.IdPhoto}) />
+                                        <img class='img-responsive img-rounded' src=@Url.Action("ShowPhotoById", "Locals", new {id = photo.IdPhoto}) />
                                     </div>
                                 }
                             </div>
