@@ -5,7 +5,7 @@
     ViewBag.Title = "Restaurants";
     ViewBag.Breadcrumb = new Breadcrumb(new[] {
         new Crumb("Restaurants", @Url.Action("Index","Restaurants"), "fa-cutlery"),
-        new Crumb(Model.restaurant.Name, @Url.Action("Index", "Locals", new { id = Model.restaurant.IdRestaurant }), ""),
+       
         new Crumb("Create new Local"), 
     });
 }
@@ -14,12 +14,17 @@
 
 @Styles.Render("~/AdminLTE/plugins/select2/css")
 @Styles.Render("~/AdminLTE/plugins/fileUpload/css")
-@if (TempData["Error"] != null)
+
+@if (TempData["Error"] != null || !ViewContext.ViewData.ModelState.IsValid)
 {
     <div class="alert alert-danger alert-dismissible">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <h4><i class="icon fa fa-check"></i> Error!</h4>
-        @TempData["Error"]
+        <h4><i class="icon fa fa-ban"></i> Error!</h4>
+        <ul>
+            <li>@TempData["Error"]</li>
+        </ul>
+        
+        @Html.ValidationSummary("", new { @class = "text" })
     </div>
 }
     <div class="box box-solid box-default">
@@ -29,9 +34,10 @@
             </div>
         </div>
         <div class="box-body">
-            @using (Html.BeginForm("Create", "Locals", FormMethod.Post, new { enctype = "multipart/form-data" , data_ajax = "false" }))
+            @using (Html.BeginForm("Create", "Locals", FormMethod.Post, new { enctype = "multipart/form-data", data_ajax = "false" }))
             {
-                @Html.HiddenFor(model => model.idRestaurant)
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(m => m.idRestaurant);
                 <div class="row">
                     <div class="col-md-5">
                         <div class="box box-solid box-primary">

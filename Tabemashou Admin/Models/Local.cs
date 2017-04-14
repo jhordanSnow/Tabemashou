@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel.DataAnnotations;
+
 namespace Tabemashou_Admin.Models
 {
     using System;
@@ -27,7 +29,10 @@ namespace Tabemashou_Admin.Models
         public int Name { get; set; }
         public string Latitude { get; set; }
         public string Longitude { get; set; }
+        [Required]
         public int IdDistrict { get; set; }
+        [Required]
+        [MaxLength(255, ErrorMessage = "The description must have less than 255 characters")]
         public string Detail { get; set; }
         public int IdRestaurant { get; set; }
     

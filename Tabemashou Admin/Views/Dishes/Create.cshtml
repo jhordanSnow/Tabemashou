@@ -3,12 +3,11 @@
 
 @{
     ViewBag.Title = "Create a Dish";
-    ViewBag.Breadcrumb = new Breadcrumb(new[]
-{
-        new Crumb("Restaurants", @Url.Action("Index","Restaurants"), "fa-cutlery"),
-        new Crumb(Model.restaurant.Name, @Url.Action("Index", "Locals", new { id =  Model.restaurant.IdRestaurant })),
-        new Crumb("Menu", "", "fa-spoon"),
-        new Crumb("Create", "", ""),
+    ViewBag.Breadcrumb = new Breadcrumb(new[]{
+            new Crumb("Restaurants", @Url.Action("Index","Restaurants"), "fa-cutlery"),
+            new Crumb(Model.restaurant.Name, @Url.Action("Index", "Locals", new { id =  Model.restaurant.IdRestaurant })),
+            new Crumb("Menu", "", "fa-spoon"),
+            new Crumb("Create", "", ""),
 
     });
 }
@@ -71,7 +70,7 @@
                 </div>
                 <div class="box-footer">
                     <div class="form-group">
-                        <a class="btn btn-default" href="@Url.Action("Index", "Locals", new { id = ViewBag.restId })">Back to List</a>
+                        <a class="btn btn-default" href="@Url.Action("Index", "Locals", new { id =  Model.restaurant.IdRestaurant })">Back to List</a>
                         <button type="submit" value="Create" class="btn btn-info pull-right">Submit</button>
                     </div>
                 </div>

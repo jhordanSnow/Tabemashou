@@ -54,19 +54,7 @@ namespace Tabemashou_Admin.Controllers
             return View(local);
         }
 
-        // GET: Locals/Create
-        public ActionResult Create(int? id)
-        {
-            ViewBag.IdDistrict = new SelectList(db.District, "IdDistrict", "Name");
-            ViewBag.IdRestaurant = new SelectList(db.Restaurant, "IdRestaurant", "Name");
-
-            localRegister model = new localRegister();
-            model.restaurant = db.Restaurant.Find(id);
-            model.idRestaurant = (int) id;
-            model.menu = GetMenuLocal(id);
-            model.local = new Local();
-            return View(model);
-        }
+      
 
         public List<DishLocal> GetMenuLocal(int? idRestaurant)
         {
@@ -119,41 +107,75 @@ namespace Tabemashou_Admin.Controllers
             return array;
         }
 
+        // GET: Locals/Create
+        public ActionResult Create(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ViewBag.IdDistrict = new SelectList(db.District, "IdDistrict", "Name");
+            ViewBag.IdRestaurant = new SelectList(db.Restaurant, "IdRestaurant", "Name");
+
+            localRegister model = new localRegister();
+            model.restaurant = db.Restaurant.Find(id);
+            model.idRestaurant = (int)id;
+            model.menu = GetMenuLocal(id);
+            model.local = new Local();
+            return View(model);
+        }
+
         // POST: Locals/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         public ActionResult Create(localRegister dataModel)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid || dataModel.local.IdDistrict == 0)
             {
-                using (var dbTran = db.Database.BeginTransaction())
+                if (dataModel.local.IdDistrict == 0) TempData["Error"] = "Please select a District.";
+                ViewBag.IdDistrict = new SelectList(db.District, "IdDistrict", "Name");
+                ViewBag.IdRestaurant = new SelectList(db.Restaurant, "IdRestaurant", "Name");
+
+                localRegister model = new localRegister();
+                model.restaurant = db.Restaurant.Find(dataModel.idRestaurant);
+                model.idRestaurant = dataModel.idRestaurant;
+                model.menu = GetMenuLocal(dataModel.idRestaurant);
+                model.uploadFilesNames = String.Empty;
+                model.local = new Local();
+                return View(model);
+            }
+            
+
+            using (var dbTran = db.Database.BeginTransaction())
+            {
+                try
                 {
-                    try
-                    {
-                        int idLocal = Convert.ToInt32(db.PR_CreateLocal(dataModel.idRestaurant, dataModel.local.IdDistrict,
-                            dataModel.local.Detail, dataModel.local.Latitude, dataModel.local.Longitude).ToList()[0]);
+                    int idLocal = Convert.ToInt32(db.PR_CreateLocal(dataModel.idRestaurant, dataModel.local.IdDistrict,
+                        dataModel.local.Detail, dataModel.local.Latitude, dataModel.local.Longitude).ToList()[0]);
 
-                        if (dataModel.menu != null) {
-                            foreach (DishLocal localDish in dataModel.menu)
-                            {
-                                DishesPerLocal tmpDishesPerLocal = new DishesPerLocal();
-                                tmpDishesPerLocal.IdLocal = idLocal;
-                                tmpDishesPerLocal.IdDish = localDish.idDish;
-                                tmpDishesPerLocal.State = localDish.state;
-                                db.DishesPerLocal.Add(tmpDishesPerLocal);
-                            }
-                        }
-                        Local tmpLocal = db.Local.Find(idLocal);
-
-                        for (int i = 1; i <= dataModel.cantMesas; i++)
+                    if (dataModel.menu != null) {
+                        foreach (DishLocal localDish in dataModel.menu)
                         {
-                            Table tmpTable = new Table();
-                            tmpTable.IdLocal = tmpLocal.IdLocal;
-                            tmpTable.DistinctiveName = i.ToString();
-                            db.Table.Add(tmpTable);
+                            DishesPerLocal tmpDishesPerLocal = new DishesPerLocal();
+                            tmpDishesPerLocal.IdLocal = idLocal;
+                            tmpDishesPerLocal.IdDish = localDish.idDish;
+                            tmpDishesPerLocal.State = localDish.state;
+                            db.DishesPerLocal.Add(tmpDishesPerLocal);
                         }
+                    }
+                    Local tmpLocal = db.Local.Find(idLocal);
 
+                    for (int i = 1; i <= dataModel.cantMesas; i++)
+                    {
+                        Table tmpTable = new Table();
+                        tmpTable.IdLocal = tmpLocal.IdLocal;
+                        tmpTable.DistinctiveName = i.ToString();
+                        db.Table.Add(tmpTable);
+                    }
+
+                    if (dataModel.uploadFilesNames != null)
+                    {
                         string[] uploadFiles = dataModel.uploadFilesNames.Split(',');
                         for (int i = 0; i < Request.Files.Count; i++)
                         {
@@ -170,20 +192,21 @@ namespace Tabemashou_Admin.Controllers
                                 uploadFiles = uploadFiles.Where(name => name != tmpFile.FileName).ToArray();
                             }
                         }
+                    }
 
-                        db.SaveChanges();
-                        dbTran.Commit();
-                        TempData["Success"] = "Local created successfully";
-                        return RedirectToAction("Index", "Locals", new { id = dataModel.idRestaurant });
-                    }
-                    catch (Exception ex)
-                    {
-                        dbTran.Rollback();
-                        TempData["Error"] = ex.ToString();
-                        return RedirectToAction("Create", "Locals", new { id = dataModel.idRestaurant });
-                    }
+                    db.SaveChanges();
+                    dbTran.Commit();
+                    TempData["Success"] = "Local created successfully";
+                    return RedirectToAction("Index", "Locals", new { id = dataModel.idRestaurant });
+                }
+                catch (Exception ex)
+                {
+                    dbTran.Rollback();
+                    TempData["Error"] = ex.ToString();
+                    return RedirectToAction("Create", "Locals", new { id = dataModel.idRestaurant });
                 }
             }
+
             return RedirectToAction("Create", "Locals", new { id = dataModel.idRestaurant });
         }
 
@@ -223,88 +246,104 @@ namespace Tabemashou_Admin.Controllers
         [HttpPost]
         public ActionResult Edit(localRegister dataModel)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid || dataModel.local.IdDistrict == 0)
             {
-                using (var dbTran = db.Database.BeginTransaction())
+                if (dataModel.local.IdDistrict == 0) TempData["Error"] = "Please select a District.";
+                ViewBag.IdDistrict = new SelectList(db.District, "IdDistrict", "Name");
+                ViewBag.IdRestaurant = new SelectList(db.Restaurant, "IdRestaurant", "Name");
+                localRegister model = new localRegister
                 {
-                    try
+                    restaurant = db.Restaurant.Find(dataModel.idRestaurant),
+                    cantMesas = db.Table.Count(cantTable => cantTable.IdLocal == dataModel.local.IdLocal),
+                    idRestaurant = dataModel.idRestaurant,
+                    menu = GetMenuLocalEdit(dataModel.idRestaurant),
+                    local = dataModel.local,
+                    photos = db.Photo.ToList().Where(m => m.Local.Any(n => n.IdLocal == dataModel.local.IdLocal)),
+                    uploadFilesNames = "",
+                    deletedFilesIds = ""
+                };
+                return View(model);
+            }
+
+            using (var dbTran = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    Local local = db.Local.Find(dataModel.local.IdLocal);
+                    local.Longitude = dataModel.local.Longitude;
+                    local.Latitude = dataModel.local.Latitude;
+                    local.IdDistrict = dataModel.local.IdDistrict;
+                    local.Detail = dataModel.local.Detail;
+                    db.Entry(local).State = EntityState.Modified;
+
+                    if (dataModel.menu != null)
                     {
-                        Local local = db.Local.Find(dataModel.local.IdLocal);
-                        local.Longitude = dataModel.local.Longitude;
-                        local.Latitude = dataModel.local.Latitude;
-                        local.IdDistrict = dataModel.local.IdDistrict;
-                        local.Detail = dataModel.local.Detail;
-                        db.Entry(local).State = EntityState.Modified;
+                        foreach (DishLocal localDish in dataModel.menu)
+                        {
+                            DishesPerLocal tmpDishesPerLocal = db.DishesPerLocal.Find(local.IdLocal, localDish.idDish);
+                            tmpDishesPerLocal.State = localDish.state;
+                            db.Entry(tmpDishesPerLocal).State = EntityState.Modified;
+                        }
+                    }
 
-                        if (dataModel.menu != null)
+                    int cantMesas = db.Table.Count(cantTable => cantTable.IdLocal == local.IdLocal);
+                    if (dataModel.cantMesas > cantMesas)
+                    {
+                        for (int i = cantMesas+1; i <= dataModel.cantMesas; i++)
                         {
-                            foreach (DishLocal localDish in dataModel.menu)
-                            {
-                                DishesPerLocal tmpDishesPerLocal = db.DishesPerLocal.Find(local.IdLocal, localDish.idDish);
-                                tmpDishesPerLocal.State = localDish.state;
-                                db.Entry(tmpDishesPerLocal).State = EntityState.Modified;
-                            }
+                            Table tmpTable = new Table();
+                            tmpTable.IdLocal = local.IdLocal;
+                            tmpTable.DistinctiveName = i.ToString();
+                            db.Table.Add(tmpTable);
                         }
-
-                        int cantMesas = db.Table.Count(cantTable => cantTable.IdLocal == local.IdLocal);
-                        if (dataModel.cantMesas > cantMesas)
+                    }
+                    else if (dataModel.cantMesas < cantMesas)
+                    {
+                        var tables = db.Table.Where(cantTable => cantTable.IdLocal == local.IdLocal).ToArray();
+                        for (int i = cantMesas-1; i > dataModel.cantMesas; i--)
                         {
-                            for (int i = cantMesas+1; i <= dataModel.cantMesas; i++)
-                            {
-                                Table tmpTable = new Table();
-                                tmpTable.IdLocal = local.IdLocal;
-                                tmpTable.DistinctiveName = i.ToString();
-                                db.Table.Add(tmpTable);
-                            }
+                            db.Table.Remove(tables[i]);
                         }
-                        else if (dataModel.cantMesas < cantMesas)
-                        {
-                            var tables = db.Table.Where(cantTable => cantTable.IdLocal == local.IdLocal).ToArray();
-                            for (int i = cantMesas-1; i > dataModel.cantMesas; i--)
-                            {
-                                db.Table.Remove(tables[i]);
-                            }
-                        }
+                    }
                         
-                        if (dataModel.deletedFilesIds != null) { 
-                            foreach (var idPhotoDelete in dataModel.deletedFilesIds.Split(','))
+                    if (dataModel.deletedFilesIds != null) { 
+                        foreach (var idPhotoDelete in dataModel.deletedFilesIds.Split(','))
+                        {
+                            db.PR_DeleteLocalPhoto(local.IdLocal, int.Parse(idPhotoDelete));
+                        }
+                    }
+
+                    if (dataModel.uploadFilesNames != null) { 
+                        string[] uploadFiles = dataModel.uploadFilesNames.Split(',');
+                        for (int i = 0; i < Request.Files.Count; i++)
+                        {
+                            HttpPostedFileBase tmpFile = Request.Files[i];
+                            if (tmpFile != null && uploadFiles.Any(name => name == tmpFile.FileName) && uploadFiles.Length > 0)
                             {
-                                db.PR_DeleteLocalPhoto(local.IdLocal, int.Parse(idPhotoDelete));
+                                byte[] dbImage = FileUpload(tmpFile);
+                                Photo tmpPhoto = new Photo();
+                                tmpPhoto.Photo1 = dbImage;
+                                db.Photo.Add(tmpPhoto);
+
+                                local.Photo.Add(tmpPhoto);
+                                tmpPhoto.Local.Add(local);
+                                uploadFiles = uploadFiles.Where(name => name != tmpFile.FileName).ToArray();
                             }
                         }
-
-                        if (dataModel.uploadFilesNames != null) { 
-                            string[] uploadFiles = dataModel.uploadFilesNames.Split(',');
-                            for (int i = 0; i < Request.Files.Count; i++)
-                            {
-                                HttpPostedFileBase tmpFile = Request.Files[i];
-                                if (tmpFile != null && uploadFiles.Any(name => name == tmpFile.FileName) && uploadFiles.Length > 0)
-                                {
-                                    byte[] dbImage = FileUpload(tmpFile);
-                                    Photo tmpPhoto = new Photo();
-                                    tmpPhoto.Photo1 = dbImage;
-                                    db.Photo.Add(tmpPhoto);
-
-                                    local.Photo.Add(tmpPhoto);
-                                    tmpPhoto.Local.Add(local);
-                                    uploadFiles = uploadFiles.Where(name => name != tmpFile.FileName).ToArray();
-                                }
-                            }
-                        }
-
-                        db.SaveChanges();
-                        dbTran.Commit();
-                        return RedirectToAction("Index", "Locals", new { id = dataModel.idRestaurant });
                     }
-                    catch (Exception ex)
-                    {
-                        dbTran.Rollback();
-                        TempData["Error"] = ex.ToString();
-                        return RedirectToAction("Edit", "Locals", new { id = dataModel.local.IdLocal });
-                    }
+
+                    db.SaveChanges();
+                    dbTran.Commit();
+                    TempData["Success"] = "Local edited successfully.";
+                    return RedirectToAction("Index", "Locals", new { id = dataModel.idRestaurant });
+                }
+                catch (Exception ex)
+                {
+                    dbTran.Rollback();
+                    TempData["Error"] = ex.ToString();
+                    return RedirectToAction("Edit", "Locals", new { id = dataModel.local.IdLocal });
                 }
             }
-            return RedirectToAction("Edit", "Locals", new { id = dataModel.local.IdLocal });
         }
 
         // GET: Locals/Delete/5

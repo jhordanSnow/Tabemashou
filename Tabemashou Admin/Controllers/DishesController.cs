@@ -35,15 +35,7 @@ namespace Tabemashou_Admin.Controllers
             return View(dish);
         }
 
-        // GET: Dishes1/Create
-        public ActionResult Create(int? id)
-        {
-            DishRegister model = new DishRegister();
-            model.dish = new Dish();
-            model.restaurant = db.Restaurant.Find(id);
-            return View(model);
-        }
-
+        
         public byte[] FileUpload(HttpPostedFileBase file)
         {
 
@@ -60,6 +52,16 @@ namespace Tabemashou_Admin.Controllers
             return array;
         }
 
+        // GET: Dishes1/Create
+        public ActionResult Create(int? id)
+        {
+            DishRegister model = new DishRegister();
+            model.dish = new Dish();
+            model.restaurant = db.Restaurant.Find(id);
+            return View(model);
+        }
+
+
         // POST: Dishes1/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -71,28 +73,29 @@ namespace Tabemashou_Admin.Controllers
                 Dish dish = model.dish;
                 dish.IdRestaurant = model.idRestaurant;
                 db.Dish.Add(dish);
-
-                string[] uploadFiles = model.uploadFilesNames.Split(',');
-                for (int i = 0; i < Request.Files.Count; i++)
+                if (model.uploadFilesNames != null)
                 {
-                    HttpPostedFileBase tmpFile = Request.Files[i];
-                    if (tmpFile != null && uploadFiles.Any(name => name == tmpFile.FileName) && uploadFiles.Length > 0)
+                    string[] uploadFiles = model.uploadFilesNames.Split(',');
+                    for (int i = 0; i < Request.Files.Count; i++)
                     {
-                        byte[] dbImage = FileUpload(tmpFile);
-                        Photo tmpPhoto = new Photo();
-                        tmpPhoto.Photo1 = dbImage;
-                        db.Photo.Add(tmpPhoto);
+                        HttpPostedFileBase tmpFile = Request.Files[i];
+                        if (tmpFile != null && uploadFiles.Any(name => name == tmpFile.FileName) && uploadFiles.Length > 0)
+                        {
+                            byte[] dbImage = FileUpload(tmpFile);
+                            Photo tmpPhoto = new Photo();
+                            tmpPhoto.Photo1 = dbImage;
+                            db.Photo.Add(tmpPhoto);
 
-                        dish.Photo.Add(tmpPhoto);
-                        tmpPhoto.Dish.Add(dish);
-                        uploadFiles = uploadFiles.Where(name => name != tmpFile.FileName).ToArray();
+                            dish.Photo.Add(tmpPhoto);
+                            tmpPhoto.Dish.Add(dish);
+                            uploadFiles = uploadFiles.Where(name => name != tmpFile.FileName).ToArray();
+                        }
                     }
                 }
-
                 db.SaveChanges();
                 return RedirectToAction("Index", "Locals", new { id = dish.IdRestaurant });
             }
-
+            model.restaurant = db.Restaurant.Find(model.idRestaurant);
             return View(model);
         }
 
