@@ -1,6 +1,8 @@
 ﻿@using Tabemashou_Admin.Controllers
+@using Tabemashou_Admin.Models
 @{
     Layout = null;
+    var identity = (HttpContext.Current.User as MyIdentity.MyPrincipal).Identity as MyIdentity;
 }
 <aside class="main-sidebar">
     <section class="sidebar">
@@ -12,7 +14,6 @@
                 <p>@{
                     if (Request.IsAuthenticated)
                     {
-                        var identity = (HttpContext.Current.User as MyIdentity.MyPrincipal).Identity as MyIdentity;
                         <text>@string.Format("{0} {1}", identity.User.FirstName, identity.User.LastName)</text>
                     }
                 }</p>
@@ -49,7 +50,7 @@
                     <span>Locals</span>
                     <i class="fa fa-angle-left pull-right"></i>
                     <ul class="treeview-menu">
-                        @foreach (var menu in MyIdentity.MenuRestaurants)
+                        @foreach (var menu in (new TabemashouEntities()).Restaurant.Where(m => m.IdAdmin == identity.User.IdCard))
                         {
                             <li id="left-sidebar-menu-locals-index"><a href="@Url.Action("Index", "Locals", new {id = menu.IdRestaurant})">
                                 <i class="fa fa-circle-o"></i>
