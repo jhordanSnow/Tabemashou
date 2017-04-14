@@ -1,0 +1,104 @@
+﻿@model Tabemashou_User.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Tabemashou_Admin</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    
+    @Styles.Render("~/AdminLTE/plugins/datepicker/css")
+    @Styles.Render("~/AdminLTE/bootstrap/css")
+    @Styles.Render("~/AdminLTE/plugins/font-awesome/css")
+    @Styles.Render("~/AdminLTE/plugins/ionicons/css")
+    @Styles.Render("~/AdminLTE/dist/css")
+    @Styles.Render("~/AdminLTE/plugins/icheck/css/sqare/blue")
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body class="hold-transition register-page">
+<div class="register-box">
+    <div class="register-logo">
+        <a href="@Url.Action("Index", "Home")">Welcome to <b>Tabemashou!</b></a>
+    </div>
+    <div class="register-box-body">
+        <p class="login-box-msg">Register a new membership</p>
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new {role = "form"}))
+        {
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            <div class="form-group has-feedback">
+                @Html.TextBoxFor(m => m.Username, new {@class = "form-control", @placeholder = "User Name"})
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                @Html.PasswordFor(m => m.Password, new {@class = "form-control" , @placeholder = "Password" })
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                @Html.PasswordFor(m => m.ConfirmPassword, new {@class = "form-control", @placeholder = "Confirm Password" })
+                <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                @Html.TextBoxFor(m => m.IdCard, new { @class = "form-control", @placeholder = "Identification Card" , @Value = "" })
+                <span class="glyphicon glyphicon-credit-card form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" , @placeholder = "First Name" })
+                <span class="glyphicon glyphicon-font form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                @Html.TextBoxFor(m => m.MiddleName, new { @class = "form-control" , @placeholder = "Middle Name" })
+                <span class="glyphicon glyphicon-font form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" , @placeholder = "Last Name" })
+                <span class="glyphicon glyphicon-font form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                @Html.TextBoxFor(m => m.SecondLastName, new { @class = "form-control" , @placeholder = "Second Last Name" })
+                <span class="glyphicon glyphicon-font form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                @Html.TextBoxFor(m => m.BirthDate, new { @class = "form-control" , @placeholder = "Birthday" })
+                <span class="fa fa-birthday-cake form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                @Html.DropDownList("Gender", new List<SelectListItem>() { new SelectListItem { Text = "Male", Value = "M" }, new SelectListItem { Text = "Female", Value = "F" }}, "Gender", new { @class = "form-control placeholderColor noValue", @placeholder = "Gender" })
+                <span class="fa fa-venus-mars form-control-feedback" style="padding-right: 16px;"></span>
+            </div>
+            <div class="form-group has-feedback">
+                @Html.DropDownList("Nationality", null, "Nationality", htmlAttributes: new { @class = "form-control" })
+                <span class="glyphicon glyphicon-globe form-control-feedback" style="padding-right: 16px;"></span>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
+                </div>
+            </div>
+        }
+        <div class="text-center">
+            <a href="@Url.Action("Login", "Account")" class="text-center">I already have a membership</a>
+        </div>
+    </div>
+</div>
+
+    @Scripts.Render("~/AdminLTE/plugins/jquery/js")
+    @Scripts.Render("~/AdminLTE/bootstrap/js")
+    @Scripts.Render("~/AdminLTE/plugins/icheck/js")
+    @Scripts.Render("~/AdminLTE/plugins/jquery-validate/js")
+    @Scripts.Render("~/AdminLTE/plugins/datepicker/js")
+    @Scripts.Render("~/Scripts/Account/Register")
+
+</body>
+</html>
