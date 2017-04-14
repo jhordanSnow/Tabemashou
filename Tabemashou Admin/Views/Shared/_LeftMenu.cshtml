@@ -1,12 +1,4 @@
 ﻿@using Tabemashou_Admin.Controllers
-@* 
- This partial controls the left menu of the AdminLTE dashboard and is called automatically by _AdminLteLayout
-    This is where you can add, modify, or remove navigation options in your app
-    TODO: This preserves the links as-is for the demo, which lead to broken pages!
-    It's up to you to make sure these links either get deleted or lead somewhere REAL!
-*@
-
-
 @{
     Layout = null;
 }
@@ -40,22 +32,32 @@
         <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
             <li id="left-sidebar-menu-dashboard" class="treeview">
-                <a href="#">
-                    <i class="fa fa-chrome"></i> <span>Index</span> <i class="fa fa-angle-left pull-right"></i>
+                <a href="@Url.Action("Index", "Home")">
+                    <i class="fa fa-chrome"></i> <span>Home</span> <i class="fa fa-angle-left pull-right"></i>
                 </a>
-                <ul class="treeview-menu">
-                    <li id="left-sidebar-menu-dashboard-dashboardV1"><a href="@Url.Action("Index", "Home")"><i class="fa fa-circle-o"></i> Index1</a></li>
-                </ul>
             </li>
             <li id="left-sidebar-menu-restaurant" class="treeview">
-                <a href="#">
+                <a href="@Url.Action("Index", "Restaurants")">
                     <i class="fa fa-cutlery"></i>
-                    <span>Restaurant</span>
+                    <span>Restaurants</span>
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
-                <ul class="treeview-menu">
-                    <li id="left-sidebar-menu-restaurants-index"><a href="@Url.Action("Index", "Restaurants")"><i class="fa fa-circle-o"></i>Index</a></li>
-                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-shopping-cart"></i>
+                    <span>Locals</span>
+                    <i class="fa fa-angle-left pull-right"></i>
+                    <ul class="treeview-menu">
+                        @foreach (var menu in MyIdentity.MenuRestaurants)
+                        {
+                            <li id="left-sidebar-menu-locals-index"><a href="@Url.Action("Index", "Locals", new {id = menu.IdRestaurant})">
+                                <i class="fa fa-circle-o"></i>
+                                @menu.Name
+                            </a></li>
+                        }
+                    </ul>
+                </a>
             </li>
 
             <li class="header">LABELS</li>

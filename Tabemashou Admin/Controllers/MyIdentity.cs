@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Security.Principal;
@@ -12,6 +13,7 @@ namespace Tabemashou_Admin.Controllers
     {
         public IIdentity Identity { get; set; }
         public User User { get; set; }
+        public static List<Restaurant> MenuRestaurants { get; set; }
 
         public MyIdentity(User user)
         {

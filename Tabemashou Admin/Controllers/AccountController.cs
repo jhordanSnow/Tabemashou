@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Security.Cryptography;
@@ -38,6 +39,7 @@ namespace Tabemashou_Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                MyIdentity.MenuRestaurants = new List<Restaurant>();
                 bool isValidUser = Membership.ValidateUser(model.Username, model.Password);
                 if (isValidUser)
                 {
@@ -56,6 +58,7 @@ namespace Tabemashou_Admin.Controllers
                         string encToken = FormsAuthentication.Encrypt(ticket);
                         HttpCookie authoCookies = new HttpCookie(FormsAuthentication.FormsCookieName, encToken);
                         Response.Cookies.Add(authoCookies);
+                        MyIdentity.MenuRestaurants = db.Restaurant.Where(m => m.IdAdmin == user.IdCard).ToList();
                         return RedirectToAction("Index", "Home");
                     }
                 }
