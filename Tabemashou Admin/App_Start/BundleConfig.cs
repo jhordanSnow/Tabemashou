@@ -108,6 +108,12 @@ namespace Tabemashou_Admin
 
             bundles.Add(new ScriptBundle("~/Scripts/Dishes/Index/menu").Include(
                 "~/Scripts/Dishes/Index-menu.js"));
+
+            bundles.Add(new ScriptBundle("~/Scripts/Dishes/Create").Include(
+                "~/Scripts/Dishes/Create.js"));
+
+            bundles.Add(new ScriptBundle("~/Scripts/Dishes/Edit").Include(
+                "~/Scripts/Dishes/Edit.js"));
         }
 
         private static void RegisterShared(BundleCollection bundles)

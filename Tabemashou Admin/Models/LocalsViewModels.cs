@@ -29,6 +29,16 @@ namespace Tabemashou_Admin.Models
         public int idDish { get; set; }
     }
 
+    public class DishRegister
+    {
+        public Restaurant restaurant { get; set; }
+        public int idRestaurant { get; set; }
+        public Dish dish { get; set; }
+        public IEnumerable<Photo> photos { get; set; }
+        public string uploadFilesNames { get; set; }
+        public string deletedFilesIds { get; set; }
+    }
+
     public class DishesRegisterModels
     {
         public Restaurant restaurant { get; set; }
@@ -41,4 +51,6 @@ namespace Tabemashou_Admin.Models
         public Restaurant restaurant { get; set; }
         public IEnumerable<Dish> dishes { get; set; }
     }
+
+
 }

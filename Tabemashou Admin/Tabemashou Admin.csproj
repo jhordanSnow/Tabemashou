@@ -511,6 +511,8 @@
     <Content Include="Scripts\Charts\Inline.js" />
     <Content Include="Scripts\Charts\Morris-menu.js" />
     <Content Include="Scripts\Charts\Morris.js" />
+    <Content Include="Scripts\Dishes\Create.js" />
+    <Content Include="Scripts\Dishes\Edit.js" />
     <Content Include="Scripts\Dishes\Index-menu.js" />
     <Content Include="Scripts\Dishes\Index.js" />
     <Content Include="Scripts\Documentation\Documentation-menu.js" />

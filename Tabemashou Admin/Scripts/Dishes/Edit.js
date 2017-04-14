@@ -1,44 +1,7 @@
 ﻿var finalFiles = [];
+var deletedFiles = [];
 
 $(function () {
-    var selectType = "#local_IdDistrict";
-    $(selectType).select2({
-        placeholder: 'Select a District',
-        width: '100%'
-    });
-
-    $(selectType).select2("val", null);
-
-    $('#searchMap').geocomplete({
-        map: "#Mapau",
-        mapOptions: {
-            scrollwheel: true
-        },
-        markerOptions: {
-            draggable: true
-        },
-        location: "CR SJ"
-    });
-
-
-    $("#searchMap").bind("geocode:result", function (event, result) {
-        $("#local_Latitude").val(result.geometry.location.lat());
-        $("#local_Longitude").val(result.geometry.location.lng());
-    });
-    $("#searchMap").bind("geocode:dragged", function (event, latLng) {
-        $("#local_Latitude").val(latLng.lat());
-        $("#local_Longitude").val(latLng.lng());
-    });
-
-    
-    $(".todo-list").todolist({
-        onCheck: function (ele) {
-            return ele;
-        },
-        onUncheck: function (ele) {
-            return ele;
-        }
-    });
 
     var inputLocalFont = document.getElementById("uploadFiles");
     inputLocalFont.addEventListener("change", previewImages, false);
@@ -75,4 +38,12 @@ function deleteImage(object) {
     $("#image_" + index + "").remove();
     delete finalFiles[index];
     $("#uploadFilesNames").val(finalFiles);
+}
+
+
+function deleteImageId(object) {
+    var index = $(object).attr("index-element");
+    $("#image_" + index + "").remove();
+    deletedFiles.push(index);
+    $("#deletedFilesIds").val(deletedFiles);
 }

@@ -229,5 +229,18 @@ namespace Tabemashou_Admin.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_DeleteLocalPhoto", idLocalParameter, idPhotoParameter);
         }
+    
+        public virtual int PR_DeleteDishPhoto(Nullable<int> idDish, Nullable<int> idPhoto)
+        {
+            var idDishParameter = idDish.HasValue ?
+                new ObjectParameter("IdDish", idDish) :
+                new ObjectParameter("IdDish", typeof(int));
+    
+            var idPhotoParameter = idPhoto.HasValue ?
+                new ObjectParameter("IdPhoto", idPhoto) :
+                new ObjectParameter("IdPhoto", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_DeleteDishPhoto", idDishParameter, idPhotoParameter);
+        }
     }
 }

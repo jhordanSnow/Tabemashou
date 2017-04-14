@@ -1,6 +1,9 @@
 ﻿using System.Data.Entity;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Web;
 using System.Web.Mvc;
 using Tabemashou_Admin.Models;
 
@@ -35,28 +38,62 @@ namespace Tabemashou_Admin.Controllers
         // GET: Dishes1/Create
         public ActionResult Create(int? id)
         {
-            ViewBag.restId = id;
-            Session["restId"] = id;
-            Session["restName"] = db.Restaurant.Find(id).Name;
-            return View();
+            DishRegister model = new DishRegister();
+            model.dish = new Dish();
+            model.restaurant = db.Restaurant.Find(id);
+            return View(model);
+        }
+
+        public byte[] FileUpload(HttpPostedFileBase file)
+        {
+
+            // save the image path path to the database or you can send image
+            // directly to database
+            // in-case if you want to store byte[] ie. for DB
+            byte[] array;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                file.InputStream.CopyTo(ms);
+                array = ms.GetBuffer();
+            }
+
+            return array;
         }
 
         // POST: Dishes1/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdDish,Description,Name,IdRestaurant")] Dish dish)
+        public ActionResult Create(DishRegister model)
         {
             if (ModelState.IsValid)
             {
-                dish.IdRestaurant = (int) Session["restId"];
+                Dish dish = model.dish;
+                dish.IdRestaurant = model.idRestaurant;
                 db.Dish.Add(dish);
+
+                string[] uploadFiles = model.uploadFilesNames.Split(',');
+                for (int i = 0; i < Request.Files.Count; i++)
+                {
+                    HttpPostedFileBase tmpFile = Request.Files[i];
+                    if (tmpFile != null && uploadFiles.Any(name => name == tmpFile.FileName) && uploadFiles.Length > 0)
+                    {
+                        byte[] dbImage = FileUpload(tmpFile);
+                        Photo tmpPhoto = new Photo();
+                        tmpPhoto.Photo1 = dbImage;
+                        db.Photo.Add(tmpPhoto);
+
+                        dish.Photo.Add(tmpPhoto);
+                        tmpPhoto.Dish.Add(dish);
+                        uploadFiles = uploadFiles.Where(name => name != tmpFile.FileName).ToArray();
+                    }
+                }
+
                 db.SaveChanges();
                 return RedirectToAction("Index", "Locals", new { id = dish.IdRestaurant });
             }
 
-            return View(dish);
+            return View(model);
         }
 
         // GET: Dishes/Edit/5
@@ -71,27 +108,55 @@ namespace Tabemashou_Admin.Controllers
             {
                 return HttpNotFound();
             }
-            Session["DishId"] = id;
-            return View(dish);
+
+            DishRegister model = new DishRegister
+            {
+                dish = dish,
+                photos = db.Photo.ToList().Where(m => m.Dish.Any(n => n.IdDish == dish.IdDish)),
+                restaurant = db.Restaurant.Find(dish.IdRestaurant)
+            };
+            return View(model);
         }
 
         // POST: Dishes/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(Dish model)
+        public ActionResult Edit(DishRegister model)
         {
-            Dish dish = db.Dish.Find(Session["DishId"]);
             if (ModelState.IsValid)
             {
-                dish.Name = model.Name;
-                dish.Description = model.Description;
+                Dish dish = db.Dish.Find(model.dish.IdDish);
+                dish.Name = model.dish.Name;
+                dish.Description = model.dish.Description;
                 db.Entry(dish).State = EntityState.Modified;
+
+                foreach (var idPhotoDelete in model.deletedFilesIds.Split(','))
+                {
+                    db.PR_DeleteDishPhoto(dish.IdDish, int.Parse(idPhotoDelete));
+                }
+
+                string[] uploadFiles = model.uploadFilesNames.Split(',');
+                for (int i = 0; i < Request.Files.Count; i++)
+                {
+                    HttpPostedFileBase tmpFile = Request.Files[i];
+                    if (tmpFile != null && uploadFiles.Any(name => name == tmpFile.FileName) && uploadFiles.Length > 0)
+                    {
+                        byte[] dbImage = FileUpload(tmpFile);
+                        Photo tmpPhoto = new Photo();
+                        tmpPhoto.Photo1 = dbImage;
+                        db.Photo.Add(tmpPhoto);
+
+                        dish.Photo.Add(tmpPhoto);
+                        tmpPhoto.Dish.Add(dish);
+                        uploadFiles = uploadFiles.Where(name => name != tmpFile.FileName).ToArray();
+                    }
+                }
+
                 db.SaveChanges();
                 return RedirectToAction("Index", "Locals", new { id = dish.IdRestaurant });
             }
-            return View(dish);
+            return View(model);
         }
 
         // GET: Dishes/Delete/5

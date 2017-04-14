@@ -169,7 +169,6 @@ namespace Tabemashou_Admin.Controllers
                                 tmpPhoto.Local.Add(tmpLocal);
                                 uploadFiles = uploadFiles.Where(name => name != tmpFile.FileName).ToArray();
                             }
-                            Debug.WriteLine(uploadFiles.Length);
                         }
 
                         db.SaveChanges();
