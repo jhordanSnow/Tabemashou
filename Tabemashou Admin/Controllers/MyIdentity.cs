@@ -207,7 +207,7 @@ namespace Tabemashou_Admin.Controllers
                 var user = dc.User.FirstOrDefault(a => a.Username.Equals(username) && a.Password.Equals(varPass));
                 if (user != null)
                 {
-                    return true;
+                    if (dc.Administrator.Find(user.IdCard) != null) return true;
                 }
             }
             return false;

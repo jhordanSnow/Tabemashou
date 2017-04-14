@@ -176,7 +176,7 @@ namespace Tabemashou_Admin.Controllers
                         dbTran.Commit();
                         return RedirectToAction("Index", "Locals", new { id = dataModel.idRestaurant });
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         dbTran.Rollback();
                         return RedirectToAction("Create", "Locals", new { id = dataModel.idRestaurant });
@@ -289,7 +289,7 @@ namespace Tabemashou_Admin.Controllers
                         dbTran.Commit();
                         return RedirectToAction("Index", "Locals", new { id = dataModel.idRestaurant });
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         dbTran.Rollback();
                         return RedirectToAction("Edit", "Locals", new { id = dataModel.local.IdLocal });
