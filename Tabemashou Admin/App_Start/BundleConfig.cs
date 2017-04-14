@@ -84,6 +84,9 @@ namespace Tabemashou_Admin
             bundles.Add(new ScriptBundle("~/Scripts/Locals/Create").Include(
                 "~/Scripts/Locals/Create.js"));
 
+            bundles.Add(new ScriptBundle("~/Scripts/Locals/Edit").Include(
+                "~/Scripts/Locals/Edit.js"));
+
             bundles.Add(new ScriptBundle("~/Scripts/Locals/geocomplete").Include(
                 "~/Scripts/Locals/jquery.geocomplete.js"));
 

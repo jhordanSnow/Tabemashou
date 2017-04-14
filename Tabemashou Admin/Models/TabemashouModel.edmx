@@ -655,6 +655,10 @@
         <Function Name="PR_DeleteLocal" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdLocal" Type="int" Mode="In" />
         </Function>
+        <Function Name="PR_DeleteLocalPhoto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdLocal" Type="int" Mode="In" />
+          <Parameter Name="IdPhoto" Type="int" Mode="In" />
+        </Function>
         <Function Name="PR_DeleteRestaurant" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="RestaurantId" Type="int" Mode="In" />
         </Function>
@@ -1480,7 +1484,11 @@
             <Parameter Name="TypeList" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="PR_DeleteLocal">
+          <Parameter Name="IdLocal" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="PR_DeleteLocalPhoto">
             <Parameter Name="IdLocal" Mode="In" Type="Int32" />
+            <Parameter Name="IdPhoto" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="PR_GetDistricts_Result">
@@ -1768,6 +1776,7 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="PR_UpdateRestaurantTypes" FunctionName="TabemashouModel.Store.PR_UpdateRestaurantTypes" />
           <FunctionImportMapping FunctionImportName="PR_DeleteLocal" FunctionName="TabemashouModel.Store.PR_DeleteLocal" />
+          <FunctionImportMapping FunctionImportName="PR_DeleteLocalPhoto" FunctionName="TabemashouModel.Store.PR_DeleteLocalPhoto" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

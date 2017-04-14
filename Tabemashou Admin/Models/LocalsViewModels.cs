@@ -17,6 +17,9 @@ namespace Tabemashou_Admin.Models
         public Local local { get; set; }
         public List<DishLocal> menu { get; set; }
         public IEnumerable<Photo> photos { get; set; }
+        public string uploadFilesNames { get; set; }
+        public string deletedFilesIds { get; set; }
+        public int cantMesas { get; set; }
     }
 
     public class DishLocal

@@ -8,8 +8,8 @@
             <a href="@Url.Action("Create", "Dishes", new { id = Model.restaurant.IdRestaurant})" class="btn btn-box-tool" ><i class="fa fa-plus"></i></a>
         </div><!-- /.box-tools -->
     </div><!-- /.box-header -->
-    <div class="box-body">
-        <div style="overflow-y: auto; max-height: 666px ">
+    <div class="box-body"  style="height: auto">
+        <div style="height: 420px; overflow-y: auto;float: left">
             @foreach (var item in Model.dishes)
             {
                 <div class="box box-primary collapsed-box">

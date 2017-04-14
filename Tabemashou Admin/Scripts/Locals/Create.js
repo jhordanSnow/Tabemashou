@@ -55,9 +55,9 @@ $(function () {
             finalFiles.push(fileList[i].name);
             var index = finalFiles.indexOf(fileList[i].name);
 
-            var content = "<div class='col-md-3' id='image_" + index +"'>";
-            content += "<a class='fa fa-trash' OnClick='deleteImage(this)' index-element='" + index+"'></a>";
-            content += "<img class='img-responsive' src='" + objectUrl + "' />";
+            var content = "<div class='col-md-3' style='overflow: hidden; height: 250px;margin-bottom:10px;' id='image_" + index +"'>";
+            content += "<a class='fa fa-remove btn btn-danger' style='float:right;position: absolute;' OnClick='deleteImage(this)' index-element='" + index+"'></a>";
+            content += "<img class='img-responsive img-rounded' src='" + objectUrl + "' />";
             content += "</div>";
 
             $('#contentImages').append(content);
