@@ -154,30 +154,35 @@ namespace Tabemashou_Admin.Controllers
                             db.Table.Add(tmpTable);
                         }
 
-                        string[] uploadFiles = dataModel.uploadFilesNames.Split(',');
-                        for (int i = 0; i < Request.Files.Count; i++)
+                        if (dataModel.uploadFilesNames != null)
                         {
-                            HttpPostedFileBase tmpFile = Request.Files[i];
-                            if (tmpFile != null && uploadFiles.Any(name => name == tmpFile.FileName) && uploadFiles.Length > 0)
+                            string[] uploadFiles = dataModel.uploadFilesNames.Split(',');
+                            for (int i = 0; i < Request.Files.Count; i++)
                             {
-                                byte[] dbImage = FileUpload(tmpFile);
-                                Photo tmpPhoto = new Photo();
-                                tmpPhoto.Photo1 = dbImage;
-                                db.Photo.Add(tmpPhoto);
+                                HttpPostedFileBase tmpFile = Request.Files[i];
+                                if (tmpFile != null && uploadFiles.Any(name => name == tmpFile.FileName) && uploadFiles.Length > 0)
+                                {
+                                    byte[] dbImage = FileUpload(tmpFile);
+                                    Photo tmpPhoto = new Photo();
+                                    tmpPhoto.Photo1 = dbImage;
+                                    db.Photo.Add(tmpPhoto);
 
-                                tmpLocal.Photo.Add(tmpPhoto);
-                                tmpPhoto.Local.Add(tmpLocal);
-                                uploadFiles = uploadFiles.Where(name => name != tmpFile.FileName).ToArray();
+                                    tmpLocal.Photo.Add(tmpPhoto);
+                                    tmpPhoto.Local.Add(tmpLocal);
+                                    uploadFiles = uploadFiles.Where(name => name != tmpFile.FileName).ToArray();
+                                }
                             }
                         }
 
                         db.SaveChanges();
                         dbTran.Commit();
+                        TempData["Success"] = "Local created successfully";
                         return RedirectToAction("Index", "Locals", new { id = dataModel.idRestaurant });
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         dbTran.Rollback();
+                        TempData["Error"] = ex.ToString();
                         return RedirectToAction("Create", "Locals", new { id = dataModel.idRestaurant });
                     }
                 }
@@ -208,7 +213,9 @@ namespace Tabemashou_Admin.Controllers
                 idRestaurant = local.IdRestaurant,
                 menu = GetMenuLocalEdit(id),
                 local = local,
-                photos = db.Photo.ToList().Where(m=>m.Local.Any(n => n.IdLocal == local.IdLocal))
+                photos = db.Photo.ToList().Where(m => m.Local.Any(n => n.IdLocal == local.IdLocal)),
+                uploadFilesNames = "",
+                deletedFilesIds = ""
             };
             return View(model);
         }
@@ -288,9 +295,10 @@ namespace Tabemashou_Admin.Controllers
                         dbTran.Commit();
                         return RedirectToAction("Index", "Locals", new { id = dataModel.idRestaurant });
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         dbTran.Rollback();
+                        TempData["Error"] = ex.ToString();
                         return RedirectToAction("Edit", "Locals", new { id = dataModel.local.IdLocal });
                     }
                 }
@@ -336,9 +344,11 @@ namespace Tabemashou_Admin.Controllers
 
         public FileContentResult Show(int id)
         {
-            Photo restaurant = db.Photo.Find(id);
-            var imagedata = restaurant.Photo1;
-            if (imagedata != null) return File(imagedata, "image/jpg");
+            var photos = db.Photo.ToList().Where(m => m.Local.Any(n => n.IdLocal == id));
+            var imagedata = photos.FirstOrDefault();
+            Debug.WriteLine(photos.Count());
+            if (photos.Any() && imagedata.Photo1 != null && imagedata.Photo1.Length > 0) return File(imagedata.Photo1, "image/jpg");
+            Debug.WriteLine("ESTO ENTRO AQUI");
             string path = Server.MapPath("~/Images/RestaurantLogos/default.png");
             byte[] array;
             using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))

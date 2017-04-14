@@ -14,7 +14,14 @@
 
 @Styles.Render("~/AdminLTE/plugins/select2/css")
 @Styles.Render("~/AdminLTE/plugins/fileUpload/css")
-
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <h4><i class="icon fa fa-check"></i> Error!</h4>
+        @TempData["Error"]
+    </div>
+}
     <div class="box box-solid box-default">
         <div class="box-header with-border">
             <h3 class="box-title">Register a new Local</h3>
@@ -55,7 +62,7 @@
                                         @Html.Label("Tables", new { @class = "control-label col-md-2" })
                                     </div>
                                     <div class="col-md-9">
-                                        @Html.EditorFor(model => model.cantMesas, new { htmlAttributes = new { @class = "form-control" , @Value = 1} })
+                                        @Html.EditorFor(model => model.cantMesas, new { htmlAttributes = new { @class = "form-control" , Value = 1, min = 0} })
                                     </div>
                                 </div>
                             </div>

@@ -129,7 +129,6 @@ namespace Tabemashou_User.Controllers
             bool error = false;
             var identity = (System.Web.HttpContext.Current.User as MyIdentity.MyPrincipal).Identity as MyIdentity;
             User loggedUser = db.User.FirstOrDefault(a => a.IdCard.Equals(model.profileData.IdCard));
-
             if (ModelState.IsValid && hashPassword(model.changePass.OldPassword) != loggedUser.Password)
             {
                 TempData["Error"] = "Current Password don't match";
@@ -212,7 +211,6 @@ namespace Tabemashou_User.Controllers
                     dbImage = FileUpload(image);
                     Debug.WriteLine(image);
                 }
-                Debug.WriteLine(image);
                 int query = db.PR_CreateCustomer(model.IdCard, model.Username, hashPassword(model.Password), model.Gender, model.BirthDate,
                                           model.Nationality, model.FirstName, model.MiddleName, model.LastName, model.SecondLastName, dbImage);
                 TempData["Success"] = "Success.";
@@ -262,6 +260,22 @@ namespace Tabemashou_User.Controllers
                 sBuilder.Append(hashedBytes[i].ToString("x2"));
             }
             return sBuilder.ToString();
+        }
+
+        public FileContentResult Show()
+        {
+            var identity = ((MyIdentity.MyPrincipal) System.Web.HttpContext.Current.User).Identity as MyIdentity;
+            Customer customer = db.Customer.Find(identity.User.IdCard);
+            var imagedata = customer.Photo;
+            if (imagedata != null && imagedata.Length > 0) return File(imagedata, "image/jpg");
+            string path = Server.MapPath("~/AdminLTE/dist/img/user.svg");
+            byte[] array;
+            using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))
+            {
+                array = new byte[fs.Length];
+                fs.Read(array, 0, (int)fs.Length);
+            }
+            return File(array, "image/jpg");
         }
     }
 }

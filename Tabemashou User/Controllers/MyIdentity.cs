@@ -1,8 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Security.Principal;
 using System.Text;
+using System.Web.Mvc;
 using System.Web.Security;
 using Tabemashou_User.Models;
 
@@ -12,11 +14,14 @@ namespace Tabemashou_User.Controllers
     {
         public IIdentity Identity { get; set; }
         public User User { get; set; }
+        public Customer Customer { get; set; }
 
         public MyIdentity(User user)
         {
             Identity = new GenericIdentity(user.Username);
             User = user;
+            Customer = new TabemashouEntities().Customer.Find(User.IdCard);
+
         }
 
         public string AuthenticationType
@@ -34,6 +39,10 @@ namespace Tabemashou_User.Controllers
             get { return Identity.Name; }
         }
 
+        public byte[] Photo
+        {
+            get { return Customer.Photo; }
+        }
 
         public class MyPrincipal : IPrincipal
         {
@@ -53,6 +62,8 @@ namespace Tabemashou_User.Controllers
             }
         }
     }
+
+
 
 
     public class MyMembershipProvider : MembershipProvider
