@@ -9,7 +9,22 @@ namespace Tabemashou_User
         public static void RegisterBundles(BundleCollection bundles)
         {
             RegisterLayout(bundles);
+
+            RegisterAccount(bundles);
         }
+
+        private static void RegisterAccount(BundleCollection bundles)
+        {
+            bundles.Add(new ScriptBundle("~/Scripts/Account/Login").Include(
+                "~/Scripts/Account/Login.js"));
+
+            bundles.Add(new ScriptBundle("~/Scripts/Account/Register").Include(
+                "~/Scripts/Account/Register.js"));
+
+            bundles.Add(new ScriptBundle("~/Scripts/Account/UserProfile").Include(
+                "~/Scripts/Account/UserProfile.js"));
+        }
+
 
         private static void RegisterLayout(BundleCollection bundles)
         {
@@ -25,7 +40,7 @@ namespace Tabemashou_User
                 "~/AdminLTE/dist/js/app.js"));
 
             bundles.Add(new StyleBundle("~/AdminLTE/dist/css").Include(
-                "~/AdminLTE/dist/css/admin-lte.min.css"));
+                "~/AdminLTE/dist/css/admin-lte.css"));
 
             bundles.Add(new StyleBundle("~/AdminLTE/dist/css/skins").Include(
                 "~/AdminLTE/dist/css/skins/_all-skins.min.css"));

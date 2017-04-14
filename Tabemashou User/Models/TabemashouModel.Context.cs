@@ -93,6 +93,55 @@ namespace Tabemashou_User.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_CreateAdministrator", idCardParameter, usernameParameter, passwordParameter, genderParameter, birthDateParameter, nationalityParameter, firstNameParameter, middleNameParameter, lastNameParameter, secondLastNameParameter);
         }
     
+        public virtual int PR_CreateCustomer(Nullable<decimal> idCard, string username, string password, string gender, Nullable<System.DateTime> birthDate, Nullable<int> nationality, string firstName, string middleName, string lastName, string secondLastName, byte[] photo)
+        {
+            var idCardParameter = idCard.HasValue ?
+                new ObjectParameter("IdCard", idCard) :
+                new ObjectParameter("IdCard", typeof(decimal));
+    
+            var usernameParameter = username != null ?
+                new ObjectParameter("Username", username) :
+                new ObjectParameter("Username", typeof(string));
+    
+            var passwordParameter = password != null ?
+                new ObjectParameter("Password", password) :
+                new ObjectParameter("Password", typeof(string));
+    
+            var genderParameter = gender != null ?
+                new ObjectParameter("Gender", gender) :
+                new ObjectParameter("Gender", typeof(string));
+    
+            var birthDateParameter = birthDate.HasValue ?
+                new ObjectParameter("BirthDate", birthDate) :
+                new ObjectParameter("BirthDate", typeof(System.DateTime));
+    
+            var nationalityParameter = nationality.HasValue ?
+                new ObjectParameter("Nationality", nationality) :
+                new ObjectParameter("Nationality", typeof(int));
+    
+            var firstNameParameter = firstName != null ?
+                new ObjectParameter("FirstName", firstName) :
+                new ObjectParameter("FirstName", typeof(string));
+    
+            var middleNameParameter = middleName != null ?
+                new ObjectParameter("MiddleName", middleName) :
+                new ObjectParameter("MiddleName", typeof(string));
+    
+            var lastNameParameter = lastName != null ?
+                new ObjectParameter("LastName", lastName) :
+                new ObjectParameter("LastName", typeof(string));
+    
+            var secondLastNameParameter = secondLastName != null ?
+                new ObjectParameter("SecondLastName", secondLastName) :
+                new ObjectParameter("SecondLastName", typeof(string));
+    
+            var photoParameter = photo != null ?
+                new ObjectParameter("Photo", photo) :
+                new ObjectParameter("Photo", typeof(byte[]));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_CreateCustomer", idCardParameter, usernameParameter, passwordParameter, genderParameter, birthDateParameter, nationalityParameter, firstNameParameter, middleNameParameter, lastNameParameter, secondLastNameParameter, photoParameter);
+        }
+    
         public virtual ObjectResult<Nullable<decimal>> PR_CreateLocal(Nullable<int> idRestaurant, Nullable<int> idDistrict, string detail, string latitude, string longitude)
         {
             var idRestaurantParameter = idRestaurant.HasValue ?

@@ -56,7 +56,7 @@
           </Key>
           <Property Name="IdCard" Type="numeric" Precision="20" Scale="0" Nullable="false" />
           <Property Name="AccountNumber" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Photo" Type="int" />
+          <Property Name="Photo" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="Dish">
           <Key>
@@ -633,6 +633,19 @@
           <Parameter Name="LastName" Type="varchar" Mode="In" />
           <Parameter Name="SecondLastName" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="PR_CreateCustomer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdCard" Type="numeric" Mode="In" />
+          <Parameter Name="Username" Type="varchar" Mode="In" />
+          <Parameter Name="Password" Type="varchar" Mode="In" />
+          <Parameter Name="Gender" Type="char" Mode="In" />
+          <Parameter Name="BirthDate" Type="date" Mode="In" />
+          <Parameter Name="Nationality" Type="int" Mode="In" />
+          <Parameter Name="FirstName" Type="varchar" Mode="In" />
+          <Parameter Name="MiddleName" Type="varchar" Mode="In" />
+          <Parameter Name="LastName" Type="varchar" Mode="In" />
+          <Parameter Name="SecondLastName" Type="varchar" Mode="In" />
+          <Parameter Name="Photo" Type="varbinary(max)" Mode="In" />
+        </Function>
         <Function Name="PR_CreateLocal" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdRestaurant" Type="int" Mode="In" />
           <Parameter Name="IdDistrict" Type="int" Mode="In" />
@@ -878,7 +891,7 @@
           </Key>
           <Property Name="IdCard" Type="Decimal" Precision="20" Scale="0" Nullable="false" />
           <Property Name="AccountNumber" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Photo" Type="Int32" />
+          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="User" Relationship="Self.FK_CustomerIdCard" FromRole="Customer" ToRole="User" />
           <NavigationProperty Name="PaymentByCustomer" Relationship="Self.FK_PaymentByCustomerIdCard" FromRole="Customer" ToRole="PaymentByCustomer" />
           <NavigationProperty Name="Review" Relationship="Self.FK_ReviewIdCustmoer" FromRole="Customer" ToRole="Review" />
@@ -1447,6 +1460,19 @@
             <Parameter Name="LastName" Mode="In" Type="String" />
             <Parameter Name="SecondLastName" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="PR_CreateCustomer">
+            <Parameter Name="IdCard" Mode="In" Type="Decimal" />
+            <Parameter Name="Username" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="Gender" Mode="In" Type="String" />
+            <Parameter Name="BirthDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Nationality" Mode="In" Type="Int32" />
+            <Parameter Name="FirstName" Mode="In" Type="String" />
+            <Parameter Name="MiddleName" Mode="In" Type="String" />
+            <Parameter Name="LastName" Mode="In" Type="String" />
+            <Parameter Name="SecondLastName" Mode="In" Type="String" />
+            <Parameter Name="Photo" Mode="In" Type="Binary" />
+          </FunctionImport>
           <FunctionImport Name="PR_CreateLocal" ReturnType="Collection(Decimal)">
             <Parameter Name="IdRestaurant" Mode="In" Type="Int32" />
             <Parameter Name="IdDistrict" Mode="In" Type="Int32" />
@@ -1744,6 +1770,7 @@
             </EndProperty>
           </AssociationSetMapping>
           <FunctionImportMapping FunctionImportName="PR_CreateAdministrator" FunctionName="TabemashouModel.Store.PR_CreateAdministrator" />
+          <FunctionImportMapping FunctionImportName="PR_CreateCustomer" FunctionName="TabemashouModel.Store.PR_CreateCustomer" />
           <FunctionImportMapping FunctionImportName="PR_CreateLocal" FunctionName="TabemashouModel.Store.PR_CreateLocal" />
           <FunctionImportMapping FunctionImportName="PR_CreateUser" FunctionName="TabemashouModel.Store.PR_CreateUser" />
           <FunctionImportMapping FunctionImportName="PR_DeleteLocal" FunctionName="TabemashouModel.Store.PR_DeleteLocal" />

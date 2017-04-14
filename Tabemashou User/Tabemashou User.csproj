@@ -545,16 +545,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Models\TabemashouModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>TabemashouModel.edmx</DependentUpon>
-      <LastGenOutput>TabemashouModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\TabemashouModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>TabemashouModel.edmx</DependentUpon>
-      <LastGenOutput>TabemashouModel.cs</LastGenOutput>
-    </Content>
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -571,13 +561,22 @@
     <Content Include="AdminLTE\plugins\ionicons\fonts\ionicons.eot" />
     <Content Include="AdminLTE\plugins\ionicons\fonts\ionicons.ttf" />
     <Content Include="AdminLTE\plugins\ionicons\fonts\ionicons.woff" />
-    <EntityDeploy Include="Models\TabemashouModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>TabemashouModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\TabemashouModel.edmx.diagram">
+    <Content Include="Images\Login_Background.png" />
+    <Content Include="Images\non.png" />
+    <Content Include="Images\RestaurantLogos\default.png" />
+    <Content Include="Models\TabemashouModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>TabemashouModel.edmx</DependentUpon>
+      <LastGenOutput>TabemashouModel.Context.cs</LastGenOutput>
     </Content>
+    <Content Include="Models\TabemashouModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>TabemashouModel.edmx</DependentUpon>
+      <LastGenOutput>TabemashouModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="Scripts\Account\Login.js" />
+    <Content Include="Scripts\Account\Register.js" />
+    <Content Include="Scripts\Account\UserProfile.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -604,6 +603,13 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\UserProfile.cshtml" />
+    <EntityDeploy Include="Models\TabemashouModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>TabemashouModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\TabemashouModel.edmx.diagram">
+      <DependentUpon>TabemashouModel.edmx</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

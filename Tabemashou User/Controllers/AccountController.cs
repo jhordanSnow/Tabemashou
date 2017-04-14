@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -200,18 +202,42 @@ namespace Tabemashou_User.Controllers
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult Register(RegisterViewModel model)
+        public ActionResult Register(RegisterViewModel model, HttpPostedFileBase image)
         {
             if (ModelState.IsValid && ValidateUserName(model.Username) && ValidateIdCard(model.IdCard))
             {
-
-                int query = db.PR_CreateAdministrator(model.IdCard, model.Username, hashPassword(model.Password), model.Gender, model.BirthDate,
-                                          model.Nationality, model.FirstName, model.MiddleName, model.LastName, model.SecondLastName);
+                byte[] dbImage = null;
+                if (image != null)
+                {
+                    dbImage = FileUpload(image);
+                    Debug.WriteLine(image);
+                }
+                Debug.WriteLine(image);
+                int query = db.PR_CreateCustomer(model.IdCard, model.Username, hashPassword(model.Password), model.Gender, model.BirthDate,
+                                          model.Nationality, model.FirstName, model.MiddleName, model.LastName, model.SecondLastName, dbImage);
                 TempData["Success"] = "Success.";
                 return RedirectToAction("Index", "Home");
             }
             ViewBag.Nationality = new SelectList(db.Country, "IdCountry", "Name", model.Nationality);
             return View(model);
+        }
+
+
+        public byte[] FileUpload(HttpPostedFileBase file)
+        {
+
+            // save the image path path to the database or you can send image
+            // directly to database
+            // in-case if you want to store byte[] ie. for DB
+            byte[] array;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                file.InputStream.CopyTo(ms);
+                array = ms.GetBuffer();
+            }
+
+            return array;
+
         }
 
         // POST: /Account/LogOff
