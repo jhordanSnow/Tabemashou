@@ -12,18 +12,19 @@
         var nameType = $("#tipos_Name").val();
         $.ajax({
             type: "POST",
-            url: "/Types/CreateType/",
+            url: "/Types/Create/",
             data: { 'name': nameType },
-            success: function (typeId) {
+            success: function(typeId) {
                 $('#modalAddType').modal('hide');
-                $(selectType).append($('<option>', {
-                    value: typeId,
-                    text: nameType
-                }));
-                $(selectType).select2({ width: '100%'});
+                $(selectType).append($('<option>',
+                    {
+                        value: typeId,
+                        text: nameType
+                    }));
+                $(selectType).select2({ width: '100%' });
                 $("#tipos_Name").val("");
             },
-            error: function (xhr) {
+            error: function(xhr) {
                 alert('There is another type with that name or name can\'t be null.');
             }
         });

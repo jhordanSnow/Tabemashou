@@ -209,10 +209,18 @@ namespace Tabemashou_Admin.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
-            Dish dish = db.Dish.Find(id);
-            db.Dish.Remove(dish);
+            int RestId;
+            string dishName;
+            using (TabemashouEntities dc = new TabemashouEntities())
+            {
+                Dish dish = dc.Dish.Find(id);
+                dishName = dish.Name;
+                RestId = dish.IdRestaurant;
+            }
+            TempData["Success"] = dishName + " deleted successfully.";
+            db.PR_DeleteDish(id);
             db.SaveChanges();
-            return RedirectToAction("Index", "Locals", new { id = dish.IdRestaurant });
+            return RedirectToAction("Index","Locals",new {id = RestId});
         }
 
         protected override void Dispose(bool disposing)

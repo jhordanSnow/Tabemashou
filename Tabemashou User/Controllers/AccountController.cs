@@ -78,7 +78,6 @@ namespace Tabemashou_User.Controllers
             var identity = (System.Web.HttpContext.Current.User as MyIdentity.MyPrincipal).Identity as MyIdentity;
             User loggedUser = db.User.Find(identity.User.IdCard);
             Customer customer = db.Customer.FirstOrDefault(a => a.IdCard.Equals(identity.User.IdCard));
-            Debug.WriteLine(customer.AccountNumber);
             ProfileEditViewModel model = new ProfileEditViewModel();
 
             model.profileData = new ProfileViewModel
@@ -104,11 +103,11 @@ namespace Tabemashou_User.Controllers
         {
             bool error = false;
             var identity = (System.Web.HttpContext.Current.User as MyIdentity.MyPrincipal).Identity as MyIdentity;
-            User loggedUser = db.User.FirstOrDefault(a => a.IdCard.Equals(model.profileData.IdCard));
-            Customer customer = db.Customer.FirstOrDefault(a => a.IdCard.Equals(model.profileData.IdCard));
+            User loggedUser = db.User.FirstOrDefault(a => a.IdCard.Equals(identity.User.IdCard));
+            Customer customer = db.Customer.Find(identity.User.IdCard);
 
-            //Arreglar este error :v
-            //error = (model.profileData.AccountNumber != customer.AccountNumber) ? !ValidateAccountNumber(model.profileData.AccountNumber) : error;
+           
+            error = (model.profileData.AccountNumber != customer.AccountNumber) ? !ValidateAccountNumber(model.profileData.AccountNumber) : error;
             error = (model.profileData.IdCard != identity.User.IdCard) ? !ValidateIdCard(model.profileData.IdCard) : error;
             error = (model.profileData.Username != identity.User.Username && !error) ? !ValidateUserName(model.profileData.Username) : error;
 

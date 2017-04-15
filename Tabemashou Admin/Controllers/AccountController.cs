@@ -73,7 +73,6 @@ namespace Tabemashou_Admin.Controllers
             ProfileEditViewModel model = new ProfileEditViewModel();
 
             model.profileData = new ProfileViewModel();
-
             model.profileData.IdCard = loggedUser.IdCard;
             model.profileData.FirstName = loggedUser.FirstName;
             model.profileData.LastName = loggedUser.LastName;
@@ -93,7 +92,7 @@ namespace Tabemashou_Admin.Controllers
         {
             bool error = false;
             var identity = (System.Web.HttpContext.Current.User as MyIdentity.MyPrincipal).Identity as MyIdentity;
-            User loggedUser = db.User.FirstOrDefault(a => a.IdCard.Equals(model.profileData.IdCard));
+            User loggedUser = db.User.FirstOrDefault(a => a.IdCard.Equals(identity.User.IdCard));
             error = (model.profileData.IdCard != identity.User.IdCard) ? !ValidateIdCard(model.profileData.IdCard) : error;
             error = (model.profileData.Username != identity.User.Username && !error) ? !ValidateUserName(model.profileData.Username) : error;
 
@@ -165,7 +164,6 @@ namespace Tabemashou_Admin.Controllers
         {
             if (UsernameInDb(username))
             {
-                TempData["Error"] = "The Username '" + username + "' is already taken.";
                 ModelState.AddModelError("", "The Username '" + username + "' is already taken.");
                 return false;
             }
@@ -178,7 +176,6 @@ namespace Tabemashou_Admin.Controllers
             var checkId = (from userCheckId in db.User where userCheckId.IdCard == idcard select "count(*)");
             if (checkId.Any())
             {
-                TempData["Error"] = "There is another user with Identification Card: " + idcard + ".";
                 ModelState.AddModelError("", "There is another user with Identification Card: " + idcard + ".");
                 return false;
             }

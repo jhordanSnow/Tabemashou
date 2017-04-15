@@ -64,7 +64,7 @@
                                         <div class="col-md-10">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
-                                                @Html.EditorFor(model => model.dish.Price, new { htmlAttributes = new { @class = "form-control", type = "number", step = "any" } })
+                                                @Html.EditorFor(model => model.dish.Price, new { htmlAttributes = new { @class = "form-control", type = "number", step = "any", min = 0 } })
 
                                             </div>
                                         </div>

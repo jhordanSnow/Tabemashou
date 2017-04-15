@@ -62,7 +62,7 @@
                                         <div class="col-md-10">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
-                                                @Html.EditorFor(model => model.dish.Price, new { htmlAttributes = new { @class = "form-control", type = "number", step = "any" } })
+                                                @Html.EditorFor(model => model.dish.Price, new { htmlAttributes = new { @class = "form-control", type = "number", step = "any", min = 0 } })
                                                 
                                             </div>
                                         </div>
@@ -70,7 +70,7 @@
                                     <div class="form-group row">
                                         @Html.LabelFor(model => model.restaurant.Type, htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-8">
-                                            @Html.ListBoxFor(m => m.restTypesId, new SelectList((new TabemashouEntities()).Type, "IdType", "Name"))
+                                            @Html.ListBoxFor(m => m.restTypesId, new SelectList((new TabemashouEntities()).PR_DishTypes(), "IdType", "Name"))
                                         </div>
                                         <div class="col-md-2">
                                             <button type="button" data-toggle="modal" data-target="#modalAddType" class="btn btn-block btn-success">
@@ -118,7 +118,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.tipos.Name, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.tipos.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.tipos.Name, new { htmlAttributes = new { @class = "form-control", type= "text" } })
                     </div>
                 </div>
             </div>

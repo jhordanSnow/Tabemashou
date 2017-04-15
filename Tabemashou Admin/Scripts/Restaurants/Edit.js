@@ -10,7 +10,7 @@
         var nameType = $("#tipos_Name").val();
         $.ajax({
             type: "POST",
-            url: "/Types/CreateType/",
+            url: "/Types/Create/",
             data: { 'name': nameType },
             success: function (typeId) {
                 $('#modalAddType').modal('hide');

@@ -10,14 +10,10 @@
 namespace Tabemashou_Admin.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Table
+    public partial class PR_DishTypes_Result
     {
-        public int IdTable { get; set; }
-        public string DistinctiveName { get; set; }
-        public int IdLocal { get; set; }
-    
-        public virtual Local Local { get; set; }
+        public int IdType { get; set; }
+        public string Name { get; set; }
     }
 }

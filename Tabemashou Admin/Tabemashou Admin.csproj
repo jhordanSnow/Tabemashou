@@ -233,10 +233,16 @@
     <Compile Include="Models\Province.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PR_DishTypes_Result.cs">
+      <DependentUpon>TabemashouModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PR_GetDistricts_Result.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PR_RestaurantInfo_Result.cs">
+      <DependentUpon>TabemashouModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PR_RestaurantTypes_Result.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Restaurant.cs">
@@ -556,6 +562,7 @@
     <Content Include="Scripts\Locals\Index-menu.js" />
     <Content Include="Scripts\Locals\Index.js" />
     <Content Include="Scripts\Restaurants\Create.js" />
+    <Content Include="Scripts\Restaurants\Edit.js" />
     <Content Include="Scripts\Restaurants\Index-menu.js" />
     <Content Include="Scripts\Restaurants\Index.js" />
     <Content Include="Scripts\Shared\_Layout.js" />

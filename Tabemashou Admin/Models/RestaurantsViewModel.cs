@@ -12,7 +12,7 @@ namespace Tabemashou_Admin.Models
     {
         public Restaurant restaurant { get; set; }
         public Type tipos { get; set; }
-        public List<System.Type> restTypes { get; set; }
+        public List<Type> restTypes { get; set; }
         public int[] restTypesId { get; set; }
         public MultiSelectList selectedItems { get; set; }
     }

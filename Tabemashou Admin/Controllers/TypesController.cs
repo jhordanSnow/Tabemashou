@@ -15,11 +15,10 @@ namespace Tabemashou_Admin.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult CreateType(string name)
+        public ActionResult Create(string name)
         {
 
             Models.Type type = new Models.Type();
-
             if (!(db.Type.Any(o => o.Name == name)) && name != "")
             {
                 type.Name = name;
@@ -31,6 +30,41 @@ namespace Tabemashou_Admin.Controllers
 
             throw new Exception("oh no");
         }
+
+
+        [HttpPost]
+        public ActionResult CreateTypePerDish(string name)
+        {
+
+            Models.Type type = new Models.Type();
+            if (!(db.PR_DishTypes().Any(o => o.Name == name)) && name != "")
+            {
+                type.Name = name;
+                db.Type.Add(type);
+                db.SaveChanges();
+
+                return Content((type.IdType).ToString());
+            }
+
+            throw new Exception("oh no");
+        }
+
+        [HttpPost]
+        public ActionResult CreateTypePerRestaurant(string name)
+        {
+            Models.Type type = new Models.Type();
+            if (!(db.PR_RestaurantTypes().Any(o => o.Name == name)) && name != "")
+            {
+                type.Name = name;
+                db.Type.Add(type);
+                db.SaveChanges();
+
+                return Content((type.IdType).ToString());
+            }
+
+            throw new Exception("oh no");
+        }
+
 
         // GET: Types/Edit/5
         public ActionResult Edit(int? id)

@@ -60,7 +60,7 @@
                             <div class="form-group row">
                                 @Html.LabelFor(model => model.restaurant.Type, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-8">
-                                    @Html.ListBoxFor(m => m.restTypesId, new SelectList((new TabemashouEntities()).Type, "IdType", "Name"))
+                                    @Html.ListBoxFor(m => m.restTypesId, new SelectList((new TabemashouEntities()).PR_RestaurantTypes(), "IdType", "Name"))
                                 </div>
                                 <div class="col-md-2">
                                     <button type="button" data-toggle="modal" data-target="#modalAddType" class="btn btn-block btn-success">
