@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'D:\Carlos\Documents\GitHub\Tabemashou\Tabemashou Admin\Models\TabemashouModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\Jhordan\Desktop\Stuff\Universidad\Semestre 3\Bases de Datos I\Proyecto\Final\Tabemashou\Tabemashou Admin\Models\TabemashouModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

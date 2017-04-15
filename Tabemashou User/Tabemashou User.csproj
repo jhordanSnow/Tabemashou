@@ -263,12 +263,6 @@
     <Compile Include="Models\Review.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
-      <DependentUpon>TabemashouModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sp_helpdiagrams_Result.cs">
-      <DependentUpon>TabemashouModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\TabemashouModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -615,6 +609,12 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\UserProfile.cshtml" />
+    <Content Include="Views\Checks\Create.cshtml" />
+    <Content Include="Views\Checks\Delete.cshtml" />
+    <Content Include="Views\Checks\Details.cshtml" />
+    <Content Include="Views\Checks\Edit.cshtml" />
+    <Content Include="Views\Checks\Index.cshtml" />
+    <Content Include="Views\Checks\Invalid.cshtml" />
     <EntityDeploy Include="Models\TabemashouModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>TabemashouModel.Designer.cs</LastGenOutput>
@@ -622,12 +622,6 @@
     <Content Include="Models\TabemashouModel.edmx.diagram">
       <DependentUpon>TabemashouModel.edmx</DependentUpon>
     </Content>
-    <Content Include="Views\Checks\Create.cshtml" />
-    <Content Include="Views\Checks\Delete.cshtml" />
-    <Content Include="Views\Checks\Details.cshtml" />
-    <Content Include="Views\Checks\Edit.cshtml" />
-    <Content Include="Views\Checks\Index.cshtml" />
-    <Content Include="Views\Checks\Invalid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -93,7 +93,7 @@ namespace Tabemashou_User.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_CreateAdministrator", idCardParameter, usernameParameter, passwordParameter, genderParameter, birthDateParameter, nationalityParameter, firstNameParameter, middleNameParameter, lastNameParameter, secondLastNameParameter);
         }
     
-        public virtual int PR_CreateCustomer(Nullable<decimal> idCard, string username, string password, string gender, Nullable<System.DateTime> birthDate, Nullable<int> nationality, string firstName, string middleName, string lastName, string secondLastName, byte[] photo)
+        public virtual int PR_CreateCustomer(Nullable<decimal> idCard, string username, string password, string gender, Nullable<System.DateTime> birthDate, Nullable<int> nationality, string firstName, string middleName, string lastName, string secondLastName, byte[] photo, Nullable<decimal> accountNumber)
         {
             var idCardParameter = idCard.HasValue ?
                 new ObjectParameter("IdCard", idCard) :
@@ -139,7 +139,11 @@ namespace Tabemashou_User.Models
                 new ObjectParameter("Photo", photo) :
                 new ObjectParameter("Photo", typeof(byte[]));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_CreateCustomer", idCardParameter, usernameParameter, passwordParameter, genderParameter, birthDateParameter, nationalityParameter, firstNameParameter, middleNameParameter, lastNameParameter, secondLastNameParameter, photoParameter);
+            var accountNumberParameter = accountNumber.HasValue ?
+                new ObjectParameter("AccountNumber", accountNumber) :
+                new ObjectParameter("AccountNumber", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_CreateCustomer", idCardParameter, usernameParameter, passwordParameter, genderParameter, birthDateParameter, nationalityParameter, firstNameParameter, middleNameParameter, lastNameParameter, secondLastNameParameter, photoParameter, accountNumberParameter);
         }
     
         public virtual int PR_CreateDetailCheck(Nullable<int> idDish, Nullable<int> idCheck)

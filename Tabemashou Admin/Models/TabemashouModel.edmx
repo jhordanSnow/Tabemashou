@@ -57,13 +57,8 @@
             <PropertyRef Name="IdCard" />
           </Key>
           <Property Name="IdCard" Type="numeric" Precision="20" Scale="0" Nullable="false" />
-<<<<<<< HEAD
-          <Property Name="Photo" Type="varbinary(max)" Nullable="false" />
           <Property Name="AccountNumber" Type="numeric" Precision="20" Scale="0" Nullable="false" StoreGeneratedPattern="Identity" />
-=======
-          <Property Name="AccountNumber" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Photo" Type="varbinary(max)" />
->>>>>>> origin/master
         </EntityType>
         <EntityType Name="Dish">
           <Key>
