@@ -23,6 +23,8 @@ namespace Tabemashou_Admin.Models
     
         public int IdCheck { get; set; }
         public decimal TotalPrice { get; set; }
+        public System.DateTime Date { get; set; }
+        public string State { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DishesByCheck> DishesByCheck { get; set; }

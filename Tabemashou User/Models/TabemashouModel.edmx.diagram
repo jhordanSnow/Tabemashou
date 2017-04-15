@@ -4,11 +4,10 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="109e39be01484fbd8e4a4ccc2501a06f" Name="Diagram1">
+      <Diagram DiagramId="109e39be01484fbd8e4a4ccc2501a06f" Name="Diagram1" ZoomLevel="75">
         <EntityTypeShape EntityType="TabemashouModel.Achievement" Width="1.5" PointX="3" PointY="16.625" IsExpanded="true" />
         <EntityTypeShape EntityType="TabemashouModel.Administrator" Width="1.5" PointX="5.25" PointY="12.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TabemashouModel.Canton" Width="1.5" PointX="5.25" PointY="9.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="TabemashouModel.Check" Width="1.5" PointX="14.25" PointY="8.625" IsExpanded="true" />
         <EntityTypeShape EntityType="TabemashouModel.Country" Width="1.5" PointX="0.75" PointY="11.25" IsExpanded="true" />
         <EntityTypeShape EntityType="TabemashouModel.Customer" Width="1.5" PointX="5.25" PointY="15.125" IsExpanded="true" />
         <EntityTypeShape EntityType="TabemashouModel.Dish" Width="1.5" PointX="14.25" PointY="12.125" IsExpanded="true" />
@@ -16,8 +15,6 @@
         <EntityTypeShape EntityType="TabemashouModel.DishesPerLocal" Width="1.5" PointX="12" PointY="9" IsExpanded="true" />
         <EntityTypeShape EntityType="TabemashouModel.District" Width="1.5" PointX="7.5" PointY="9.125" IsExpanded="true" />
         <EntityTypeShape EntityType="TabemashouModel.Local" Width="1.5" PointX="9.75" PointY="10.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="TabemashouModel.PARAMETER" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="TabemashouModel.PaymentByCustomer" Width="1.5" PointX="7.5" PointY="15.625" IsExpanded="true" />
         <EntityTypeShape EntityType="TabemashouModel.Photo" Width="1.5" PointX="12" PointY="12.5" IsExpanded="true" />
         <EntityTypeShape EntityType="TabemashouModel.Province" Width="1.5" PointX="3" PointY="9.125" IsExpanded="true" />
         <EntityTypeShape EntityType="TabemashouModel.Restaurant" Width="1.5" PointX="7.5" PointY="12.25" IsExpanded="true" />
@@ -29,12 +26,9 @@
         <AssociationConnector Association="TabemashouModel.FK_IdCard" ManuallyRouted="false" />
         <AssociationConnector Association="TabemashouModel.FK_IdCanton" ManuallyRouted="false" />
         <AssociationConnector Association="TabemashouModel.FK_IdProvince" ManuallyRouted="false" />
-        <AssociationConnector Association="TabemashouModel.FK_DishesByCheckCheck" ManuallyRouted="false" />
-        <AssociationConnector Association="TabemashouModel.FK_PaymentByCustomerIdCheck" ManuallyRouted="false" />
         <AssociationConnector Association="TabemashouModel.Fk_IdCountry" ManuallyRouted="false" />
         <AssociationConnector Association="TabemashouModel.FK_UserCountry" ManuallyRouted="false" />
         <AssociationConnector Association="TabemashouModel.FK_CustomerIdCard" ManuallyRouted="false" />
-        <AssociationConnector Association="TabemashouModel.FK_PaymentByCustomerIdCard" ManuallyRouted="false" />
         <AssociationConnector Association="TabemashouModel.FK_ReviewIdCustmoer" ManuallyRouted="false" />
         <AssociationConnector Association="TabemashouModel.FK_DishesByCheckDish" ManuallyRouted="false" />
         <AssociationConnector Association="TabemashouModel.FK_DishIdRestaurant" ManuallyRouted="false" />
@@ -50,6 +44,14 @@
         <AssociationConnector Association="TabemashouModel.PhotosPerLocal" ManuallyRouted="false" />
         <AssociationConnector Association="TabemashouModel.TypesPerDish" ManuallyRouted="false" />
         <AssociationConnector Association="TabemashouModel.TypesPerRestaurant" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="TabemashouModel.Check" Width="1.5" PointX="3.375" PointY="0.875" />
+        <AssociationConnector Association="TabemashouModel.FK_DishesByCheckCheck" />
+        <EntityTypeShape EntityType="TabemashouModel.PARAMETER" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="TabemashouModel.PaymentByCustomer" Width="1.5" PointX="7.875" PointY="5.25" />
+        <AssociationConnector Association="TabemashouModel.FK_PaymentByCustomerIdCheck" />
+        <AssociationConnector Association="TabemashouModel.FK_PaymentByCustomerIdCard" />
+        <AssociationConnector Association="TabemashouModel.FK_DishesByCheckCheck1" />
+        <AssociationConnector Association="TabemashouModel.FK_CheckIdLocal" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

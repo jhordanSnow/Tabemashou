@@ -30,7 +30,6 @@ namespace Tabemashou_User.Models
         public virtual DbSet<Achievement> Achievement { get; set; }
         public virtual DbSet<Administrator> Administrator { get; set; }
         public virtual DbSet<Canton> Canton { get; set; }
-        public virtual DbSet<Check> Check { get; set; }
         public virtual DbSet<Country> Country { get; set; }
         public virtual DbSet<Customer> Customer { get; set; }
         public virtual DbSet<Dish> Dish { get; set; }
@@ -38,8 +37,6 @@ namespace Tabemashou_User.Models
         public virtual DbSet<DishesPerLocal> DishesPerLocal { get; set; }
         public virtual DbSet<District> District { get; set; }
         public virtual DbSet<Local> Local { get; set; }
-        public virtual DbSet<PARAMETER> PARAMETER { get; set; }
-        public virtual DbSet<PaymentByCustomer> PaymentByCustomer { get; set; }
         public virtual DbSet<Photo> Photo { get; set; }
         public virtual DbSet<Province> Province { get; set; }
         public virtual DbSet<Restaurant> Restaurant { get; set; }
@@ -47,6 +44,9 @@ namespace Tabemashou_User.Models
         public virtual DbSet<Table> Table { get; set; }
         public virtual DbSet<Type> Type { get; set; }
         public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<Check> Check { get; set; }
+        public virtual DbSet<PARAMETER> PARAMETER { get; set; }
+        public virtual DbSet<PaymentByCustomer> PaymentByCustomer { get; set; }
     
         public virtual int PR_CreateAdministrator(Nullable<decimal> idCard, string username, string password, string gender, Nullable<System.DateTime> birthDate, Nullable<int> nationality, string firstName, string middleName, string lastName, string secondLastName)
         {
@@ -264,6 +264,67 @@ namespace Tabemashou_User.Models
                 new ObjectParameter("TypeList", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_UpdateRestaurantTypes", restaurantIdParameter, typeListParameter);
+        }
+    
+        public virtual int PR_DeleteDishPhoto(Nullable<int> idDish, Nullable<int> idPhoto)
+        {
+            var idDishParameter = idDish.HasValue ?
+                new ObjectParameter("IdDish", idDish) :
+                new ObjectParameter("IdDish", typeof(int));
+    
+            var idPhotoParameter = idPhoto.HasValue ?
+                new ObjectParameter("IdPhoto", idPhoto) :
+                new ObjectParameter("IdPhoto", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_DeleteDishPhoto", idDishParameter, idPhotoParameter);
+        }
+    
+        public virtual int PR_DeleteLocalPhoto(Nullable<int> idLocal, Nullable<int> idPhoto)
+        {
+            var idLocalParameter = idLocal.HasValue ?
+                new ObjectParameter("IdLocal", idLocal) :
+                new ObjectParameter("IdLocal", typeof(int));
+    
+            var idPhotoParameter = idPhoto.HasValue ?
+                new ObjectParameter("IdPhoto", idPhoto) :
+                new ObjectParameter("IdPhoto", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_DeleteLocalPhoto", idLocalParameter, idPhotoParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<decimal>> PR_NewCheck(Nullable<int> idLocal)
+        {
+            var idLocalParameter = idLocal.HasValue ?
+                new ObjectParameter("IdLocal", idLocal) :
+                new ObjectParameter("IdLocal", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("PR_NewCheck", idLocalParameter);
+        }
+    
+        public virtual int PR_CreateDetailCheck(Nullable<int> idDish, Nullable<int> idCheck)
+        {
+            var idDishParameter = idDish.HasValue ?
+                new ObjectParameter("IdDish", idDish) :
+                new ObjectParameter("IdDish", typeof(int));
+    
+            var idCheckParameter = idCheck.HasValue ?
+                new ObjectParameter("IdCheck", idCheck) :
+                new ObjectParameter("IdCheck", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_CreateDetailCheck", idDishParameter, idCheckParameter);
+        }
+    
+        public virtual int PR_CreatePaymentCheck(Nullable<decimal> idCard, Nullable<int> idCheck)
+        {
+            var idCardParameter = idCard.HasValue ?
+                new ObjectParameter("IdCard", idCard) :
+                new ObjectParameter("IdCard", typeof(decimal));
+    
+            var idCheckParameter = idCheck.HasValue ?
+                new ObjectParameter("IdCheck", idCheck) :
+                new ObjectParameter("IdCheck", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_CreatePaymentCheck", idCardParameter, idCheckParameter);
         }
     }
 }

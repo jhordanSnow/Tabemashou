@@ -11,6 +11,15 @@ namespace Tabemashou_User
             RegisterLayout(bundles);
 
             RegisterAccount(bundles);
+
+            RegisterChecks(bundles);
+        }
+
+        private static void RegisterChecks(BundleCollection bundles)
+        {
+            bundles.Add(new ScriptBundle("~/Scripts/Checks/Create").Include(
+                "~/Scripts/Checks/Create.js"));
+
         }
 
         private static void RegisterAccount(BundleCollection bundles)

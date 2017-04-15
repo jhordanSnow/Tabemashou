@@ -1,0 +1,233 @@
+use Tabemashou
+CREATE TABLE [PARAMETER] (
+  [PARAMETER] VARCHAR(50) NOT NULL,
+  [VALUE] VARCHAR(50) NOT NULL
+  CONSTRAINT PK_PARAMETER PRIMARY KEY(PARAMETER)
+);
+INSERT INTO [PARAMETER](PARAMETER, VALUE) VALUES('SELL_TAX',10)
+INSERT INTO [PARAMETER](PARAMETER, VALUE) VALUES('SERVICE_TAX',10)
+
+/* ---------------------------------------- Proyecto ------------------------------------ */
+
+CREATE TABLE [Country] (
+  [IdCountry] INT NOT NULL IDENTITY(1,1),
+  [Name] VARCHAR(50) NOT NULL
+  CONSTRAINT PK_IdCountry PRIMARY KEY(IdCountry)
+);
+
+CREATE TABLE [User] (
+  [IdCard] NUMERIC(20) NOT NULL,
+  [Username] VARCHAR(25) NOT NULL UNIQUE,
+  [Password] VARCHAR(255) NOT NULL,
+  [Gender] CHAR(1) NOT NULL CHECK(Gender = 'M' OR Gender = 'F'),
+  [BirthDate] DATE NOT NULL,
+  [Nationality] INT NOT NULL,
+  [FirstName] VARCHAR(50) NOT NULL,
+  [MiddleName] VARCHAR(50),
+  [LastName] VARCHAR(50) NOT NULL,
+  [SecondLastName] VARCHAR(50) 
+  CONSTRAINT PK_IdCard PRIMARY KEY(IdCard)
+  CONSTRAINT FK_UserCountry FOREIGN KEY(Nationality) REFERENCES Country
+);
+
+CREATE TABLE [Administrator] (
+  [IdCard] NUMERIC(20) PRIMARY KEY NOT NULL,
+  CONSTRAINT FK_IdCard FOREIGN KEY(IdCard) REFERENCES [User] ON UPDATE CASCADE
+);
+
+CREATE TABLE [Restaurant] (
+  [IdRestaurant] INT NOT NULL IDENTITY(1,1),
+  [Name] VARCHAR(50) NOT NULL,
+  [Logo] VARBINARY(MAX),
+  [IdAdmin] NUMERIC(20) NOT NULL
+  CONSTRAINT PK_IdRestaurant PRIMARY KEY(IdRestaurant)
+  CONSTRAINT FK_IdAdmin FOREIGN KEY(IdAdmin) REFERENCES [Administrator] ON UPDATE CASCADE
+);
+
+CREATE TABLE [Type] (
+  [IdType] INT NOT NULL IDENTITY(1,1),
+  [Name] VARCHAR(20) NOT NULL
+  CONSTRAINT PK_IdType PRIMARY KEY(IdType)
+);
+
+CREATE TABLE [TypesPerRestaurant] (
+  [IdRestaurant] INT NOT NULL,
+  [IdType] INT NOT NULL
+  CONSTRAINT PK_TypesPerRestaurant PRIMARY KEY(IdRestaurant, IdType)
+  CONSTRAINT FK_IdRestaurant FOREIGN KEY(IdRestaurant) REFERENCES [Restaurant] ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT FK_IdType FOREIGN KEY(IdType) REFERENCES [Type] ON UPDATE CASCADE
+);
+
+CREATE TABLE [TypesPerDish] (
+  [IdDish] INT NOT NULL,
+  [IdType] INT NOT NULL
+  CONSTRAINT PK_TypesPerDish PRIMARY KEY(IdDish, IdType)
+  CONSTRAINT FK_IdDish FOREIGN KEY(IdDish) REFERENCES [Dish],
+  CONSTRAINT FK_IdDishType FOREIGN KEY(IdType) REFERENCES [Type]
+);
+
+
+CREATE TABLE [Province] (
+  [IdProvince] INT NOT NULL IDENTITY(1,1),
+  [Name] VARCHAR(50) NOT NULL,
+  [IdCountry] INT NOT NULL
+  CONSTRAINT PK_IdProvince PRIMARY KEY(IdProvince)
+  CONSTRAINT Fk_IdCountry FOREIGN KEY(IdCountry) REFERENCES [Country]
+);
+
+CREATE TABLE [Canton] (
+  [IdCanton] INT NOT NULL IDENTITY(1,1),
+  [Name] VARCHAR(50) NOT NULL,
+  [IdProvince] INT NOT NULL
+  CONSTRAINT PK_IdCanton PRIMARY KEY(IdCanton),
+  CONSTRAINT FK_IdProvince FOREIGN KEY(IdProvince) REFERENCES [Province]
+);
+
+CREATE TABLE [District] (
+  [IdDistrict] INT NOT NULL IDENTITY(1,1),
+  [Name] VARCHAR(50) NOT NULL,
+  [IdCanton] INT NOT NULL
+  CONSTRAINT PK_IdDistrict PRIMARY KEY(IdDistrict),
+  CONSTRAINT FK_IdCanton FOREIGN KEY(IdCanton) REFERENCES [Canton]
+);
+
+CREATE TABLE [Local] (
+  [IdLocal]	INT NOT NULL IDENTITY(1,1),
+  [Name] INT NOT NULL,
+  [Latitude] VARCHAR(255) NOT NULL,
+  [Longitude] VARCHAR(255) NOT NULL,
+  [IdDistrict] INT NOT NULL,
+  [Detail] VARCHAR(50),
+  [IdRestaurant] INT NOT NULL
+  CONSTRAINT PK_IdLocal PRIMARY KEY(IdLocal),
+  CONSTRAINT FK_IdDistrict FOREIGN KEY(IdDistrict) REFERENCES [District],
+  CONSTRAINT FK_LocalIdRestaurant FOREIGN KEY(IdRestaurant) REFERENCES [Restaurant] ON DELETE CASCADE
+);
+
+CREATE TABLE [Table] (
+  [IdTable] INT NOT NULL IDENTITY(1,1),
+  [DistinctiveName] VARCHAR(25) NOT NULL,
+  [IdLocal] INT NOT NULL
+  CONSTRAINT PK_Id PRIMARY KEY(IdTable)
+  CONSTRAINT FK_LocalTable FOREIGN KEY(IdLocal) REFERENCES [Local] ON DELETE CASCADE
+);
+
+CREATE TABLE [Dish] (
+  [IdDish] INT NOT NULL IDENTITY(1,1),
+  [Description] VARCHAR(255) NOT NULL,
+  [Name] VARCHAR(50) NOT NULL,
+  [IdRestaurant] INT NOT NULL
+  CONSTRAINT PK_IdDish PRIMARY KEY(IdDish)
+  CONSTRAINT FK_DishIdRestaurant FOREIGN KEY(IdRestaurant) REFERENCES [Restaurant] ON DELETE CASCADE
+
+);
+
+CREATE TABLE [DishesPerLocal] (
+  [IdLocal] INT NOT NULL,
+  [IdDish] INT NOT NULL,
+  [State] BIT NOT NULL
+  CONSTRAINT PK_DishesPerLocal PRIMARY KEY(IdLocal,IdDish)
+  CONSTRAINT FK_LocalDish FOREIGN KEY(IdDish) REFERENCES [Dish] ON DELETE CASCADE,
+  CONSTRAINT FK_DishIdLocal FOREIGN KEY(IdLocal) REFERENCES [Local]
+);
+
+CREATE TABLE [Customer] (
+  [IdCard] NUMERIC(20) NOT NULL,
+  [AccountNumber] INT NOT NULL,
+  [Photo] VARBINARY(MAX) NOT NULL
+  CONSTRAINT PK_IdCustomer PRIMARY KEY(IdCard)
+  CONSTRAINT FK_CustomerIdCard FOREIGN KEY(IdCard) REFERENCES [User] ON UPDATE CASCADE
+);
+
+
+CREATE TABLE [FriendsByCustomer] (
+  [IdCard] NUMERIC(20) NOT NULL,
+  [IdFriend] NUMERIC(20) NOT NULL
+  CONSTRAINT PK_FriendsByCustomer PRIMARY KEY(IdCard, IdFriend)
+  CONSTRAINT FK_FriendsIdCustomer FOREIGN KEY(IdCard) REFERENCES [Customer] ON UPDATE CASCADE,
+  CONSTRAINT FK_FriendsIdFriend FOREIGN KEY(IdFriend) REFERENCES [Customer]
+);
+
+CREATE TABLE [Photo] (
+  [IdPhoto] INT NOT NULL IDENTITY(1,1),
+  [Photo] VARBINARY(MAX) NOT NULL
+  CONSTRAINT PK_IdPhoto PRIMARY KEY(IdPhoto)
+);
+
+CREATE TABLE [PhotosPerDish] (
+  [IdDish] INT NOT NULL,
+  [IdPhoto] INT NOT NULL
+  CONSTRAINT PK_PhotosPerDish PRIMARY KEY(IdDish, IdPhoto)
+  CONSTRAINT FK_PhotosPerDishIdDish FOREIGN KEY(IdDish) REFERENCES [Dish] ON DELETE CASCADE,
+  CONSTRAINT FK_idPhoto FOREIGN KEY(IdPhoto) REFERENCES [Photo] ON DELETE CASCADE
+);
+
+CREATE TABLE [PhotosPerLocal] (
+  [IdLocal] INT NOT NULL,
+  [IdPhoto] INT NOT NULL
+  CONSTRAINT PK_PhotosPerLocal PRIMARY KEY(IdLocal, IdPhoto)
+  CONSTRAINT FK_PhotosPerLocalIdIdLocal FOREIGN KEY(IdLocal) REFERENCES [Local] ON DELETE CASCADE,
+  CONSTRAINT FK_PhotosPerLocalIdPhoto FOREIGN KEY(IdPhoto) REFERENCES [Photo] ON DELETE CASCADE
+);
+
+CREATE TABLE [Review] (
+  [IdReview] INT NOT NULL IDENTITY(1,1),
+  [Date] DATETIME NOT NULL DEFAULT GETDATE(),
+  [Description] VARCHAR(255) NOT NULL,
+  [Price] NUMERIC(1) NOT NULL DEFAULT 1,
+  [Quality] NUMERIC(1) NOT NULL DEFAULT 1,
+  [IdCustomer] NUMERIC(20) NOT NULL,
+  [IdLocal] INT NOT NULL
+  CONSTRAINT PK_IdReview PRIMARY KEY(IdReview)
+  CONSTRAINT FK_ReviewIdCustmoer FOREIGN KEY(IdCustomer) REFERENCES [Customer] ON UPDATE CASCADE,
+  CONSTRAINT FK_ReviewIdLocal FOREIGN KEY(IdLocal) REFERENCES [Local]
+);
+
+
+CREATE TABLE [Check] (
+  [IdCheck] INT NOT NULL IDENTITY(1,1),
+  [IdLocal] INT NOT NULL,
+  [Date] DATETIME NOT NULL DEFAULT GETDATE(),
+  [State] VARCHAR(50) NOT NULL DEFAULT 'In Process',
+  [Balance] DECIMAL(10,3) NOT NULL
+  CONSTRAINT PK_IdCheck PRIMARY KEY(IdCheck)
+  CONSTRAINT FK_CheckIdLocal FOREIGN KEY(IdLocal) REFERENCES [Local]
+);
+
+CREATE TABLE [PaymentByCustomer] (
+  [IdCard] NUMERIC(20) NOT NULL,
+  [IdCheck] INT NOT NULL,
+  [Date] DATETIME NOT NULL DEFAULT GETDATE(),
+  [TotalPrice] NUMERIC(20) NOT NULL
+  CONSTRAINT PK_PaymentByCustomer PRIMARY KEY(IdCard, IdCheck)
+  CONSTRAINT FK_PaymentByCustomerIdCard FOREIGN KEY(IdCard) REFERENCES [Customer] ON UPDATE CASCADE,
+  CONSTRAINT FK_PaymentByCustomerIdCheck FOREIGN KEY(IdCheck) REFERENCES [Check]
+);
+
+CREATE TABLE [DishesByCheck] (
+  [UnitaryPrice] NUMERIC(20) NOT NULL,
+  [Quantity] NUMERIC(3) NOT NULL DEFAULT 1,
+  [SellTax] NUMERIC(3) NOT NULL,
+  [ServiceTax] NUMERIC(3) NOT NULL,
+  [IdDish] INT NOT NULL,
+  [IdCheck] INT NOT NULL
+  CONSTRAINT PK_DishesByCheck PRIMARY KEY(IdDish, IdCheck)
+  CONSTRAINT FK_DishesByCheckDish FOREIGN KEY(IdDish) REFERENCES [Dish],
+  CONSTRAINT FK_DishesByCheckCheck FOREIGN KEY(IdCheck) REFERENCES [Check]
+);
+
+CREATE TABLE [Achievement] (
+  [IdAchivement] INT NOT NULL IDENTITY(1,1),
+  [Description] VARCHAR(255) NOT NULL,
+  [Icon] VARBINARY(MAX),
+  [Experience] NUMERIC(20) NOT NULL DEFAULT 0
+  CONSTRAINT PK_Achievements PRIMARY KEY(IdAchivement)
+);
+
+CREATE TABLE [AchievementsByCustomer] (
+  [IdCard] NUMERIC(20) NOT NULL,
+  [IdAchievement] INT NOT NULL
+  CONSTRAINT PK_AchievementsByCustomer PRIMARY KEY(IdCard, IdAchievement)
+  CONSTRAINT FK_AchievementsByCustomerCard FOREIGN KEY(IdCard) REFERENCES [Customer],
+  CONSTRAINT FK_AchievementsByCustomerAchievement FOREIGN KEY(IdAchievement) REFERENCES [Achievement]
+);

@@ -21,7 +21,8 @@ namespace Tabemashou_User.Models
         public int IdDish { get; set; }
         public int IdCheck { get; set; }
     
-        public virtual Check Check { get; set; }
         public virtual Dish Dish { get; set; }
+        public virtual Check Check { get; set; }
+        public virtual Check Check1 { get; set; }
     }
 }

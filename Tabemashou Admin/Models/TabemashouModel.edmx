@@ -41,6 +41,8 @@
             <PropertyRef Name="IdCheck" />
           </Key>
           <Property Name="IdCheck" Type="int" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="State" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="TotalPrice" Type="decimal" Precision="10" Scale="3" Nullable="false" />
         </EntityType>
         <EntityType Name="Country">
@@ -55,8 +57,8 @@
             <PropertyRef Name="IdCard" />
           </Key>
           <Property Name="IdCard" Type="numeric" Precision="20" Scale="0" Nullable="false" />
-          <Property Name="AccountNumber" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Photo" Type="varbinary(max)" Nullable="false" />
+          <Property Name="AccountNumber" Type="numeric" Precision="20" Scale="0" Nullable="false" StoreGeneratedPattern="Identity" />
         </EntityType>
         <EntityType Name="Dish">
           <Key>
@@ -66,6 +68,7 @@
           <Property Name="Description" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="IdRestaurant" Type="int" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="0" Nullable="false" />
         </EntityType>
         <EntityType Name="DishesByCheck">
           <Key>
@@ -131,6 +134,7 @@
           </Key>
           <Property Name="IdCard" Type="numeric" Precision="20" Scale="0" Nullable="false" />
           <Property Name="IdCheck" Type="int" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
           <Property Name="TotalPrice" Type="numeric" Precision="20" Scale="0" Nullable="false" />
         </EntityType>
         <EntityType Name="Photo">
@@ -633,6 +637,19 @@
           <Parameter Name="LastName" Type="varchar" Mode="In" />
           <Parameter Name="SecondLastName" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="PR_CreateCustomer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdCard" Type="numeric" Mode="In" />
+          <Parameter Name="Username" Type="varchar" Mode="In" />
+          <Parameter Name="Password" Type="varchar" Mode="In" />
+          <Parameter Name="Gender" Type="char" Mode="In" />
+          <Parameter Name="BirthDate" Type="date" Mode="In" />
+          <Parameter Name="Nationality" Type="int" Mode="In" />
+          <Parameter Name="FirstName" Type="varchar" Mode="In" />
+          <Parameter Name="MiddleName" Type="varchar" Mode="In" />
+          <Parameter Name="LastName" Type="varchar" Mode="In" />
+          <Parameter Name="SecondLastName" Type="varchar" Mode="In" />
+          <Parameter Name="Photo" Type="varbinary(max)" Mode="In" />
+        </Function>
         <Function Name="PR_CreateLocal" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdRestaurant" Type="int" Mode="In" />
           <Parameter Name="IdDistrict" Type="int" Mode="In" />
@@ -869,6 +886,8 @@
           <Property Name="TotalPrice" Type="Decimal" Precision="10" Scale="3" Nullable="false" />
           <NavigationProperty Name="DishesByCheck" Relationship="Self.FK_DishesByCheckCheck" FromRole="Check" ToRole="DishesByCheck" />
           <NavigationProperty Name="PaymentByCustomer" Relationship="Self.FK_PaymentByCustomerIdCheck" FromRole="Check" ToRole="PaymentByCustomer" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="State" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Country">
           <Key>
@@ -906,6 +925,7 @@
           <NavigationProperty Name="DishesPerLocal" Relationship="Self.FK_LocalDish" FromRole="Dish" ToRole="DishesPerLocal" />
           <NavigationProperty Name="Photo" Relationship="Self.PhotosPerDish" FromRole="Dish" ToRole="Photo" />
           <NavigationProperty Name="Type" Relationship="Self.TypesPerDish" FromRole="Dish" ToRole="Type" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
         </EntityType>
         <EntityType Name="DishesByCheck">
           <Key>
@@ -978,6 +998,7 @@
           <Property Name="TotalPrice" Type="Decimal" Precision="20" Scale="0" Nullable="false" />
           <NavigationProperty Name="Check" Relationship="Self.FK_PaymentByCustomerIdCheck" FromRole="PaymentByCustomer" ToRole="Check" />
           <NavigationProperty Name="Customer" Relationship="Self.FK_PaymentByCustomerIdCard" FromRole="PaymentByCustomer" ToRole="Customer" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <EntityType Name="Photo">
           <Key>
@@ -1498,6 +1519,19 @@
             <Parameter Name="IdDish" Mode="In" Type="Int32" />
             <Parameter Name="IdPhoto" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="PR_CreateCustomer">
+            <Parameter Name="IdCard" Mode="In" Type="Decimal" />
+            <Parameter Name="Username" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="Gender" Mode="In" Type="String" />
+            <Parameter Name="BirthDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Nationality" Mode="In" Type="Int32" />
+            <Parameter Name="FirstName" Mode="In" Type="String" />
+            <Parameter Name="MiddleName" Mode="In" Type="String" />
+            <Parameter Name="LastName" Mode="In" Type="String" />
+            <Parameter Name="SecondLastName" Mode="In" Type="String" />
+            <Parameter Name="Photo" Mode="In" Type="Binary" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="PR_GetDistricts_Result">
           <Property Type="Int32" Name="IdDistrict" Nullable="false" />
@@ -1545,6 +1579,8 @@
           <EntitySetMapping Name="Check">
             <EntityTypeMapping TypeName="TabemashouModel.Check">
               <MappingFragment StoreEntitySet="Check">
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="IdCheck" ColumnName="IdCheck" />
                 <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
               </MappingFragment>
@@ -1570,6 +1606,7 @@
           <EntitySetMapping Name="Dish">
             <EntityTypeMapping TypeName="TabemashouModel.Dish">
               <MappingFragment StoreEntitySet="Dish">
+                <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="IdDish" ColumnName="IdDish" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1631,6 +1668,7 @@
           <EntitySetMapping Name="PaymentByCustomer">
             <EntityTypeMapping TypeName="TabemashouModel.PaymentByCustomer">
               <MappingFragment StoreEntitySet="PaymentByCustomer">
+                <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="IdCard" ColumnName="IdCard" />
                 <ScalarProperty Name="IdCheck" ColumnName="IdCheck" />
                 <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
@@ -1786,6 +1824,7 @@
           <FunctionImportMapping FunctionImportName="PR_DeleteLocal" FunctionName="TabemashouModel.Store.PR_DeleteLocal" />
           <FunctionImportMapping FunctionImportName="PR_DeleteLocalPhoto" FunctionName="TabemashouModel.Store.PR_DeleteLocalPhoto" />
           <FunctionImportMapping FunctionImportName="PR_DeleteDishPhoto" FunctionName="TabemashouModel.Store.PR_DeleteDishPhoto" />
+          <FunctionImportMapping FunctionImportName="PR_CreateCustomer" FunctionName="TabemashouModel.Store.PR_CreateCustomer" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
