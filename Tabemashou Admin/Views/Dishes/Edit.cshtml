@@ -5,12 +5,16 @@
     ViewBag.Title = "Edit a Dish";
     ViewBag.Breadcrumb = new Breadcrumb(new[]{
         new Crumb("Restaurants", @Url.Action("Index","Restaurants"), "fa-cutlery"),
-        new Crumb(Model.restaurant.Name, @Url.Action("Index", "Locals", new { id = Model.restaurant.IdRestaurant })),
+        new Crumb(Model.restaurant.Name, @Url.Action("Index", "Locals", new { id = Model.idRestaurant })),
         new Crumb("Menu", "","fa-spoon"),
         new Crumb(Model.dish.Name, "", ""),
 
     });
 }
+
+
+@Styles.Render("~/AdminLTE/plugins/select2/css")
+@Styles.Render("~/AdminLTE/dist/css")
 
 @if (!ViewContext.ViewData.ModelState.IsValid )
 {
@@ -55,6 +59,27 @@
                                             @Html.EditorFor(model => model.dish.Description, new { htmlAttributes = new { @class = "form-control" } })
                                         </div>
                                     </div>
+                                    <div class="form-group row">
+                                        @Html.LabelFor(model => model.dish.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
+                                                @Html.EditorFor(model => model.dish.Price, new { htmlAttributes = new { @class = "form-control", type = "number", step = "any" } })
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        @Html.LabelFor(model => model.restaurant.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-8">
+                                            @Html.ListBoxFor(m => m.restTypesId, Model.selectedItems)
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button type="button" data-toggle="modal" data-target="#modalAddType" class="btn btn-block btn-success">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -90,6 +115,36 @@
     </div>
 </div>
 
+
+<div class="modal" id="modalAddType">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title"> Create a Type</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.tipos.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.tipos.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cancel</button>
+                <button type="button" id="createType" class="btn btn-primary">Create</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
 @section Scripts {
     @Scripts.Render("~/Scripts/Dishes/Edit")
+    @Scripts.Render("~/AdminLTE/plugins/select2/js")
 }

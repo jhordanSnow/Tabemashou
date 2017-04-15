@@ -260,6 +260,12 @@
     <Compile Include="Models\Review.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>TabemashouModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagrams_Result.cs">
+      <DependentUpon>TabemashouModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TabemashouModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

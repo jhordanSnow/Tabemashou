@@ -71,8 +71,18 @@ namespace Tabemashou_Admin.Controllers
             if (ModelState.IsValid)
             {
                 Dish dish = model.dish;
+                if (model.restTypesId != null)
+                {
+                    foreach (var typeId in model.restTypesId)
+                    {
+                        Type restType = db.Type.Find(typeId);
+                        restType.Dish.Add(dish);
+                        dish.Type.Add(restType);
+                    }
+                }
                 dish.IdRestaurant = model.idRestaurant;
                 db.Dish.Add(dish);
+
                 if (model.uploadFilesNames != null)
                 {
                     string[] uploadFiles = model.uploadFilesNames.Split(',');
@@ -119,8 +129,10 @@ namespace Tabemashou_Admin.Controllers
                 restaurant = db.Restaurant.Find(dish.IdRestaurant),
                 deletedFilesIds = "",
                 uploadFilesNames = "",
-                idRestaurant = dish.IdRestaurant
-            };
+                idRestaurant = dish.IdRestaurant,
+                selectedItems = new MultiSelectList(db.Type, "IdType", "Name", dish.Type.Select(t => t.IdType))
+        };
+          
             return View(model);
         }
 
@@ -130,46 +142,52 @@ namespace Tabemashou_Admin.Controllers
         [HttpPost]
         public ActionResult Edit(DishRegister model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                Dish dish = db.Dish.Find(model.dish.IdDish);
-                dish.Name = model.dish.Name;
-                dish.Description = model.dish.Description;
-                db.Entry(dish).State = EntityState.Modified;
-
-                if (model.deletedFilesIds != null)
-                {
-                    foreach (var idPhotoDelete in model.deletedFilesIds.Split(','))
-                    {
-                        db.PR_DeleteDishPhoto(dish.IdDish, int.Parse(idPhotoDelete));
-                    }
-                }
-
-                if (model.uploadFilesNames != null)
-                {
-                    string[] uploadFiles = model.uploadFilesNames.Split(',');
-                    for (int i = 0; i < Request.Files.Count; i++)
-                    {
-                        HttpPostedFileBase tmpFile = Request.Files[i];
-                        if (tmpFile != null && uploadFiles.Any(name => name == tmpFile.FileName) &&
-                            uploadFiles.Length > 0)
-                        {
-                            byte[] dbImage = FileUpload(tmpFile);
-                            Photo tmpPhoto = new Photo();
-                            tmpPhoto.Photo1 = dbImage;
-                            db.Photo.Add(tmpPhoto);
-
-                            dish.Photo.Add(tmpPhoto);
-                            tmpPhoto.Dish.Add(dish);
-                            uploadFiles = uploadFiles.Where(name => name != tmpFile.FileName).ToArray();
-                        }
-                    }
-                }
-
-                db.SaveChanges();
-                return RedirectToAction("Index", "Locals", new { id = dish.IdRestaurant });
+                model.selectedItems = new MultiSelectList(db.Type, "IdType", "Name", model.dish.Type.Select(t => t.IdType));
+                model.restaurant = db.Restaurant.Find(model.idRestaurant);
+                model.photos = db.Photo.ToList().Where(m => m.Dish.Any(n => n.IdDish == model.dish.IdDish));
+                model.deletedFilesIds = "";
+                model.uploadFilesNames = "";
+                return View(model);
             }
-            return View(model);
+            Dish dish = db.Dish.Find(model.dish.IdDish);
+            dish.Name = model.dish.Name;
+            dish.Description = model.dish.Description;
+            dish.Price = model.dish.Price;
+            db.Entry(dish).State = EntityState.Modified;
+
+            if (model.deletedFilesIds != null)
+            {
+                foreach (var idPhotoDelete in model.deletedFilesIds.Split(','))
+                {
+                    db.PR_DeleteDishPhoto(dish.IdDish, int.Parse(idPhotoDelete));
+                }
+            }
+
+            if (model.uploadFilesNames != null)
+            {
+                string[] uploadFiles = model.uploadFilesNames.Split(',');
+                for (int i = 0; i < Request.Files.Count; i++)
+                {
+                    HttpPostedFileBase tmpFile = Request.Files[i];
+                    if (tmpFile != null && uploadFiles.Any(name => name == tmpFile.FileName) &&
+                        uploadFiles.Length > 0)
+                    {
+                        byte[] dbImage = FileUpload(tmpFile);
+                        Photo tmpPhoto = new Photo();
+                        tmpPhoto.Photo1 = dbImage;
+                        db.Photo.Add(tmpPhoto);
+
+                        dish.Photo.Add(tmpPhoto);
+                        tmpPhoto.Dish.Add(dish);
+                        uploadFiles = uploadFiles.Where(name => name != tmpFile.FileName).ToArray();
+                    }
+                }
+            }
+
+            db.SaveChanges();
+            return RedirectToAction("Index", "Locals", new { id = dish.IdRestaurant });
         }
 
         // GET: Dishes/Delete/5

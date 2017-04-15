@@ -77,19 +77,23 @@ namespace Tabemashou_User.Controllers
 
             var identity = (System.Web.HttpContext.Current.User as MyIdentity.MyPrincipal).Identity as MyIdentity;
             User loggedUser = db.User.Find(identity.User.IdCard);
+            Customer customer = db.Customer.FirstOrDefault(a => a.IdCard.Equals(identity.User.IdCard));
+            Debug.WriteLine(customer.AccountNumber);
             ProfileEditViewModel model = new ProfileEditViewModel();
 
-            model.profileData = new ProfileViewModel();
-
-            model.profileData.IdCard = loggedUser.IdCard;
-            model.profileData.FirstName = loggedUser.FirstName;
-            model.profileData.LastName = loggedUser.LastName;
-            model.profileData.BirthDate = loggedUser.BirthDate;
-            model.profileData.Nationality = loggedUser.Nationality;
-            model.profileData.Username = loggedUser.Username;
-            model.profileData.MiddleName = loggedUser.MiddleName;
-            model.profileData.SecondLastName = loggedUser.SecondLastName;
-            model.profileData.Gender = loggedUser.Gender;
+            model.profileData = new ProfileViewModel
+            {
+                Username = loggedUser.Username,
+                IdCard = loggedUser.IdCard,
+                FirstName = loggedUser.FirstName,
+                MiddleName = loggedUser.MiddleName,
+                LastName = loggedUser.LastName,
+                SecondLastName = loggedUser.SecondLastName,
+                Gender = loggedUser.Gender,
+                BirthDate = loggedUser.BirthDate,
+                Nationality = loggedUser.Nationality,
+                AccountNumber = customer.AccountNumber,
+            };
 
             ViewBag.Nationality = new SelectList(db.Country, "IdCountry", "Name", loggedUser.Nationality);
             return View(model);
@@ -101,6 +105,10 @@ namespace Tabemashou_User.Controllers
             bool error = false;
             var identity = (System.Web.HttpContext.Current.User as MyIdentity.MyPrincipal).Identity as MyIdentity;
             User loggedUser = db.User.FirstOrDefault(a => a.IdCard.Equals(model.profileData.IdCard));
+            Customer customer = db.Customer.FirstOrDefault(a => a.IdCard.Equals(model.profileData.IdCard));
+
+            //Arreglar este error :v
+            //error = (model.profileData.AccountNumber != customer.AccountNumber) ? !ValidateAccountNumber(model.profileData.AccountNumber) : error;
             error = (model.profileData.IdCard != identity.User.IdCard) ? !ValidateIdCard(model.profileData.IdCard) : error;
             error = (model.profileData.Username != identity.User.Username && !error) ? !ValidateUserName(model.profileData.Username) : error;
 
@@ -116,6 +124,9 @@ namespace Tabemashou_User.Controllers
                 loggedUser.Gender = model.profileData.Gender;
                 loggedUser.Nationality = model.profileData.Nationality;
                 db.Entry(loggedUser).State = EntityState.Modified;
+
+                customer.AccountNumber = model.profileData.AccountNumber;
+                db.Entry(customer).State = EntityState.Modified;
                 db.SaveChanges();
                 TempData["Success"] = "Profile correctly updated.";
                 return RedirectToAction("UserProfile", "Account");
@@ -191,6 +202,18 @@ namespace Tabemashou_User.Controllers
             return true;
         }
 
+        public bool ValidateAccountNumber(decimal AccountNumber)
+        {
+            var checkId = (from userCheckId in db.Customer where userCheckId.AccountNumber == AccountNumber select "count(*)");
+            if (checkId.Any())
+            {
+                TempData["Error"] = "There is another user with Account Number: " + AccountNumber + ".";
+                ModelState.AddModelError("", "There is another user with Account Number: " + AccountNumber + ".");
+                return false;
+            }
+            return true;
+        }
+
         [AllowAnonymous]
         public ActionResult Register(string returnUrl)
         {
@@ -203,7 +226,7 @@ namespace Tabemashou_User.Controllers
         [AllowAnonymous]
         public ActionResult Register(RegisterViewModel model, HttpPostedFileBase image)
         {
-            if (ModelState.IsValid && ValidateUserName(model.Username) && ValidateIdCard(model.IdCard))
+            if (ModelState.IsValid && ValidateUserName(model.Username) && ValidateIdCard(model.IdCard) && ValidateAccountNumber(model.AccountNumber))
             {
                 byte[] dbImage = null;
                 if (image != null)
@@ -212,7 +235,7 @@ namespace Tabemashou_User.Controllers
                     Debug.WriteLine(image);
                 }
                 int query = db.PR_CreateCustomer(model.IdCard, model.Username, hashPassword(model.Password), model.Gender, model.BirthDate,
-                                          model.Nationality, model.FirstName, model.MiddleName, model.LastName, model.SecondLastName, dbImage);
+                                          model.Nationality, model.FirstName, model.MiddleName, model.LastName, model.SecondLastName, dbImage,model.AccountNumber);
                 TempData["Success"] = "Success.";
                 return RedirectToAction("Index", "Home");
             }

@@ -53,6 +53,9 @@ namespace Tabemashou_User.Models
         public string LastName { get; set; }
 
         public string SecondLastName { get; set; }
+
+        [Required]
+        public decimal AccountNumber { get; set; }
     }
 
     public class ProfileEditViewModel
@@ -110,5 +113,8 @@ namespace Tabemashou_User.Models
         public string LastName { get; set; }
 
         public string SecondLastName { get; set; }
+
+        [Required]
+        public decimal AccountNumber { get; set; }
     }
 }

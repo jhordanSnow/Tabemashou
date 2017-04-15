@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="109e39be01484fbd8e4a4ccc2501a06f" Name="Diagram1">
+      <Diagram DiagramId="1de094bd697545ddac40c405ec5cd563" Name="Diagram1">
         <EntityTypeShape EntityType="TabemashouModel.Achievement" Width="1.5" PointX="3" PointY="16.625" IsExpanded="true" />
         <EntityTypeShape EntityType="TabemashouModel.Administrator" Width="1.5" PointX="5.25" PointY="12.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TabemashouModel.Canton" Width="1.5" PointX="5.25" PointY="9.125" IsExpanded="true" />
@@ -21,7 +21,7 @@
         <EntityTypeShape EntityType="TabemashouModel.Photo" Width="1.5" PointX="12" PointY="12.5" IsExpanded="true" />
         <EntityTypeShape EntityType="TabemashouModel.Province" Width="1.5" PointX="3" PointY="9.125" IsExpanded="true" />
         <EntityTypeShape EntityType="TabemashouModel.Restaurant" Width="1.5" PointX="7.5" PointY="12.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="TabemashouModel.Review" Width="1.5" PointX="15" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TabemashouModel.Review" Width="1.5" PointX="15" PointY="16.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TabemashouModel.Table" Width="1.5" PointX="12" PointY="18.5" IsExpanded="true" />
         <EntityTypeShape EntityType="TabemashouModel.Type" Width="1.5" PointX="16.5" PointY="9.625" IsExpanded="true" />
         <EntityTypeShape EntityType="TabemashouModel.User" Width="1.5" PointX="3" PointY="11.75" IsExpanded="true" />

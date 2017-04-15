@@ -11,7 +11,7 @@ namespace Tabemashou_Admin.Models
     public class RegisterRestaurantModel
     {
         public Restaurant restaurant { get; set; }
-        public System.Type tipos { get; set; }
+        public Type tipos { get; set; }
         public List<System.Type> restTypes { get; set; }
         public int[] restTypesId { get; set; }
         public MultiSelectList selectedItems { get; set; }

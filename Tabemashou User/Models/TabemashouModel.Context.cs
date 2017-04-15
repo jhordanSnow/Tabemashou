@@ -93,7 +93,7 @@ namespace Tabemashou_User.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_CreateAdministrator", idCardParameter, usernameParameter, passwordParameter, genderParameter, birthDateParameter, nationalityParameter, firstNameParameter, middleNameParameter, lastNameParameter, secondLastNameParameter);
         }
     
-        public virtual int PR_CreateCustomer(Nullable<decimal> idCard, string username, string password, string gender, Nullable<System.DateTime> birthDate, Nullable<int> nationality, string firstName, string middleName, string lastName, string secondLastName, byte[] photo)
+        public virtual int PR_CreateCustomer(Nullable<decimal> idCard, string username, string password, string gender, Nullable<System.DateTime> birthDate, Nullable<int> nationality, string firstName, string middleName, string lastName, string secondLastName, byte[] photo, Nullable<decimal> accountNumber)
         {
             var idCardParameter = idCard.HasValue ?
                 new ObjectParameter("IdCard", idCard) :
@@ -139,7 +139,11 @@ namespace Tabemashou_User.Models
                 new ObjectParameter("Photo", photo) :
                 new ObjectParameter("Photo", typeof(byte[]));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_CreateCustomer", idCardParameter, usernameParameter, passwordParameter, genderParameter, birthDateParameter, nationalityParameter, firstNameParameter, middleNameParameter, lastNameParameter, secondLastNameParameter, photoParameter);
+            var accountNumberParameter = accountNumber.HasValue ?
+                new ObjectParameter("AccountNumber", accountNumber) :
+                new ObjectParameter("AccountNumber", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_CreateCustomer", idCardParameter, usernameParameter, passwordParameter, genderParameter, birthDateParameter, nationalityParameter, firstNameParameter, middleNameParameter, lastNameParameter, secondLastNameParameter, photoParameter, accountNumberParameter);
         }
     
         public virtual ObjectResult<Nullable<decimal>> PR_CreateLocal(Nullable<int> idRestaurant, Nullable<int> idDistrict, string detail, string latitude, string longitude)
@@ -212,6 +216,19 @@ namespace Tabemashou_User.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_CreateUser", idCardParameter, usernameParameter, passwordParameter, genderParameter, birthDateParameter, nationalityParameter, firstNameParameter, middleNameParameter, lastNameParameter, secondLastNameParameter);
         }
     
+        public virtual int PR_DeleteDishPhoto(Nullable<int> idDish, Nullable<int> idPhoto)
+        {
+            var idDishParameter = idDish.HasValue ?
+                new ObjectParameter("IdDish", idDish) :
+                new ObjectParameter("IdDish", typeof(int));
+    
+            var idPhotoParameter = idPhoto.HasValue ?
+                new ObjectParameter("IdPhoto", idPhoto) :
+                new ObjectParameter("IdPhoto", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_DeleteDishPhoto", idDishParameter, idPhotoParameter);
+        }
+    
         public virtual int PR_DeleteLocal(Nullable<int> idLocal)
         {
             var idLocalParameter = idLocal.HasValue ?
@@ -219,6 +236,19 @@ namespace Tabemashou_User.Models
                 new ObjectParameter("IdLocal", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_DeleteLocal", idLocalParameter);
+        }
+    
+        public virtual int PR_DeleteLocalPhoto(Nullable<int> idLocal, Nullable<int> idPhoto)
+        {
+            var idLocalParameter = idLocal.HasValue ?
+                new ObjectParameter("IdLocal", idLocal) :
+                new ObjectParameter("IdLocal", typeof(int));
+    
+            var idPhotoParameter = idPhoto.HasValue ?
+                new ObjectParameter("IdPhoto", idPhoto) :
+                new ObjectParameter("IdPhoto", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_DeleteLocalPhoto", idLocalParameter, idPhotoParameter);
         }
     
         public virtual int PR_DeleteRestaurant(Nullable<int> restaurantId)
@@ -264,6 +294,109 @@ namespace Tabemashou_User.Models
                 new ObjectParameter("TypeList", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_UpdateRestaurantTypes", restaurantIdParameter, typeListParameter);
+        }
+    
+        public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            var versionParameter = version.HasValue ?
+                new ObjectParameter("version", version) :
+                new ObjectParameter("version", typeof(int));
+    
+            var definitionParameter = definition != null ?
+                new ObjectParameter("definition", definition) :
+                new ObjectParameter("definition", typeof(byte[]));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_alterdiagram", diagramnameParameter, owner_idParameter, versionParameter, definitionParameter);
+        }
+    
+        public virtual int sp_creatediagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            var versionParameter = version.HasValue ?
+                new ObjectParameter("version", version) :
+                new ObjectParameter("version", typeof(int));
+    
+            var definitionParameter = definition != null ?
+                new ObjectParameter("definition", definition) :
+                new ObjectParameter("definition", typeof(byte[]));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_creatediagram", diagramnameParameter, owner_idParameter, versionParameter, definitionParameter);
+        }
+    
+        public virtual int sp_dropdiagram(string diagramname, Nullable<int> owner_id)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_dropdiagram", diagramnameParameter, owner_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_helpdiagramdefinition_Result> sp_helpdiagramdefinition(string diagramname, Nullable<int> owner_id)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_helpdiagramdefinition_Result>("sp_helpdiagramdefinition", diagramnameParameter, owner_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_helpdiagrams_Result> sp_helpdiagrams(string diagramname, Nullable<int> owner_id)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_helpdiagrams_Result>("sp_helpdiagrams", diagramnameParameter, owner_idParameter);
+        }
+    
+        public virtual int sp_renamediagram(string diagramname, Nullable<int> owner_id, string new_diagramname)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            var new_diagramnameParameter = new_diagramname != null ?
+                new ObjectParameter("new_diagramname", new_diagramname) :
+                new ObjectParameter("new_diagramname", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_renamediagram", diagramnameParameter, owner_idParameter, new_diagramnameParameter);
+        }
+    
+        public virtual int sp_upgraddiagrams()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
         }
     }
 }

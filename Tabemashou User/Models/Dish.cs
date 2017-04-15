@@ -27,6 +27,7 @@ namespace Tabemashou_User.Models
         public string Description { get; set; }
         public string Name { get; set; }
         public int IdRestaurant { get; set; }
+        public decimal Price { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DishesByCheck> DishesByCheck { get; set; }
