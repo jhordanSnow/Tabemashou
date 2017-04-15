@@ -1,6 +1,17 @@
 ﻿@using Tabemashou_Admin.Models
 @model localRegister
 
+@{
+    ViewBag.Title = "Restaurants";
+    ViewBag.Breadcrumb = new Breadcrumb(new[] {
+        new Crumb("Restaurants", @Url.Action("Index","Restaurants"), "fa-cutlery"),
+        new Crumb("Edit a Local")
+    });
+}
+
+
+
+
 @Styles.Render("~/AdminLTE/plugins/select2/css")
 @Styles.Render("~/AdminLTE/plugins/fileUpload/css")
 

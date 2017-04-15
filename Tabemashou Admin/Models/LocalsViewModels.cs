@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace Tabemashou_Admin.Models
 {
@@ -37,6 +38,11 @@ namespace Tabemashou_Admin.Models
         public IEnumerable<Photo> photos { get; set; }
         public string uploadFilesNames { get; set; }
         public string deletedFilesIds { get; set; }
+
+        public Type tipos { get; set; }
+        public List<Type> restTypes { get; set; }
+        public int[] restTypesId { get; set; }
+        public MultiSelectList selectedItems { get; set; }
     }
 
     public class DishesRegisterModels

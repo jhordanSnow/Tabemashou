@@ -17,18 +17,20 @@ namespace Tabemashou_User.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Customer()
         {
+            this.PaymentByCustomer = new HashSet<PaymentByCustomer>();
             this.Review = new HashSet<Review>();
             this.Achievement = new HashSet<Achievement>();
             this.Customer1 = new HashSet<Customer>();
             this.Customer2 = new HashSet<Customer>();
-            this.PaymentByCustomer = new HashSet<PaymentByCustomer>();
         }
     
         public decimal IdCard { get; set; }
-        public int AccountNumber { get; set; }
         public byte[] Photo { get; set; }
+        public decimal AccountNumber { get; set; }
     
         public virtual User User { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PaymentByCustomer> PaymentByCustomer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Review> Review { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -37,7 +39,5 @@ namespace Tabemashou_User.Models
         public virtual ICollection<Customer> Customer1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Customer> Customer2 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PaymentByCustomer> PaymentByCustomer { get; set; }
     }
 }

@@ -57,8 +57,13 @@
             <PropertyRef Name="IdCard" />
           </Key>
           <Property Name="IdCard" Type="numeric" Precision="20" Scale="0" Nullable="false" />
+<<<<<<< HEAD
           <Property Name="Photo" Type="varbinary(max)" Nullable="false" />
           <Property Name="AccountNumber" Type="numeric" Precision="20" Scale="0" Nullable="false" StoreGeneratedPattern="Identity" />
+=======
+          <Property Name="AccountNumber" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Photo" Type="varbinary(max)" />
+>>>>>>> origin/master
         </EntityType>
         <EntityType Name="Dish">
           <Key>
@@ -904,7 +909,7 @@
           </Key>
           <Property Name="IdCard" Type="Decimal" Precision="20" Scale="0" Nullable="false" />
           <Property Name="AccountNumber" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="User" Relationship="Self.FK_CustomerIdCard" FromRole="Customer" ToRole="User" />
           <NavigationProperty Name="PaymentByCustomer" Relationship="Self.FK_PaymentByCustomerIdCard" FromRole="Customer" ToRole="PaymentByCustomer" />
           <NavigationProperty Name="Review" Relationship="Self.FK_ReviewIdCustmoer" FromRole="Customer" ToRole="Review" />
