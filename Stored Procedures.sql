@@ -241,6 +241,50 @@ CREATE PROCEDURE [PR_DeleteDishPhoto](
 END
 GO
 
+CREATE PROCEDURE [PR_DeleteDish](
+	@DishId INT
+)
+
+AS BEGIN
+DECLARE @TypesId TABLE([IdType] INT)
+INSERT INTO @TypesId ([IdType])
+			(	SELECT TD.IdType
+				FROM [TypesPerDish] TD
+				WHERE TD.IdDish = @DishId
+			)
+
+DELETE FROM Dish WHERE IdDish = @DishId
+
+DELETE T FROM [Type] T
+	INNER JOIN (SELECT T2.IdType
+				FROM [Type] T2
+					LEFT JOIN [TypesPerDish] TD ON TD.IdType = T2.IdType
+				WHERE T2.IdType IN (SELECT * FROM @TypesId)
+				GROUP BY T2.IdType
+				HAVING COUNT(TD.IdDish) = 0
+	) NoType ON NoType.IdType = T.IdType
+END
+GO
+
+CREATE PROCEDURE [PR_DeleteDishTypes](
+	@DishId INT
+)AS BEGIN
+	DELETE FROM [TypesPerDish] WHERE IdDish = @DishId
+END
+GO
+
+CREATE PROCEDURE [PR_DishTypes]
+AS BEGIN
+	SELECT T.* FROM [Type] T INNER JOIN [TypesPerDish] TPD ON T.IdType = TPD.IdType
+END
+GO
+
+CREATE PROCEDURE [PR_RestaurantTypes]
+AS BEGIN
+	SELECT T.* FROM [Type] T INNER JOIN [TypesPerRestaurant] TPR ON T.IdType = TPR.IdType
+END
+GO
+
 CREATE PROCEDURE [PR_NewCheck] (
 	@IdLocal INT
 )AS BEGIN
