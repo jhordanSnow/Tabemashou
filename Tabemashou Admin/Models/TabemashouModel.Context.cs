@@ -306,6 +306,11 @@ namespace Tabemashou_Admin.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PR_RestaurantInfo_Result>("PR_RestaurantInfo", aminIdParameter);
         }
     
+        public virtual ObjectResult<PR_RestaurantTypes_Result> PR_RestaurantTypes()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PR_RestaurantTypes_Result>("PR_RestaurantTypes");
+        }
+    
         public virtual int PR_UpdateRestaurantTypes(Nullable<int> restaurantId, string typeList)
         {
             var restaurantIdParameter = restaurantId.HasValue ?
@@ -317,11 +322,6 @@ namespace Tabemashou_Admin.Models
                 new ObjectParameter("TypeList", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_UpdateRestaurantTypes", restaurantIdParameter, typeListParameter);
-        }
-    
-        public virtual ObjectResult<PR_RestaurantTypes_Result> PR_RestaurantTypes()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PR_RestaurantTypes_Result>("PR_RestaurantTypes");
         }
     }
 }

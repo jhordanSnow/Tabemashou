@@ -195,6 +195,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ChecksController.cs" />
+    <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MyIdentity.cs" />
     <Compile Include="Filter\UserAuth.cs" />
@@ -214,6 +216,7 @@
     <Compile Include="Models\Check.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CommonClasses.cs" />
     <Compile Include="Models\Country.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>
@@ -583,7 +586,10 @@
     <Content Include="Scripts\Account\Login.js" />
     <Content Include="Scripts\Account\Register.js" />
     <Content Include="Scripts\Account\UserProfile.js" />
-    <Content Include="Web.config" />
+    <Content Include="Scripts\Checks\Create.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -616,9 +622,16 @@
     <Content Include="Models\TabemashouModel.edmx.diagram">
       <DependentUpon>TabemashouModel.edmx</DependentUpon>
     </Content>
+    <Content Include="Views\Checks\Create.cshtml" />
+    <Content Include="Views\Checks\Delete.cshtml" />
+    <Content Include="Views\Checks\Details.cshtml" />
+    <Content Include="Views\Checks\Edit.cshtml" />
+    <Content Include="Views\Checks\Index.cshtml" />
+    <Content Include="Views\Checks\Invalid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Common\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

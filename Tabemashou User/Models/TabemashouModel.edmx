@@ -40,8 +40,11 @@
           <Key>
             <PropertyRef Name="IdCheck" />
           </Key>
-          <Property Name="IdCheck" Type="int" Nullable="false" />
-          <Property Name="TotalPrice" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="IdCheck" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdLocal" Type="int" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="State" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Balance" Type="decimal" Precision="10" Scale="3" Nullable="false" />
         </EntityType>
         <EntityType Name="Country">
           <Key>
@@ -55,7 +58,7 @@
             <PropertyRef Name="IdCard" />
           </Key>
           <Property Name="IdCard" Type="numeric" Precision="20" Scale="0" Nullable="false" />
-          <Property Name="Photo" Type="varbinary(max)" />
+          <Property Name="Photo" Type="varbinary(max)" Nullable="false" />
           <Property Name="AccountNumber" Type="numeric" Precision="20" Scale="0" Nullable="false" />
         </EntityType>
         <EntityType Name="Dish">
@@ -66,7 +69,7 @@
           <Property Name="Description" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="IdRestaurant" Type="int" Nullable="false" />
-          <Property Name="Price" Type="smallmoney" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="0" Nullable="false" />
         </EntityType>
         <EntityType Name="DishesByCheck">
           <Key>
@@ -120,7 +123,6 @@
         <EntityType Name="PARAMETER">
           <Key>
             <PropertyRef Name="PARAMETER" />
-            <PropertyRef Name="VALUE" />
           </Key>
           <Property Name="PARAMETER" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="VALUE" Type="varchar" MaxLength="50" Nullable="false" />
@@ -132,6 +134,7 @@
           </Key>
           <Property Name="IdCard" Type="numeric" Precision="20" Scale="0" Nullable="false" />
           <Property Name="IdCheck" Type="int" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
           <Property Name="TotalPrice" Type="numeric" Precision="20" Scale="0" Nullable="false" />
         </EntityType>
         <EntityType Name="Photo">
@@ -256,6 +259,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CheckIdLocal">
+          <End Role="Local" Type="Self.Local" Multiplicity="1" />
+          <End Role="Check" Type="Self.Check" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Local">
+              <PropertyRef Name="IdLocal" />
+            </Principal>
+            <Dependent Role="Check">
+              <PropertyRef Name="IdLocal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CustomerIdCard">
           <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
@@ -276,7 +291,7 @@
               <PropertyRef Name="IdCheck" />
             </Principal>
             <Dependent Role="DishesByCheck">
-              <PropertyRef Name="IdDish" />
+              <PropertyRef Name="IdCheck" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -622,7 +637,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
         <Function Name="PR_CreateAdministrator" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdCard" Type="numeric" Mode="In" />
           <Parameter Name="Username" Type="varchar" Mode="In" />
@@ -647,7 +661,10 @@
           <Parameter Name="LastName" Type="varchar" Mode="In" />
           <Parameter Name="SecondLastName" Type="varchar" Mode="In" />
           <Parameter Name="Photo" Type="varbinary(max)" Mode="In" />
-          <Parameter Name="AccountNumber" Type="numeric" Mode="In" />
+        </Function>
+        <Function Name="PR_CreateDetailCheck" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdDish" Type="int" Mode="In" />
+          <Parameter Name="IdCheck" Type="int" Mode="In" />
         </Function>
         <Function Name="PR_CreateLocal" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdRestaurant" Type="int" Mode="In" />
@@ -655,6 +672,10 @@
           <Parameter Name="Detail" Type="varchar(max)" Mode="In" />
           <Parameter Name="Latitude" Type="varchar(max)" Mode="In" />
           <Parameter Name="Longitude" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="PR_CreatePaymentCheck" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdCard" Type="numeric" Mode="In" />
+          <Parameter Name="IdCheck" Type="int" Mode="In" />
         </Function>
         <Function Name="PR_CreateUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdCard" Type="numeric" Mode="In" />
@@ -686,6 +707,9 @@
           <Parameter Name="RestaurantId" Type="int" Mode="In" />
         </Function>
         <Function Name="PR_GetDistricts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="PR_NewCheck" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdLocal" Type="int" Mode="In" />
+        </Function>
         <Function Name="PR_RestaurantInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AminId" Type="numeric" Mode="In" />
         </Function>
@@ -693,36 +717,6 @@
           <Parameter Name="RestaurantId" Type="int" Mode="In" />
           <Parameter Name="TypeList" Type="varchar(max)" Mode="In" />
         </Function>
-        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="version" Type="int" Mode="In" />
-          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-        </Function>
-        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="version" Type="int" Mode="In" />
-          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-        </Function>
-        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
-        </Function>
-        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="TabemashouModelStoreContainer">
           <EntitySet Name="Achievement" EntityType="Self.Achievement" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AchievementsByCustomer" EntityType="Self.AchievementsByCustomer" Schema="dbo" store:Type="Tables" />
@@ -757,6 +751,10 @@
           <AssociationSet Name="FK_AchievementsByCustomerCard" Association="Self.FK_AchievementsByCustomerCard">
             <End Role="Customer" EntitySet="Customer" />
             <End Role="AchievementsByCustomer" EntitySet="AchievementsByCustomer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CheckIdLocal" Association="Self.FK_CheckIdLocal">
+            <End Role="Local" EntitySet="Local" />
+            <End Role="Check" EntitySet="Check" />
           </AssociationSet>
           <AssociationSet Name="FK_CustomerIdCard" Association="Self.FK_CustomerIdCard">
             <End Role="User" EntitySet="User" />
@@ -912,8 +910,12 @@
           <Key>
             <PropertyRef Name="IdCheck" />
           </Key>
-          <Property Name="IdCheck" Type="Int32" Nullable="false" />
-          <Property Name="TotalPrice" Type="Decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="IdCheck" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdLocal" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Balance" Type="Decimal" Precision="10" Scale="3" Nullable="false" />
+          <NavigationProperty Name="Local" Relationship="Self.FK_CheckIdLocal" FromRole="Check" ToRole="Local" />
           <NavigationProperty Name="DishesByCheck" Relationship="Self.FK_DishesByCheckCheck" FromRole="Check" ToRole="DishesByCheck" />
           <NavigationProperty Name="PaymentByCustomer" Relationship="Self.FK_PaymentByCustomerIdCheck" FromRole="Check" ToRole="PaymentByCustomer" />
         </EntityType>
@@ -931,7 +933,7 @@
             <PropertyRef Name="IdCard" />
           </Key>
           <Property Name="IdCard" Type="Decimal" Precision="20" Scale="0" Nullable="false" />
-          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
           <Property Name="AccountNumber" Type="Decimal" Precision="20" Scale="0" Nullable="false" />
           <NavigationProperty Name="User" Relationship="Self.FK_CustomerIdCard" FromRole="Customer" ToRole="User" />
           <NavigationProperty Name="PaymentByCustomer" Relationship="Self.FK_PaymentByCustomerIdCard" FromRole="Customer" ToRole="PaymentByCustomer" />
@@ -948,7 +950,7 @@
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="IdRestaurant" Type="Int32" Nullable="false" />
-          <Property Name="Price" Type="Decimal" Precision="10" Scale="4" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
           <NavigationProperty Name="DishesByCheck" Relationship="Self.FK_DishesByCheckDish" FromRole="Dish" ToRole="DishesByCheck" />
           <NavigationProperty Name="Restaurant" Relationship="Self.FK_DishIdRestaurant" FromRole="Dish" ToRole="Restaurant" />
           <NavigationProperty Name="DishesPerLocal" Relationship="Self.FK_LocalDish" FromRole="Dish" ToRole="DishesPerLocal" />
@@ -1001,6 +1003,7 @@
           <Property Name="IdDistrict" Type="Int32" Nullable="false" />
           <Property Name="Detail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="IdRestaurant" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Check" Relationship="Self.FK_CheckIdLocal" FromRole="Local" ToRole="Check" />
           <NavigationProperty Name="DishesPerLocal" Relationship="Self.FK_DishIdLocal" FromRole="Local" ToRole="DishesPerLocal" />
           <NavigationProperty Name="District" Relationship="Self.FK_IdDistrict" FromRole="Local" ToRole="District" />
           <NavigationProperty Name="Restaurant" Relationship="Self.FK_LocalIdRestaurant" FromRole="Local" ToRole="Restaurant" />
@@ -1011,7 +1014,6 @@
         <EntityType Name="PARAMETER">
           <Key>
             <PropertyRef Name="PARAMETER1" />
-            <PropertyRef Name="VALUE" />
           </Key>
           <Property Name="PARAMETER1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="VALUE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
@@ -1023,6 +1025,7 @@
           </Key>
           <Property Name="IdCard" Type="Decimal" Precision="20" Scale="0" Nullable="false" />
           <Property Name="IdCheck" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="TotalPrice" Type="Decimal" Precision="20" Scale="0" Nullable="false" />
           <NavigationProperty Name="Check" Relationship="Self.FK_PaymentByCustomerIdCheck" FromRole="PaymentByCustomer" ToRole="Check" />
           <NavigationProperty Name="Customer" Relationship="Self.FK_PaymentByCustomerIdCard" FromRole="PaymentByCustomer" ToRole="Customer" />
@@ -1157,6 +1160,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CheckIdLocal">
+          <End Role="Local" Type="Self.Local" Multiplicity="1" />
+          <End Role="Check" Type="Self.Check" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Local">
+              <PropertyRef Name="IdLocal" />
+            </Principal>
+            <Dependent Role="Check">
+              <PropertyRef Name="IdLocal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DishesByCheckCheck">
           <End Role="Check" Type="Self.Check" Multiplicity="1" />
           <End Role="DishesByCheck" Type="Self.DishesByCheck" Multiplicity="*" />
@@ -1165,7 +1180,7 @@
               <PropertyRef Name="IdCheck" />
             </Principal>
             <Dependent Role="DishesByCheck">
-              <PropertyRef Name="IdDish" />
+              <PropertyRef Name="IdCheck" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1406,6 +1421,10 @@
             <End Role="Province" EntitySet="Province" />
             <End Role="Canton" EntitySet="Canton" />
           </AssociationSet>
+          <AssociationSet Name="FK_CheckIdLocal" Association="Self.FK_CheckIdLocal">
+            <End Role="Local" EntitySet="Local" />
+            <End Role="Check" EntitySet="Check" />
+          </AssociationSet>
           <AssociationSet Name="FK_DishesByCheckCheck" Association="Self.FK_DishesByCheckCheck">
             <End Role="Check" EntitySet="Check" />
             <End Role="DishesByCheck" EntitySet="DishesByCheck" />
@@ -1514,7 +1533,10 @@
             <Parameter Name="LastName" Mode="In" Type="String" />
             <Parameter Name="SecondLastName" Mode="In" Type="String" />
             <Parameter Name="Photo" Mode="In" Type="Binary" />
-            <Parameter Name="AccountNumber" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="PR_CreateDetailCheck">
+            <Parameter Name="IdDish" Mode="In" Type="Int32" />
+            <Parameter Name="IdCheck" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="PR_CreateLocal" ReturnType="Collection(Decimal)">
             <Parameter Name="IdRestaurant" Mode="In" Type="Int32" />
@@ -1522,6 +1544,10 @@
             <Parameter Name="Detail" Mode="In" Type="String" />
             <Parameter Name="Latitude" Mode="In" Type="String" />
             <Parameter Name="Longitude" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="PR_CreatePaymentCheck">
+            <Parameter Name="IdCard" Mode="In" Type="Decimal" />
+            <Parameter Name="IdCheck" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="PR_CreateUser">
             <Parameter Name="IdCard" Mode="In" Type="Decimal" />
@@ -1553,6 +1579,9 @@
             <Parameter Name="RestaurantId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="PR_GetDistricts" ReturnType="Collection(TabemashouModel.PR_GetDistricts_Result)" />
+          <FunctionImport Name="PR_NewCheck" ReturnType="Collection(Decimal)">
+            <Parameter Name="IdLocal" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="PR_RestaurantInfo" ReturnType="Collection(TabemashouModel.PR_RestaurantInfo_Result)">
             <Parameter Name="AminId" Mode="In" Type="Decimal" />
           </FunctionImport>
@@ -1560,36 +1589,6 @@
             <Parameter Name="RestaurantId" Mode="In" Type="Int32" />
             <Parameter Name="TypeList" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_alterdiagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="version" Mode="In" Type="Int32" />
-            <Parameter Name="definition" Mode="In" Type="Binary" />
-          </FunctionImport>
-          <FunctionImport Name="sp_creatediagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="version" Mode="In" Type="Int32" />
-            <Parameter Name="definition" Mode="In" Type="Binary" />
-          </FunctionImport>
-          <FunctionImport Name="sp_dropdiagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(TabemashouModel.sp_helpdiagramdefinition_Result)">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(TabemashouModel.sp_helpdiagrams_Result)">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_renamediagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="new_diagramname" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="sp_upgraddiagrams" />
         </EntityContainer>
         <ComplexType Name="PR_GetDistricts_Result">
           <Property Type="Int32" Name="IdDistrict" Nullable="false" />
@@ -1601,17 +1600,6 @@
           <Property Type="Binary" Name="Logo" Nullable="true" />
           <Property Type="Decimal" Name="IdAdmin" Nullable="false" Precision="20" Scale="0" />
           <Property Type="Int32" Name="CantLocal" Nullable="false" />
-        </ComplexType>
-        <ComplexType Name="sp_helpdiagramdefinition_Result">
-          <Property Type="Int32" Name="version" Nullable="true" />
-          <Property Type="Binary" Name="definition" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="sp_helpdiagrams_Result">
-          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
-          <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1649,7 +1637,10 @@
             <EntityTypeMapping TypeName="TabemashouModel.Check">
               <MappingFragment StoreEntitySet="Check">
                 <ScalarProperty Name="IdCheck" ColumnName="IdCheck" />
-                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="IdLocal" ColumnName="IdLocal" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1737,6 +1728,7 @@
               <MappingFragment StoreEntitySet="PaymentByCustomer">
                 <ScalarProperty Name="IdCard" ColumnName="IdCard" />
                 <ScalarProperty Name="IdCheck" ColumnName="IdCheck" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1864,7 +1856,9 @@
           </AssociationSetMapping>
           <FunctionImportMapping FunctionImportName="PR_CreateAdministrator" FunctionName="TabemashouModel.Store.PR_CreateAdministrator" />
           <FunctionImportMapping FunctionImportName="PR_CreateCustomer" FunctionName="TabemashouModel.Store.PR_CreateCustomer" />
+          <FunctionImportMapping FunctionImportName="PR_CreateDetailCheck" FunctionName="TabemashouModel.Store.PR_CreateDetailCheck" />
           <FunctionImportMapping FunctionImportName="PR_CreateLocal" FunctionName="TabemashouModel.Store.PR_CreateLocal" />
+          <FunctionImportMapping FunctionImportName="PR_CreatePaymentCheck" FunctionName="TabemashouModel.Store.PR_CreatePaymentCheck" />
           <FunctionImportMapping FunctionImportName="PR_CreateUser" FunctionName="TabemashouModel.Store.PR_CreateUser" />
           <FunctionImportMapping FunctionImportName="PR_DeleteDishPhoto" FunctionName="TabemashouModel.Store.PR_DeleteDishPhoto" />
           <FunctionImportMapping FunctionImportName="PR_DeleteLocal" FunctionName="TabemashouModel.Store.PR_DeleteLocal" />
@@ -1879,6 +1873,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="PR_NewCheck" FunctionName="TabemashouModel.Store.PR_NewCheck" />
           <FunctionImportMapping FunctionImportName="PR_RestaurantInfo" FunctionName="TabemashouModel.Store.PR_RestaurantInfo">
             <ResultMapping>
               <ComplexTypeMapping TypeName="TabemashouModel.PR_RestaurantInfo_Result">
@@ -1891,30 +1886,6 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="PR_UpdateRestaurantTypes" FunctionName="TabemashouModel.Store.PR_UpdateRestaurantTypes" />
-          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="TabemashouModel.Store.sp_alterdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="TabemashouModel.Store.sp_creatediagram" />
-          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="TabemashouModel.Store.sp_dropdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="TabemashouModel.Store.sp_helpdiagramdefinition">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="TabemashouModel.sp_helpdiagramdefinition_Result">
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="TabemashouModel.Store.sp_helpdiagrams">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="TabemashouModel.sp_helpdiagrams_Result">
-                <ScalarProperty Name="Database" ColumnName="Database" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Owner" ColumnName="Owner" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="TabemashouModel.Store.sp_renamediagram" />
-          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="TabemashouModel.Store.sp_upgraddiagrams" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

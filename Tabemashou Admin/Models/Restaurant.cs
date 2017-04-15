@@ -7,8 +7,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.ComponentModel.DataAnnotations;
-
 namespace Tabemashou_Admin.Models
 {
     using System;
@@ -25,8 +23,6 @@ namespace Tabemashou_Admin.Models
         }
     
         public int IdRestaurant { get; set; }
-        [Required]
-        [MaxLength(50, ErrorMessage = "The name must have less than 50 characters")]
         public string Name { get; set; }
         public byte[] Logo { get; set; }
         public decimal IdAdmin { get; set; }

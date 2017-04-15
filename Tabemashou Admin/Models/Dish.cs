@@ -7,8 +7,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.ComponentModel.DataAnnotations;
-
 namespace Tabemashou_Admin.Models
 {
     using System;
@@ -26,13 +24,9 @@ namespace Tabemashou_Admin.Models
         }
     
         public int IdDish { get; set; }
-        [Required]
         public string Description { get; set; }
-        [Required]
         public string Name { get; set; }
         public int IdRestaurant { get; set; }
-        [Required]
-        [Range(0, float.MaxValue, ErrorMessage = "Please enter a valid price")]
         public decimal Price { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="TabemashouModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="TabemashouModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Achievement">
           <Key>
             <PropertyRef Name="IdAchivement" />
@@ -857,7 +857,8 @@
             <End Role="User" EntitySet="User" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TabemashouModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1520,38 +1521,38 @@
             <Parameter Name="SecondLastName" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="PR_DeleteDish">
-          <Parameter Name="DishId" Mode="In" Type="Int32" />
+            <Parameter Name="DishId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="PR_DeleteDishPhoto">
             <Parameter Name="IdDish" Mode="In" Type="Int32" />
             <Parameter Name="IdPhoto" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="PR_DeleteDishTypes">
-          <Parameter Name="DishId" Mode="In" Type="Int32" />
+            <Parameter Name="DishId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="PR_DeleteLocal">
-          <Parameter Name="IdLocal" Mode="In" Type="Int32" />
+            <Parameter Name="IdLocal" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="PR_DeleteLocalPhoto">
             <Parameter Name="IdLocal" Mode="In" Type="Int32" />
             <Parameter Name="IdPhoto" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="PR_DeleteRestaurant">
-          <Parameter Name="RestaurantId" Mode="In" Type="Int32" />
+            <Parameter Name="RestaurantId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="PR_DeleteRestaurantTypes">
-          <Parameter Name="RestaurantId" Mode="In" Type="Int32" />
+            <Parameter Name="RestaurantId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="PR_DishTypes" ReturnType="Collection(TabemashouModel.PR_DishTypes_Result)" />
           <FunctionImport Name="PR_GetDistricts" ReturnType="Collection(TabemashouModel.PR_GetDistricts_Result)" />
           <FunctionImport Name="PR_RestaurantInfo" ReturnType="Collection(TabemashouModel.PR_RestaurantInfo_Result)">
-          <Parameter Name="AminId" Mode="In" Type="Decimal" />
+            <Parameter Name="AminId" Mode="In" Type="Decimal" />
           </FunctionImport>
+          <FunctionImport Name="PR_RestaurantTypes" ReturnType="Collection(TabemashouModel.PR_RestaurantTypes_Result)" />
           <FunctionImport Name="PR_UpdateRestaurantTypes">
             <Parameter Name="RestaurantId" Mode="In" Type="Int32" />
             <Parameter Name="TypeList" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="PR_RestaurantTypes" ReturnType="Collection(TabemashouModel.PR_RestaurantTypes_Result)" />
         </EntityContainer>
         <ComplexType Name="PR_DishTypes_Result">
           <Property Type="Int32" Name="IdType" Nullable="false" />
@@ -1862,7 +1863,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="PR_UpdateRestaurantTypes" FunctionName="TabemashouModel.Store.PR_UpdateRestaurantTypes" />
           <FunctionImportMapping FunctionImportName="PR_RestaurantTypes" FunctionName="TabemashouModel.Store.PR_RestaurantTypes">
             <ResultMapping>
               <ComplexTypeMapping TypeName="TabemashouModel.PR_RestaurantTypes_Result">
@@ -1871,6 +1871,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="PR_UpdateRestaurantTypes" FunctionName="TabemashouModel.Store.PR_UpdateRestaurantTypes" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

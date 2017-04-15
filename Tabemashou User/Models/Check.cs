@@ -22,8 +22,12 @@ namespace Tabemashou_User.Models
         }
     
         public int IdCheck { get; set; }
-        public decimal TotalPrice { get; set; }
+        public int IdLocal { get; set; }
+        public System.DateTime Date { get; set; }
+        public string State { get; set; }
+        public decimal Balance { get; set; }
     
+        public virtual Local Local { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DishesByCheck> DishesByCheck { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

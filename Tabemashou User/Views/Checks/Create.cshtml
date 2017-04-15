@@ -1,0 +1,85 @@
+﻿@using Tabemashou_User.Models
+@model userCheck
+
+@using (Html.BeginForm("Register", "Checks", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-md-5">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <h3 class="box-title">@Model.CheckRestaurant.Name</h3>
+                </div>
+                <div class="row box-body">
+                    <div class="col-md-4">
+                        <img class="img-responsive" src="@Url.Action("ShowRestLogo", "Common", new {id = Model.CheckRestaurant.IdRestaurant})"/>
+                    </div>
+                    <div class="col-md-8">
+                        @Html.HiddenFor(model => model.UserDishes)
+                        @Html.HiddenFor(model => model.Code)
+                        @Html.HiddenFor(model => model.CheckLocal.IdLocal)
+                        <h3>Code: @Model.Code</h3>
+                        <p>
+                            Local @Model.CheckLocal.Name <br/>
+                            @Model.DistrictCompeteName <br/>
+                            Table: @Model.CheckTable.DistinctiveName
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Check</h3>
+                    <button type="submit" class="btn btn-sm btn-success pull-right fa fa-check-square-o"></button>
+                </div>
+                <div class="box-body table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Qty</th>
+                            <th>Product</th>
+                            <th>Description</th>
+                            <th>Subtotal</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody id="destiny-products"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Menu</h3>
+                </div>
+                <div class="row box-body">
+                    @foreach (Dish dish in Model.CheckRestaurant.Dish)
+                    {
+                        <div class="col-md-4">
+
+                            <div class="box box-solid box-success">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title" id="name_@dish.IdDish">
+                                        @dish.Name
+                                    </h3>
+                                    <a class="btn btn-xs pull-right fa fa-plus" OnClick="addDish(this)" dish-price="@dish.Price" dish-id="@dish.IdDish"></a>
+                                </div>
+                                <div class="box-body">
+                                    mostrar imagenes <br/>
+                                    <p id="desc_@dish.IdDish">@dish.Description</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/Scripts/Checks/Create")
+}

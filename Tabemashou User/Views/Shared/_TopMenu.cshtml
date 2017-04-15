@@ -1,8 +1,4 @@
-﻿@* 
- This partial controls the top menu of the AdminLTE Template, being called automatically by _AdminLteLayout
-    TODO: All of the content in here is stand-in that must be replaced by the real behavior of your app
-*@
-
+﻿@using Tabemashou_User.Models
 @{
     ViewBag.Layout = null;
 }
@@ -17,6 +13,20 @@
         </a>
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
+                
+                <li>
+                    <div class="input-group input-group-sm" style="padding-top: 10px">
+                        @using (Html.BeginForm("Create", "Checks", FormMethod.Post))
+                        {
+                            <div class="input-group input-group-sm">
+                                @Html.Editor("Code", new {htmlAttributes = new {@class = "form-control", @placeholder = "Code"}})
+                                <span class="input-group-btn">
+                                    <button type="submit" class="btn btn-success fa fa-check"></button>
+                                </span>
+                            </div>
+                        }
+                    </div>
+                </li>
                 <li class="dropdown messages-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-envelope-o"></i>

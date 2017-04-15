@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="9efbd4f221a14f599f8cbe29b70347df" Name="Diagram1">
+      <Diagram DiagramId="c0b8e04b0134468687a704d5f28ce052" Name="Diagram1">
         <EntityTypeShape EntityType="TabemashouModel.Achievement" Width="1.5" PointX="3" PointY="16.625" IsExpanded="true" />
         <EntityTypeShape EntityType="TabemashouModel.Administrator" Width="1.5" PointX="5.25" PointY="12.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TabemashouModel.Canton" Width="1.5" PointX="5.25" PointY="9.125" IsExpanded="true" />

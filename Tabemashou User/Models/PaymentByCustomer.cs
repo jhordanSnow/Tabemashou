@@ -16,6 +16,7 @@ namespace Tabemashou_User.Models
     {
         public decimal IdCard { get; set; }
         public int IdCheck { get; set; }
+        public System.DateTime Date { get; set; }
         public decimal TotalPrice { get; set; }
     
         public virtual Check Check { get; set; }

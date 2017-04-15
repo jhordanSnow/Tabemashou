@@ -17,6 +17,7 @@ namespace Tabemashou_User.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Local()
         {
+            this.Check = new HashSet<Check>();
             this.DishesPerLocal = new HashSet<DishesPerLocal>();
             this.Table = new HashSet<Table>();
             this.Review = new HashSet<Review>();
@@ -31,6 +32,8 @@ namespace Tabemashou_User.Models
         public string Detail { get; set; }
         public int IdRestaurant { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Check> Check { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DishesPerLocal> DishesPerLocal { get; set; }
         public virtual District District { get; set; }
