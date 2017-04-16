@@ -3,12 +3,12 @@
     @if (Request.IsAuthenticated)
     {
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <img src="~/AdminLTE/dist/img/user.svg" class="user-image" alt="User Image">
-            <span class="hidden-xs">@User.Identity.Name</span>
+            <span>@User.Identity.Name</span>
         </a>
         <ul class="dropdown-menu">
             <li class="user-header">
-                <img src="~/AdminLTE/dist/img/user.svg" class="img-circle" alt="User Image">
+                    <img style="margin: 0 auto;height: auto;width: auto;max-width: 65%;max-height: 80%;" src="@Url.Action("Show", "Account")" class="img-responsive" alt="User Image">
+                
                 <p>
                     @{
                         if (Request.IsAuthenticated)

@@ -79,6 +79,9 @@ namespace Tabemashou_User.Controllers
             User loggedUser = db.User.Find(identity.User.IdCard);
             Customer customer = db.Customer.FirstOrDefault(a => a.IdCard.Equals(identity.User.IdCard));
             ProfileEditViewModel model = new ProfileEditViewModel();
+            model.Activity = "active";
+            model.Settings = "";
+            model.Change = "";
 
             model.profileData = new ProfileViewModel
             {
@@ -106,7 +109,9 @@ namespace Tabemashou_User.Controllers
             User loggedUser = db.User.FirstOrDefault(a => a.IdCard.Equals(identity.User.IdCard));
             Customer customer = db.Customer.Find(identity.User.IdCard);
 
-           
+            model.Activity = "";
+            model.Change = "";
+            model.Settings = "active";
             error = (model.profileData.AccountNumber != customer.AccountNumber) ? !ValidateAccountNumber(model.profileData.AccountNumber) : error;
             error = (model.profileData.IdCard != identity.User.IdCard) ? !ValidateIdCard(model.profileData.IdCard) : error;
             error = (model.profileData.Username != identity.User.Username && !error) ? !ValidateUserName(model.profileData.Username) : error;
@@ -128,17 +133,51 @@ namespace Tabemashou_User.Controllers
                 db.Entry(customer).State = EntityState.Modified;
                 db.SaveChanges();
                 TempData["Success"] = "Profile correctly updated.";
-                return RedirectToAction("UserProfile", "Account");
+
+                return View(model);
             }
             ViewBag.Nationality = new SelectList(db.Country, "IdCountry", "Name", loggedUser.Nationality);
+            
             return View(model);
         }
 
-        public ActionResult ChangePassword(ProfileEditViewModel model)
+        [HttpPost]
+        public int ChangePhoto()
         {
+            var identity = (System.Web.HttpContext.Current.User as MyIdentity.MyPrincipal).Identity as MyIdentity;
+            Customer current = db.Customer.Find(identity.User.IdCard);
+
+            if (Request.Files.Count > 0)
+            {
+                foreach (string file in Request.Files)
+                {
+                    var image = Request.Files[file];
+
+                    byte[] dbImage = null;
+                    if (image != null)
+                    {
+                        dbImage = FileUpload(image);
+                        current.Photo = dbImage;
+                    }
+
+                }
+                db.Entry(current).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            return 1;
+        }
+
+        public ActionResult ChangePassword(ProfileEditViewModel model, HttpPostedFileBase image)
+        {
+
+            model.Activity = "";
+            model.Change = "active";
+            model.Settings = "";
+
             bool error = false;
             var identity = (System.Web.HttpContext.Current.User as MyIdentity.MyPrincipal).Identity as MyIdentity;
-            User loggedUser = db.User.FirstOrDefault(a => a.IdCard.Equals(model.profileData.IdCard));
+            User loggedUser = db.User.FirstOrDefault(a => a.IdCard.Equals(identity.User.IdCard));
             if (ModelState.IsValid && hashPassword(model.changePass.OldPassword) != loggedUser.Password)
             {
                 TempData["Error"] = "Current Password don't match";
@@ -151,7 +190,7 @@ namespace Tabemashou_User.Controllers
                 db.Entry(loggedUser).State = EntityState.Modified;
                 db.SaveChanges();
                 TempData["Success"] = "Profile correctly updated.";
-                return RedirectToAction("UserProfile", "Account");
+                
             }
 
             model.profileData = new ProfileViewModel();
@@ -165,7 +204,7 @@ namespace Tabemashou_User.Controllers
             model.profileData.MiddleName = loggedUser.MiddleName;
             model.profileData.SecondLastName = loggedUser.SecondLastName;
             model.profileData.Gender = loggedUser.Gender;
-
+           
             ViewBag.Nationality = new SelectList(db.Country, "IdCountry", "Name", loggedUser.Nationality);
             return View("UserProfile", model);
         }
