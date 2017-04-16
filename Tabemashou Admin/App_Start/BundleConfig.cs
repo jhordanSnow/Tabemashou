@@ -136,7 +136,7 @@ namespace Tabemashou_Admin
                 "~/AdminLTE/dist/js/app.js"));
 
             bundles.Add(new StyleBundle("~/AdminLTE/dist/css").Include(
-                "~/AdminLTE/dist/css/admin-lte.min.css"));
+                "~/AdminLTE/dist/css/admin-lte.css"));
 
             bundles.Add(new StyleBundle("~/AdminLTE/dist/css/skins").Include(
                 "~/AdminLTE/dist/css/skins/_all-skins.min.css"));

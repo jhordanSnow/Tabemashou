@@ -42,6 +42,7 @@ namespace Tabemashou_Admin.Controllers
         // GET: Restaurants/Create
         public ActionResult Create()
         {
+            db.PR_DeleteUnusedTypes();
             ViewBag.Type = new SelectList(db.Type, "IdType", "Name");
             return View();
         }
@@ -133,6 +134,7 @@ namespace Tabemashou_Admin.Controllers
             Session["RestId"] = id;
             RegisterRestaurantModel model = new RegisterRestaurantModel { restaurant = restaurant };
             model.selectedItems = new MultiSelectList(db.Type, "IdType", "Name", restaurant.Type.Select(t => t.IdType));
+            db.PR_DeleteUnusedTypes();
             return View(model);
         }
 

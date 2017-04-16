@@ -492,6 +492,8 @@
     <Content Include="AdminLTE\plugins\timepicker\js\bootstrap-timepicker.min.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Images\Login_Background.png" />
+    <Content Include="Images\Tabemashou_124.png" />
     <Content Include="Images\RestaurantLogos\Abra.png" />
     <Content Include="Images\RestaurantLogos\default.png" />
     <Content Include="Images\RestaurantLogos\god.jpg" />
