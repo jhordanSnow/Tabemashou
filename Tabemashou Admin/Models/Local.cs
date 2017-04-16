@@ -21,6 +21,7 @@ namespace Tabemashou_Admin.Models
             this.Table = new HashSet<Table>();
             this.Review = new HashSet<Review>();
             this.Photo = new HashSet<Photo>();
+            this.Check = new HashSet<Check>();
         }
     
         public int IdLocal { get; set; }
@@ -41,5 +42,7 @@ namespace Tabemashou_Admin.Models
         public virtual ICollection<Review> Review { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Photo> Photo { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Check> Check { get; set; }
     }
 }

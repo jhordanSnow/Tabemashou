@@ -62,6 +62,9 @@ namespace Tabemashou_User.Models
     {
         public ProfileViewModel profileData { get; set; }
         public ChangePasswordViewModel changePass { get; set; }
+        public string Activity { get; set; }
+        public string Settings { get; set; }
+        public string Change { get; set; }
 
     }
 

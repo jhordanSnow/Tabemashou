@@ -323,5 +323,10 @@ namespace Tabemashou_Admin.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_UpdateRestaurantTypes", restaurantIdParameter, typeListParameter);
         }
+    
+        public virtual int PR_DeleteUnusedTypes()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_DeleteUnusedTypes");
+        }
     }
 }
