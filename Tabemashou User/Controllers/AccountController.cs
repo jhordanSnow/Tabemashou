@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -83,6 +84,13 @@ namespace Tabemashou_User.Controllers
             model.Settings = "";
             model.Change = "";
 
+            ObjectParameter followersQty = new ObjectParameter("Qty", typeof(int));
+            db.PR_GetFollowersCount(identity.User.IdCard, followersQty);
+            
+
+            ObjectParameter followingQty = new ObjectParameter("Qty", typeof(int));
+            db.PR_GetFriendsCount(identity.User.IdCard, followingQty);
+
             model.profileData = new ProfileViewModel
             {
                 Username = loggedUser.Username,
@@ -95,7 +103,10 @@ namespace Tabemashou_User.Controllers
                 BirthDate = loggedUser.BirthDate,
                 Nationality = loggedUser.Nationality,
                 AccountNumber = customer.AccountNumber,
-            };
+                Followers = (int)followersQty.Value,
+                Following = (int)followingQty.Value
+
+        };
 
             ViewBag.Nationality = new SelectList(db.Country, "IdCountry", "Name", loggedUser.Nationality);
             return View(model);

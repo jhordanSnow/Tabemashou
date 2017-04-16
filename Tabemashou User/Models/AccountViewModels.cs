@@ -119,5 +119,8 @@ namespace Tabemashou_User.Models
 
         [Required]
         public decimal AccountNumber { get; set; }
+
+        public decimal Followers { get; set; }
+        public decimal Following { get; set; }
     }
 }

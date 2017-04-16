@@ -11,9 +11,17 @@ namespace Tabemashou_User.Models
 {
     using System;
     
-    public partial class PR_GetDistricts_Result
+    public partial class PR_GetFriends_Result
     {
-        public int IdDistrict { get; set; }
-        public string Name { get; set; }
+        public decimal IdCard { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public string Gender { get; set; }
+        public System.DateTime BirthDate { get; set; }
+        public int Nationality { get; set; }
+        public string FirstName { get; set; }
+        public string MiddleName { get; set; }
+        public string LastName { get; set; }
+        public string SecondLastName { get; set; }
     }
 }
