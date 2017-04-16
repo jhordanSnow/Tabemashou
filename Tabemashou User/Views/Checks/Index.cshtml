@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Tabemashou_User.Models.Check>
+﻿@using Tabemashou_User.Models
+@model IEnumerable<Tabemashou_User.Models.Check>
 
 @{
     ViewBag.Title = "Index";
@@ -7,7 +8,25 @@
 <h2>Index</h2>
 
 @Styles.Render("~/AdminLTE/plugins/datatables/css")
-    
+
+@if (!ViewContext.ViewData.ModelState.IsValid || TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <h4><i class="icon fa fa-ban"></i> Error!</h4>
+        @TempData["Error"]
+        @Html.ValidationSummary("", new { @class = "text" })
+    </div>
+}
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <h4><i class="icon fa fa-check"></i> Success!</h4>
+        @TempData["Success"]
+    </div>
+}    
+
 <div class="box">
     <div class="box-header">
         <h3 class="box-title">Checkout</h3>
@@ -23,15 +42,29 @@
             </tr>
             </thead>
             <tbody>
-            @foreach (var item in Model)
+            @foreach (Check item in Model)
             {
                 <tr>
                     <td>@Html.DisplayFor(modelItem => item.Local.Restaurant.Name)</td>
                     <td>@Html.DisplayFor(modelItem => item.Balance)</td>
                     <td>@Html.DisplayFor(modelItem => item.State)</td>
-                    <td>
-                        @Html.ActionLink(" ", "Edit", new {id = item.IdCheck}, new { @Class = "btn btn-sm btn-danger fa fa-ban", @Title = "Cancel"})
-                        @Html.ActionLink("  ", "Pay", new {id = item.IdCheck}, new { @Class = "btn btn-sm btn-success fa fa-dollar", @Title = "Pay"})
+                    <td align="center">
+                        @{
+                            if (item.intState == 1)
+                            {
+                                @Html.ActionLink(" ", "Cancel", new {id = item.IdCheck}, new {@Class = "btn btn-sm btn-danger fa fa-ban", @Title = "Cancel"})
+                                @Html.ActionLink("  ", "Pay", new {id = item.IdCheck}, new {@Class = "btn btn-sm btn-success fa fa-dollar", @Title = "Pay"})
+
+                            }
+                            else if (item.intState == 2)
+                            {
+                                @Html.ActionLink("  ", "Review", new { id = item.IdCheck }, new { @Class = "btn btn-sm btn-primary fa fa-star", @Title = "Review" })
+                            }
+                            else if (item.intState == 3)
+                            {
+                                <p>mostrar invoce ak7</p>
+                            }
+                        }
                     </td>
                 </tr>
             }

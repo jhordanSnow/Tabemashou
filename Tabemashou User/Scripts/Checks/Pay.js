@@ -69,9 +69,26 @@ $(function () {
 
 function pay() {
     var balance = parseFloat($("#balance").val());
-    if (balance === 0) {
+    if (balance === 0 || (balance < 1 && balance > -1)) {
         $("#real_submit_button").click();
     } else {
         alert("The Balance must be 0");
     }
+}
+
+function deleteUser(object) {
+    var someObj = {
+        UserId: $(object).attr("data-user-id"),
+        CheckId: $(object).attr("data-check-id")
+    };
+
+    $.ajax({
+        url: '/Checks/DeleteCustomer',
+        type: "POST",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(someObj)
+    });
+
+    location.reload();
 }

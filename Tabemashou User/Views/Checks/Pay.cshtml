@@ -107,7 +107,7 @@
                                  <div class="col-md-2">
                                      <img class="img-responsive" src="@Url.Action("ShowPhotoProfile", "Common", new {id = client.Customer.IdCard})"/>
                                  </div>
-                                 <div class="col-md-8 row">
+                                 <div class="col-md-9 row">
                                      <h3> @client.Customer.User.getCompleteName() </h3>
                                      <div class="col-md-8">
                                          <ul style="list-style-type: none;"><li>
@@ -122,6 +122,9 @@
                                              <input type="number" name="UserAdd[@client.IdCard].TotalPay" class="form-control slide-text" data-id="@client.IdCard" id="lbl_@client.IdCard" value="@client.TotalPrice"/>
                                          </div>
                                      </div>
+                                 </div>
+                                 <div class="col-md-1">
+                                        <button type="button" onclick="deleteUser(this)" data-user-id="@client.IdCard" data-check-id="@Model.IdCheck" class="btn btn-danger fa pull-right fa-remove"></button>
                                  </div>
                              </div>
                          }
@@ -154,7 +157,7 @@
                     @Html.Hidden("CheckId", Model.IdCheck)
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-outline" onclick="addCustomer()">Add</button>
+                    <button type="submit" class="btn btn-outline">Add</button>
                 </div>
             }
         </div>

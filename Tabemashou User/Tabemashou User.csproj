@@ -271,6 +271,9 @@
     <Compile Include="Models\PR_RestaurantInfo_Result.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PR_RestaurantTypes_Result.cs">
+      <DependentUpon>TabemashouModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Restaurant.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>
@@ -637,6 +640,10 @@
     <Content Include="Views\Checks\Index.cshtml" />
     <Content Include="Views\Checks\Invalid.cshtml" />
     <Content Include="Views\Checks\Pay.cshtml" />
+    <Content Include="Views\Social\Followers.cshtml" />
+    <Content Include="Views\Social\Following.cshtml" />
+    <Content Include="Views\Social\Profile.cshtml" />
+    <Content Include="Views\Checks\Pay.cshtml" />
     <EntityDeploy Include="Models\TabemashouModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>TabemashouModel.Designer.cs</LastGenOutput>
@@ -644,9 +651,6 @@
     <Content Include="Models\TabemashouModel.edmx.diagram">
       <DependentUpon>TabemashouModel.edmx</DependentUpon>
     </Content>
-    <Content Include="Views\Social\Followers.cshtml" />
-    <Content Include="Views\Social\Following.cshtml" />
-    <Content Include="Views\Social\Profile.cshtml" />
     <Content Include="Views\Reviews\Create.cshtml" />
     <Content Include="Views\Reviews\Details.cshtml" />
     <Content Include="P404.cshtml" />

@@ -368,9 +368,13 @@ GO
 CREATE PROCEDURE [PR_GetChecks](
 	@IdCard NUMERIC(20)
 )AS BEGIN
-	SELECT C.* FROM [Check] C
+	SELECT C.*, ISNULL(R.CantReviews,0) [CantReviews] FROM [Check] C
 		INNER JOIN [PaymentByCustomer] PC ON PC.IdCheck = C.IdCheck AND PC.IdCard = @IdCard	
-	ORDER BY [Date] DESC
+		LEFT JOIN (SELECT C2.IdCheck IdC2, COUNT(R.IdReview) [CantReviews]
+					FROM [Check] C2
+					INNER JOIN [Review] R ON R.IdCheck = C2.IdCheck
+					GROUP BY C2.IdCheck) R ON R.IdC2 = C.IdCheck
+	ORDER BY C.[Date] DESC
 END
 GO
 
@@ -426,5 +430,87 @@ CREATE PROCEDURE [PR_GetFollowers](
 	INNER JOIN [User] U
 		ON FBC.IdFriend = @IdCard
 	WHERE FBC.IdCard = U.IdCard
+END
+GO
+
+CREATE PROCEDURE [dbo].[PR_GetFriendsCount](
+	@IdCard NUMERIC(20),
+	@Qty INT OUTPUT
+)AS BEGIN
+	SELECT @Qty = COUNT(*)
+		FROM [FriendsByCustomer] FBC
+		INNER JOIN [User] U
+			ON FBC.IdFriend = U.IdCard
+		WHERE FBC.IdCard = @IdCard
+	return
+END
+GO
+
+CREATE PROCEDURE [dbo].[PR_GetFollowersCount](
+	@IdCard NUMERIC(20),
+	@Qty INT OUTPUT
+)AS BEGIN
+	SELECT @Qty = COUNT(*)
+		FROM [FriendsByCustomer] FBC
+		INNER JOIN [User] U
+			ON FBC.IdFriend = @IdCard
+		WHERE FBC.IdCard = U.IdCard
+	RETURN
+END
+GO
+
+CREATE PROCEDURE [PR_BalanceAccounts]
+AS BEGIN
+	UPDATE [Check] SET [Balance] = 0, [State] = 'Paid' WHERE ([Balance] < 1 AND [Balance] > -1)
+END
+GO
+
+CREATE PROCEDURE [PR_AddPayment](
+	@IdCard NUMERIC(20),
+	@IdCheck INT,
+	@TotalPay SMALLMONEY
+)AS BEGIN
+	UPDATE [PaymentByCustomer] SET TotalPrice = @TotalPay WHERE IdCard = @IdCard AND IdCheck = @IdCheck
+	UPDATE [Check] SET Balance += @TotalPay WHERE IdCheck = @IdCheck
+	EXEC [PR_BalanceAccounts]
+END
+GO
+
+CREATE PROCEDURE [PR_DeleteDishTypes](
+	@DishId INT
+)AS BEGIN
+	DELETE FROM [TypesPerDish] WHERE IdDish = @DishId
+END
+GO
+
+REATE PROCEDURE [PR_UpdateDishTypes](
+	@IdDish INT,
+	@TypeList VARCHAR(MAX)
+)
+
+AS BEGIN
+
+	DECLARE @TypesId TABLE([IdType] INT)
+	INSERT INTO @TypesId ([IdType])
+			(	SELECT TR.IdType
+				FROM [TypesPerDish] TR
+				WHERE TR.IdRestaurant = @IdDish
+			)
+
+	EXEC [PR_DeleteDishTypes] @IdDish
+	IF @TypeList IS NOT NULL
+	BEGIN
+		INSERT INTO [TypesPerDish]
+			SELECT @IdDish, VALUE FROM string_split(@TypeList,',')
+	END
+
+	DELETE T FROM [Type] T
+	INNER JOIN (SELECT T2.IdType
+				FROM [Type] T2
+					LEFT JOIN [TypesPerDish] TR ON TR.IdType = T2.IdType
+				WHERE T2.IdType IN (SELECT IdType FROM @TypesId)
+				GROUP BY T2.IdType
+				HAVING COUNT(TR.IdDish) = 0
+	) NoType ON NoType.IdType = T.IdType
 END
 GO
