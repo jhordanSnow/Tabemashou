@@ -140,8 +140,15 @@ namespace Tabemashou_User.Controllers
 
         public ActionResult Pay(int? id)
         {
-            return View(db.Check.Find(id));
-
+            Check paymentCheck = db.Check.Find(id);
+            if (paymentCheck.State == "In Process")
+            {
+                return View(paymentCheck);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Checks");
+            }    
         }
 
         // GET: Checks/Edit/5
@@ -255,7 +262,11 @@ namespace Tabemashou_User.Controllers
         [HttpPost]
         public ActionResult SubmitPayment(ICollection<UserAdd> userAdd)
         {
-
+            Check paymentCheck = db.Check.Find(userAdd.First().CheckId);
+            if (paymentCheck.State != "In Process")
+            {
+                return RedirectToAction("Index", "Checks");
+            }
             using (var dbTran = db.Database.BeginTransaction())
             {
                 try
