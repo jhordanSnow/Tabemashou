@@ -28,5 +28,10 @@ namespace Tabemashou_User.Models
         public virtual Administrator Administrator { get; set; }
         public virtual Country Country { get; set; }
         public virtual Customer Customer { get; set; }
+
+        public string getCompleteName()
+        {
+            return string.Format("{0} {1} {2} {3}", FirstName, MiddleName, LastName, SecondLastName);
+        }
     }
 }

@@ -23,5 +23,10 @@ namespace Tabemashou_User.Models
     
         public virtual Check Check { get; set; }
         public virtual Dish Dish { get; set; }
+
+        public decimal getTotal()
+        {
+            return (UnitaryPrice + (UnitaryPrice * SellTax / 100) + (UnitaryPrice * ServiceTax / 100)) * Quantity;
+        }
     }
 }

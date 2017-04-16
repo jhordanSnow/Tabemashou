@@ -32,5 +32,66 @@ namespace Tabemashou_User.Models
         public virtual ICollection<DishesByCheck> DishesByCheck { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PaymentByCustomer> PaymentByCustomer { get; set; }
+
+        public decimal getSubtotal()
+        {
+            decimal subTotal = 0;
+            foreach (DishesByCheck dish in DishesByCheck)
+            {
+                subTotal += dish.UnitaryPrice;
+            }
+            return subTotal;
+        }
+
+        public decimal getSellTax()
+        {
+            decimal sellTax = 0;
+            foreach (DishesByCheck dish in DishesByCheck)
+            {
+                sellTax += dish.SellTax;
+            }
+            return sellTax / DishesByCheck.Count;
+        }
+
+        public decimal getServiceTax()
+        {
+            decimal serviceTax = 0;
+            foreach (DishesByCheck dish in DishesByCheck)
+            {
+                serviceTax += dish.ServiceTax;
+            }
+            return serviceTax / DishesByCheck.Count;
+        }
+
+        public decimal getSellTaxTotal()
+        {
+            decimal subTotal = 0;
+            foreach (DishesByCheck dish in DishesByCheck)
+            {
+                subTotal += dish.UnitaryPrice * dish.SellTax / 100;
+            }
+            return subTotal;
+        }
+
+        public decimal getServiceTaxTotal()
+        {
+            decimal subTotal = 0;
+            foreach (DishesByCheck dish in DishesByCheck)
+            {
+                subTotal += dish.UnitaryPrice * dish.ServiceTax / 100;
+            }
+            return subTotal;
+        }
+        public decimal getTotal()
+        {
+            decimal total = 0;
+            foreach (DishesByCheck dish in DishesByCheck)
+            {
+                total += dish.getTotal();
+            }
+            return total;
+        }
+
+
     }
 }

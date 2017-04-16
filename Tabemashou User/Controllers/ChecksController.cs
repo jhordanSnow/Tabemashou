@@ -24,7 +24,13 @@ namespace Tabemashou_User.Controllers
         // GET: Checks
         public ActionResult Index()
         {
-            return View(db.Check.ToList());
+            var identity = ((MyIdentity.MyPrincipal)System.Web.HttpContext.Current.User).Identity as MyIdentity;
+            List<Check> model = new List<Check>();
+            foreach (var check in db.PR_GetChecks(identity.User.IdCard).ToList()) 
+            {
+                model.Add(db.Check.Find(check.IdCheck));
+            }
+            return View(model);
         }
 
         // GET: Checks/Details/5
@@ -101,6 +107,12 @@ namespace Tabemashou_User.Controllers
                 }
             }
             return RedirectToAction("Create", "Checks", model);
+        }
+
+        public ActionResult Pay(int? id)
+        {
+            return View(db.Check.Find(id));
+
         }
 
         // GET: Checks/Edit/5

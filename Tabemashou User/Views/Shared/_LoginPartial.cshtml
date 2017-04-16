@@ -14,7 +14,7 @@
                         if (Request.IsAuthenticated)
                         {
                             var identity = (HttpContext.Current.User as MyIdentity.MyPrincipal).Identity as MyIdentity;
-                            <text>@string.Format("{0} {1} {2} {3}", identity.User.FirstName, identity.User.MiddleName, identity.User.LastName, identity.User.SecondLastName)</text>
+                            <text>@identity.User.getCompleteName()</text>
                         }
                     }
                 </p>

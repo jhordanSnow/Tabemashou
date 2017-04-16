@@ -133,6 +133,7 @@
             <PropertyRef Name="IdCheck" />
           </Key>
           <Property Name="IdCard" Type="numeric" Precision="20" Scale="0" Nullable="false" />
+          <Property Name="AccountNumber" Type="numeric" Precision="20" Scale="0" Nullable="false" />
           <Property Name="IdCheck" Type="int" Nullable="false" />
           <Property Name="Date" Type="datetime" Nullable="false" />
           <Property Name="TotalPrice" Type="smallmoney" Nullable="false" />
@@ -1039,6 +1040,7 @@
             <PropertyRef Name="IdCheck" />
           </Key>
           <Property Name="IdCard" Type="Decimal" Precision="20" Scale="0" Nullable="false" />
+          <Property Name="AccountNumber" Type="Decimal" Precision="20" Scale="0" Nullable="false" />
           <Property Name="IdCheck" Type="Int32" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="TotalPrice" Type="Decimal" Precision="10" Scale="4" Nullable="false" />
@@ -1770,6 +1772,7 @@
             <EntityTypeMapping TypeName="TabemashouModel.PaymentByCustomer">
               <MappingFragment StoreEntitySet="PaymentByCustomer">
                 <ScalarProperty Name="IdCard" ColumnName="IdCard" />
+                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
                 <ScalarProperty Name="IdCheck" ColumnName="IdCheck" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
@@ -1976,7 +1979,7 @@
         <DesignerProperty Name="EnablePluralization" Value="false" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
-        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->

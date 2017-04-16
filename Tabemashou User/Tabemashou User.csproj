@@ -252,6 +252,9 @@
     <Compile Include="Models\Province.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PR_GetChecks_Result.cs">
+      <DependentUpon>TabemashouModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PR_GetDistricts_Result.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>
@@ -592,6 +595,9 @@
     <Content Include="Scripts\Social\Following.js" />
     <Content Include="Scripts\Social\Profile.js" />
     <Content Include="Scripts\Shared\LeftMenu.js" />
+    <Content Include="Scripts\Checks\Pay.js" />
+    <Content Include="Scripts\Checks\Data.js" />
+
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -636,6 +642,7 @@
     <Content Include="Views\Social\Followers.cshtml" />
     <Content Include="Views\Social\Following.cshtml" />
     <Content Include="Views\Social\Profile.cshtml" />
+    <Content Include="Views\Checks\Pay.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

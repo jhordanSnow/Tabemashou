@@ -710,6 +710,9 @@
         <Function Name="PR_DeleteRestaurantTypes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="RestaurantId" Type="int" Mode="In" />
         </Function>
+        <Function Name="PR_GetChecks" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdCard" Type="numeric" Mode="In" />
+        </Function>
         <Function Name="PR_GetDistricts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="PR_GetFollowers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdCard" Type="numeric" Mode="In" />
@@ -1622,6 +1625,9 @@
           <FunctionImport Name="PR_GetFollowers" ReturnType="Collection(TabemashouModel.PR_GetFollowers_Result)">
             <Parameter Name="IdCard" Mode="In" Type="Decimal" />
           </FunctionImport>
+          <FunctionImport Name="PR_GetChecks" ReturnType="Collection(TabemashouModel.PR_GetChecks_Result)">
+          <Parameter Name="IdCard" Mode="In" Type="Decimal" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="PR_GetDistricts_Result">
           <Property Type="Int32" Name="IdDistrict" Nullable="false" />
@@ -1657,6 +1663,13 @@
           <Property Type="String" Name="MiddleName" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="SecondLastName" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="PR_GetChecks_Result">
+          <Property Type="Int32" Name="IdCheck" Nullable="false" />
+          <Property Type="Int32" Name="IdLocal" Nullable="false" />
+          <Property Type="DateTime" Name="Date" Nullable="false" Precision="23" />
+          <Property Type="String" Name="State" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="Balance" Nullable="false" Precision="10" Scale="3" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1975,6 +1988,17 @@
                 <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="SecondLastName" ColumnName="SecondLastName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="PR_GetChecks" FunctionName="TabemashouModel.Store.PR_GetChecks">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TabemashouModel.PR_GetChecks_Result">
+                <ScalarProperty Name="IdCheck" ColumnName="IdCheck" />
+                <ScalarProperty Name="IdLocal" ColumnName="IdLocal" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

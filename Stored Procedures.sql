@@ -297,8 +297,8 @@ CREATE PROCEDURE [PR_CreateDetailCheck](
 	@IdDish INT,
 	@IdCheck INT
 ) AS BEGIN
-	DECLARE @PRICE DECIMAL
-	DECLARE @PRICEPRODUCT DECIMAL
+	DECLARE @PRICE SMALLMONEY
+	DECLARE @PRICEPRODUCT SMALLMONEY
 	DECLARE @EXISTE INT
 	DECLARE @TAX DECIMAL
 	DECLARE @SERVICE DECIMAL
@@ -320,10 +320,34 @@ CREATE PROCEDURE [PR_CreateDetailCheck](
 	UPDATE [Check] SET [Balance] -= @PRICE WHERE [IdCheck] = @IdCheck
 END
 GO
+
 CREATE PROCEDURE [PR_CreatePaymentCheck](
 	@IdCard NUMERIC(20),
 	@IdCheck INT
 )AS BEGIN
-	INSERT INTO [PaymentByCustomer]([IdCard],[IdCheck],[TotalPrice]) VALUES(@IdCard, @IdCheck, 0)
+	DECLARE @ACCOUNTNUMBER DECIMAL
+	SET @ACCOUNTNUMBER = (SELECT [AccountNumber] FROM [Customer] WHERE [IdCard] = @IdCard)
+	INSERT INTO [PaymentByCustomer]([IdCard],[IdCheck],[AccountNumber],[TotalPrice]) VALUES(@IdCard, @IdCheck, @ACCOUNTNUMBER, 0)
+END
+GO
+
+CREATE PROCEDURE [PR_GetChecks](
+	@IdCard NUMERIC(20)
+)AS BEGIN
+	SELECT C.* FROM [Check] C
+		INNER JOIN [PaymentByCustomer] PC ON PC.IdCheck = C.IdCheck AND PC.IdCard = @IdCard	
+	ORDER BY [Date] DESC
+END
+GO
+
+CREATE PROCEDURE [PR_DeleteUnusedTypes]
+AS BEGIN
+	DELETE T2 FROM [Type] T2 WHERE T2.[IdType] IN (
+		SELECT T.[IdType] FROM [Type] T
+		LEFT JOIN  [TypesPerRestaurant] TPR ON T.IdType = TPR.IdType
+		LEFT JOIN [TypesPerDish] TPD ON T.IdType = TPD.IdType
+		GROUP BY T.[IdType]
+		HAVING COUNT(TPR.IdRestaurant) = 0 AND COUNT(TPD.IdDish) = 0
+		)
 END
 GO

@@ -38,6 +38,10 @@ namespace Tabemashou_User
         {
             bundles.Add(new ScriptBundle("~/Scripts/Checks/Create").Include(
                 "~/Scripts/Checks/Create.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Checks/Table").Include(
+               "~/Scripts/Checks/Data.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Checks/Pay").Include(
+             "~/Scripts/Checks/Pay.js"));
 
         }
 
