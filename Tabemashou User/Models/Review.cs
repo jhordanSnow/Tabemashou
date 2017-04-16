@@ -20,9 +20,9 @@ namespace Tabemashou_User.Models
         public decimal Price { get; set; }
         public decimal Quality { get; set; }
         public decimal IdCustomer { get; set; }
-        public int IdLocal { get; set; }
+        public int IdCheck { get; set; }
     
+        public virtual Check Check { get; set; }
         public virtual Customer Customer { get; set; }
-        public virtual Local Local { get; set; }
     }
 }

@@ -20,7 +20,6 @@ namespace Tabemashou_User.Models
             this.Check = new HashSet<Check>();
             this.DishesPerLocal = new HashSet<DishesPerLocal>();
             this.Table = new HashSet<Table>();
-            this.Review = new HashSet<Review>();
             this.Photo = new HashSet<Photo>();
         }
     
@@ -40,8 +39,6 @@ namespace Tabemashou_User.Models
         public virtual Restaurant Restaurant { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Table> Table { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Review> Review { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Photo> Photo { get; set; }
     }

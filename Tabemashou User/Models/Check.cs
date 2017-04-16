@@ -19,6 +19,7 @@ namespace Tabemashou_User.Models
         {
             this.DishesByCheck = new HashSet<DishesByCheck>();
             this.PaymentByCustomer = new HashSet<PaymentByCustomer>();
+            this.Review = new HashSet<Review>();
         }
     
         public int IdCheck { get; set; }
@@ -26,12 +27,15 @@ namespace Tabemashou_User.Models
         public System.DateTime Date { get; set; }
         public string State { get; set; }
         public decimal Balance { get; set; }
-    
+        public int intState { get; set; }
+
         public virtual Local Local { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DishesByCheck> DishesByCheck { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PaymentByCustomer> PaymentByCustomer { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Review> Review { get; set; }
 
         public decimal getSubtotal()
         {
@@ -91,6 +95,7 @@ namespace Tabemashou_User.Models
             }
             return total;
         }
+
 
 
     }

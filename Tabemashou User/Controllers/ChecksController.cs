@@ -26,11 +26,39 @@ namespace Tabemashou_User.Controllers
         {
             var identity = ((MyIdentity.MyPrincipal)System.Web.HttpContext.Current.User).Identity as MyIdentity;
             List<Check> model = new List<Check>();
-            foreach (var check in db.PR_GetChecks(identity.User.IdCard).ToList()) 
+            foreach (var check in db.PR_GetChecks(identity.User.IdCard).ToList())
             {
-                model.Add(db.Check.Find(check.IdCheck));
+                Check tmpCheck = db.Check.Find(check.IdCheck);
+                tmpCheck.intState = (check.State == "In Process") ? 1 : ((check.CantReviews == 0 && check.State == "Paid") ? 2 : 3);
+                tmpCheck.intState = (check.State == "Canceled") ? 4 : tmpCheck.intState;
+                model.Add(tmpCheck);
+                
             }
             return View(model);
+        }
+
+        public ActionResult Cancel(int? id)
+        {
+            try
+            {
+                Check cancelCheck = db.Check.Find(id);
+                cancelCheck.Balance = 0;
+                cancelCheck.State = "Canceled";
+                db.Entry(cancelCheck).State = EntityState.Modified;
+                db.SaveChanges();
+                TempData["Success"] = "Correct.";
+            }
+            catch (Exception e)
+            {
+                TempData["Error"] = "There was an error canceling the check.";
+                ModelState.AddModelError("", "");
+            }
+            return RedirectToAction("Index", "Checks");
+        }
+
+        public ActionResult Review()
+        {
+            return null;
         }
 
         // GET: Checks/Details/5
@@ -205,16 +233,52 @@ namespace Tabemashou_User.Controllers
         }
 
         [HttpPost]
+        public ActionResult DeleteCustomer([Bind(Include = "UserId, CheckId")] UserAdd userAdd)
+        {
+            try
+            {
+                db.PaymentByCustomer.Remove(db.PaymentByCustomer.Find(userAdd.UserId, userAdd.CheckId));
+                db.SaveChanges();
+
+                return Json("good");
+
+            }
+            catch (Exception e)
+            {
+                TempData["Error"] = "There was an error trying to remove de user.";
+                ModelState.AddModelError("", "");
+            }
+            
+            return RedirectToAction("Pay","Checks", new{id = userAdd.CheckId});
+        }
+
+        [HttpPost]
         public ActionResult SubmitPayment(ICollection<UserAdd> userAdd)
         {
-            foreach (UserAdd user in userAdd)
+
+            using (var dbTran = db.Database.BeginTransaction())
             {
-                Debug.WriteLine("-------------------------------- caca -------------------");
-                Debug.WriteLine(user.CheckId);
-                Debug.WriteLine(user.TotalPay);
-                Debug.WriteLine(user.UserId);
+                try
+                {
+                    foreach (UserAdd user in userAdd)
+                    {
+                        db.PR_AddPayment(user.UserId, user.CheckId, user.TotalPay);
+                    }
+
+                    db.SaveChanges();
+                    dbTran.Commit();
+
+                    return RedirectToAction("Index", "Checks");
+                }
+                catch (Exception ex)
+                {
+                    dbTran.Rollback();
+                    TempData["Error"] = "There was an error trying to remove de user.";
+                    ModelState.AddModelError("", "");
+                }
             }
-            return RedirectToAction("Index", "Checks");
+
+            return RedirectToAction("Pay", "Checks", new { id = userAdd.First().CheckId });
         }
     }
 }

@@ -18,5 +18,6 @@ namespace Tabemashou_User.Models
         public System.DateTime Date { get; set; }
         public string State { get; set; }
         public decimal Balance { get; set; }
+        public int CantReviews { get; set; }
     }
 }
