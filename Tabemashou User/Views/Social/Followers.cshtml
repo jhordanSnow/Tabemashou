@@ -1,0 +1,54 @@
+﻿@model  Tabemashou_User.Models.FollowersViewModel
+
+@{
+    ViewBag.Title = "Followers";
+}
+
+@if (TempData["NoFollowers"] != null)
+{
+    <h1>@TempData["NoFollowers"]</h1>
+}
+<div class="row">
+    @foreach (var account in Model.Customers)
+    {
+        <div class="col-md-4" style="cursor: pointer" onclick="GoToProfile(@account.IdCard)">
+            <div class="box box-widget widget-user">
+
+                <div class="widget-user-header bg-aqua-active">
+                    <span class="label label-primary pull-right">Following</span>
+                    <h3 class="widget-user-username">@account.FirstName @account.LastName</h3>
+                    <h5 class="widget-user-desc">&#64;@account.Username</h5>
+
+                </div>
+                <div class="widget-user-image">
+                    <img class="img-circle" src="@Url.Action("ShowProfilePicture", "Social", new {id = account.IdCard})" alt="User Avatar">
+                </div>
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-sm-4 border-right">
+                            <div class="description-block">
+                                <h5 class="description-header">420</h5>
+                                <span class="description-text">EXPERIENCE</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 border-right">
+                            <div class="description-block">
+                                <h5 class="description-header">@account.Followers</h5>
+                                <span class="description-text">FOLLOWERS</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="description-block">
+                                <h5 class="description-header">69</h5>
+                                <span class="description-text">REVIEWS</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+@section Scripts {
+    @Scripts.Render("~/Scripts/Social/Following")
+}

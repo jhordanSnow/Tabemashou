@@ -199,6 +199,7 @@
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MyIdentity.cs" />
+    <Compile Include="Controllers\SocialController.cs" />
     <Compile Include="Filter\UserAuth.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -260,6 +261,10 @@
     <Compile Include="Models\PR_GetDistricts_Result.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PR_GetFollowers_Result.cs">
+      <DependentUpon>TabemashouModel.tt</DependentUpon>
+    </Compile>
+
     <Compile Include="Models\PR_GetFriends_Result.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>
@@ -299,6 +304,7 @@
     <Compile Include="Models\User.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -579,6 +585,7 @@
     <Content Include="AdminLTE\plugins\ionicons\fonts\ionicons.woff" />
     <Content Include="Images\Login_Background.png" />
     <Content Include="Images\RestaurantLogos\default.png" />
+    <Content Include="Images\Tabemashou_124.png" />
     <Content Include="Models\TabemashouModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>TabemashouModel.edmx</DependentUpon>
@@ -593,8 +600,12 @@
     <Content Include="Scripts\Account\Register.js" />
     <Content Include="Scripts\Account\UserProfile.js" />
     <Content Include="Scripts\Checks\Create.js" />
+    <Content Include="Scripts\Social\Following.js" />
+    <Content Include="Scripts\Social\Profile.js" />
+    <Content Include="Scripts\Shared\LeftMenu.js" />
     <Content Include="Scripts\Checks\Pay.js" />
     <Content Include="Scripts\Checks\Data.js" />
+
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -637,6 +648,10 @@
     <Content Include="Models\TabemashouModel.edmx.diagram">
       <DependentUpon>TabemashouModel.edmx</DependentUpon>
     </Content>
+    <Content Include="Views\Social\Followers.cshtml" />
+    <Content Include="Views\Social\Following.cshtml" />
+    <Content Include="Views\Social\Profile.cshtml" />
+    <Content Include="Views\Checks\Pay.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,192 @@
+﻿@using System.Reflection.Emit
+@using Microsoft.Ajax.Utilities
+@using Tabemashou_User.Models
+@model Tabemashou_User.Models.ProfileModel
+@{
+    ViewBag.Title = "Profile";
+    ViewBag.Breadcrumb = new Breadcrumb(new Crumb[] {
+        new Crumb("Account", "", "fa-dashboard")
+    });
+
+}
+
+@Styles.Render("~/AdminLTE/plugins/datepicker/css")
+@Styles.Render("~/AdminLTE/dist/css")
+
+<div class="row">
+<div class="col-md-3">
+    <div class="box box-primary">
+        <div class="box-body box-profile">
+            <img src="@Url.Action("ShowProfilePicture", "Social", new {id = Model.IdCard})" class="img-responsive" alt="User Image" id="preImage" >
+            <h3 class="profile-username text-center"> @Model.FirstName @Model.LastName </h3>
+            <p class="text-muted text-center">&#64;@Model.Username</p>
+            <button type="button" id="followButton" class="btn btn-block btn-primary" onclick="Follow(@Model.IdCard)">Follow</button>
+            <button id="unfollowButton" type="button" class="btn btn-block btn-default" onclick="Unfollow(@Model.IdCard)"><i class="fa fa-fw fa-check"></i>Unfollow</button>
+            <br>
+            <ul class="list-group list-group-unbordered">
+                <li class="list-group-item">
+                    <b>Followers</b> <a class="pull-right">@Model.Followers</a>
+                </li>
+                <li class="list-group-item">
+                    <b>Following</b> <a class="pull-right">@Model.Following</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="col-md-9">
+<div class="nav-tabs-custom">
+<ul class="nav nav-tabs">
+    <li class=""><a href="#activity" data-toggle="tab">Activity</a></li>
+    <li class=""><a href="#about" data-toggle="tab">About</a></li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane active" id="activity">
+        <div class="post">
+            <div class="user-block">
+                <img class="img-circle img-bordered-sm" src="~/AdminLTE/dist/img/user.svg" alt="user image">
+                <span class="username">
+                    <a href="#">Jonathan Burke Jr.</a>
+                    <a href="#" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a>
+                </span>
+                <span class="description">Shared publicly - 7:30 PM today</span>
+            </div>
+            <p>
+                Lorem ipsum represents a long-held tradition for designers,
+                typographers and the like. Some people hate it and argue for
+                its demise, but others ignore the hate as they create awesome
+                tools to help create filler text for everyone from bacon lovers
+                to Charlie Sheen fans.
+            </p>
+            <ul class="list-inline">
+                <li><a href="#" class="link-black text-sm"><i class="fa fa-share margin-r-5"></i> Share</a></li>
+                <li>
+                    <a href="#" class="link-black text-sm"><i class="fa fa-thumbs-o-up margin-r-5"></i> Like</a>
+                </li>
+                <li class="pull-right">
+                    <a href="#" class="link-black text-sm">
+                        <i class="fa fa-comments-o margin-r-5"></i> Comments
+                        (5)
+                    </a>
+                </li>
+            </ul>
+            <input class="form-control input-sm" type="text" placeholder="Type a comment">
+        </div>
+        <div class="post clearfix">
+            <div class="user-block">
+                <img class="img-circle img-bordered-sm" src="~/AdminLTE/dist/img/user.svg" alt="User Image">
+                <span class="username">
+                    <a href="#">Sarah Ross</a>
+                    <a href="#" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a>
+                </span>
+                <span class="description">Sent you a message - 3 days ago</span>
+            </div>
+            <p>
+                Lorem ipsum represents a long-held tradition for designers,
+                typographers and the like. Some people hate it and argue for
+                its demise, but others ignore the hate as they create awesome
+                tools to help create filler text for everyone from bacon lovers
+                to Charlie Sheen fans.
+            </p>
+            <form class="form-horizontal">
+                <div class="form-group margin-bottom-none">
+                    <div class="col-sm-9">
+                        <input class="form-control input-sm" placeholder="Response">
+                    </div>
+                    <div class="col-sm-3">
+                        <button type="submit" class="btn btn-danger pull-right btn-block btn-sm">Send</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="post">
+            <div class="user-block">
+                <img class="img-circle img-bordered-sm" src="~/AdminLTE/dist/img/user.svg" alt="User Image">
+                <span class="username">
+                    <a href="#">Adam Jones</a>
+                    <a href="#" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a>
+                </span>
+                <span class="description">Posted 5 photos - 5 days ago</span>
+            </div>
+            <div class="row margin-bottom">
+                <div class="col-sm-6">
+                    <img class="img-responsive" src="../../AdminLTE/dist/img/photo1.png" alt="Photo">
+                </div>
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <img class="img-responsive" src="../../AdminLTE/dist/img/photo2.png" alt="Photo">
+                            <br>
+                            <img class="img-responsive" src="../../AdminLTE/dist/img/photo3.jpg" alt="Photo">
+                        </div>
+                        <div class="col-sm-6">
+                            <img class="img-responsive" src="../../AdminLTE/dist/img/photo4.jpg" alt="Photo">
+                            <br>
+                            <img class="img-responsive" src="../../AdminLTE/dist/img/photo1.png" alt="Photo">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <ul class="list-inline">
+                <li><a href="#" class="link-black text-sm"><i class="fa fa-share margin-r-5"></i> Share</a></li>
+                <li>
+                    <a href="#" class="link-black text-sm"><i class="fa fa-thumbs-o-up margin-r-5"></i> Like</a>
+                </li>
+                <li class="pull-right">
+                    <a href="#" class="link-black text-sm">
+                        <i class="fa fa-comments-o margin-r-5"></i> Comments
+                        (5)
+                    </a>
+                </li>
+            </ul>
+            <input class="form-control input-sm" type="text" placeholder="Type a comment">
+        </div>
+    </div>
+    <div class="tab-pane " id="about">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">About Me</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <strong><i class="fa glyphicon glyphicon-user margin-r-5"></i> Name</strong>
+
+                <p class="text-muted">
+                    &emsp; &emsp; @Model.FirstName @Model.MiddleName @Model.LastName @Model.SecondLastName
+                </p>
+
+                <hr>
+
+                <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
+
+                <p class="text-muted">&emsp; &emsp;@Model.Nationality</p>
+
+                <hr>
+
+                <strong><i class="fa fa-birthday-cake margin-r-5"></i> Birth</strong>
+
+                <p class="text-muted">&emsp; &emsp;@Model.Birth</p>
+                <hr>
+                <strong><i class="fa fa fa-venus-mars margin-r-5"></i> Gender</strong>
+                <p class="text-muted">&emsp; &emsp;@Model.Gender</p>
+
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </div>   
+</div>
+</div>
+</div>
+</div>
+
+<script>
+    var idUser = @Model.IdCard;
+</script>
+
+
+@section Scripts {    
+    @Scripts.Render("~/AdminLTE/plugins/datepicker/js")
+    @Scripts.Render("~/Scripts/Social/Profile")
+    @Scripts.Render("~/AdminLTE/plugins/icheck/js")
+}
+

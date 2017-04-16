@@ -4,27 +4,27 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="563985fd423e4fd6a5e8867396b0259a" Name="Diagram1">
-        <EntityTypeShape EntityType="TabemashouModel.Achievement" Width="1.5" PointX="3" PointY="18.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="TabemashouModel.Administrator" Width="1.5" PointX="5.25" PointY="15.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="TabemashouModel.Canton" Width="1.5" PointX="5.25" PointY="11.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="TabemashouModel.Check" Width="1.5" PointX="12" PointY="10.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="TabemashouModel.Country" Width="1.5" PointX="0.75" PointY="13.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="TabemashouModel.Customer" Width="1.5" PointX="5.25" PointY="17.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="TabemashouModel.Dish" Width="1.5" PointX="17.25" PointY="15" IsExpanded="true" />
-        <EntityTypeShape EntityType="TabemashouModel.DishesByCheck" Width="1.5" PointX="14.25" PointY="10.5" IsExpanded="true" />
+      <Diagram DiagramId="37e35cca26e243eb97904a65e303b4cb" Name="Diagram1">
+        <EntityTypeShape EntityType="TabemashouModel.Achievement" Width="1.5" PointX="3" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TabemashouModel.Administrator" Width="1.5" PointX="5.25" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="TabemashouModel.Canton" Width="1.5" PointX="5.25" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TabemashouModel.Check" Width="1.5" PointX="12" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TabemashouModel.Country" Width="1.5" PointX="0.75" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="TabemashouModel.Customer" Width="1.5" PointX="5.25" PointY="17.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TabemashouModel.Dish" Width="1.5" PointX="17.25" PointY="14.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TabemashouModel.DishesByCheck" Width="1.5" PointX="14.25" PointY="10.375" IsExpanded="true" />
         <EntityTypeShape EntityType="TabemashouModel.DishesPerLocal" Width="1.5" PointX="15" PointY="17.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="TabemashouModel.District" Width="1.5" PointX="7.5" PointY="11.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="TabemashouModel.Local" Width="1.5" PointX="9.75" PointY="12.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="TabemashouModel.PARAMETER" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TabemashouModel.District" Width="1.5" PointX="7.5" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TabemashouModel.Local" Width="1.5" PointX="9.75" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TabemashouModel.PARAMETER" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" FillColor="255, 255, 128" />
         <EntityTypeShape EntityType="TabemashouModel.PaymentByCustomer" Width="1.5" PointX="14.25" PointY="14.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="TabemashouModel.Photo" Width="1.5" PointX="12" PointY="16.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="TabemashouModel.Province" Width="1.5" PointX="3" PointY="11.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="TabemashouModel.Restaurant" Width="1.5" PointX="7.5" PointY="14.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="TabemashouModel.Review" Width="1.5" PointX="17" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="TabemashouModel.Photo" Width="1.5" PointX="12" PointY="16.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TabemashouModel.Province" Width="1.5" PointX="3" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TabemashouModel.Restaurant" Width="1.5" PointX="7.5" PointY="14.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="TabemashouModel.Review" Width="1.5" PointX="17" PointY="10.875" IsExpanded="true" />
         <EntityTypeShape EntityType="TabemashouModel.Table" Width="1.5" PointX="12" PointY="22.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="TabemashouModel.Type" Width="1.5" PointX="19.5" PointY="15.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="TabemashouModel.User" Width="1.5" PointX="3" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="TabemashouModel.Type" Width="1.5" PointX="19.5" PointY="15.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TabemashouModel.User" Width="1.5" PointX="3" PointY="14" IsExpanded="true" />
         <AssociationConnector Association="TabemashouModel.FK_IdAdmin" ManuallyRouted="false" />
         <AssociationConnector Association="TabemashouModel.FK_IdCard" ManuallyRouted="false" />
         <AssociationConnector Association="TabemashouModel.FK_IdCanton" ManuallyRouted="false" />

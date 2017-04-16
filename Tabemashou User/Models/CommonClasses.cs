@@ -16,16 +16,7 @@ namespace Tabemashou_User.Models
         public Table CheckTable { get; set; }
         public Restaurant CheckRestaurant { get; set; }
         public Local CheckLocal { get; set; }
-        public List<Type> types { get; set; }
         public string DistrictCompeteName { get; set; }
         public string UserDishes { get; set; }
-    }
-
-    public class UserAdd
-    {
-        public string UserName { get; set; }
-        public int UserId { get; set; }
-        public int CheckId { get; set; }
-        public decimal TotalPay { get; set; }
     }
 }

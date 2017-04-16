@@ -13,6 +13,25 @@ namespace Tabemashou_User
             RegisterAccount(bundles);
 
             RegisterChecks(bundles);
+
+            RegisterShared(bundles);
+
+            RegisterSocial(bundles);
+        }
+
+        private static void RegisterSocial(BundleCollection bundles)
+        {
+            bundles.Add(new ScriptBundle("~/Scripts/Social/Profile").Include(
+                "~/Scripts/Social/Profile.js"));
+
+            bundles.Add(new ScriptBundle("~/Scripts/Social/Following").Include(
+                "~/Scripts/Social/Following.js"));
+        }
+
+        private static void RegisterShared(BundleCollection bundles)
+        {
+            bundles.Add(new ScriptBundle("~/Scripts/Shared/LeftMenu").Include(
+                "~/Scripts/Shared/LeftMenu.js"));
         }
 
         private static void RegisterChecks(BundleCollection bundles)

@@ -15,24 +15,23 @@
         <div class="user-panel">
             <div class="pull-left image">
                 <img src="@Url.Action("Show", "Account")" class="img-circle" alt="User Image">
-                @*<img src="~/AdminLTE/dist/img/user.svg" class="img-circle" alt="User Image">*@
             </div>
             <div class="pull-left info">
                 <p>@{
-                    if (Request.IsAuthenticated)
-                    {
-                        var identity = (HttpContext.Current.User as MyIdentity.MyPrincipal).Identity as MyIdentity;
-                        @($"{identity.User.FirstName} {identity.User.LastName}")
-                    }
-                }</p>
+                       if (Request.IsAuthenticated)
+                       {
+                           var identity = (HttpContext.Current.User as MyIdentity.MyPrincipal).Identity as MyIdentity;
+                           @($"{identity.User.FirstName} {identity.User.LastName}")
+                       }
+                   }</p>
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
         </div>
         <form action="#" method="get" class="sidebar-form">
             <div class="input-group">
-                <input type="text" name="q" class="form-control" placeholder="Search...">
+                <input id="socialSearch" ,type="text" name="q" class="form-control" placeholder="Search...">
                 <span class="input-group-btn">
-                    <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                    <button type="submit" name="search" id="search-btn" class="btn btn-flat" onclick="SearchUser()">
                         <i class="fa fa-search"></i>
                     </button>
                 </span>
@@ -51,9 +50,17 @@
             <li id="left-sidebar-menu-restaurant" class="treeview">
                 <a href="@Url.Action("Index", "Checks")">
                     <i class="fa fa-cutlery"></i>
-                    <span>Servicio</span>
-                    <i class="fa fa-angle-left pull-right"></i>
+                    <span>Service</span>
                 </a>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-users"></i> <span>Social</span> <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="@Url.Action("Following", "Social")"><i class="fa fa-circle-o"></i> Following</a></li>
+                    <li><a href="@Url.Action("Followers", "Social")"><i class="fa fa-circle-o"></i> Followers</a></li>
+                </ul>
             </li>
 
             <li class="header">LABELS</li>

@@ -206,8 +206,6 @@ namespace Tabemashou_Admin.Controllers
                     return RedirectToAction("Create", "Locals", new { id = dataModel.idRestaurant });
                 }
             }
-
-            return RedirectToAction("Create", "Locals", new { id = dataModel.idRestaurant });
         }
 
         // GET: Locals/Edit/5
