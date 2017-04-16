@@ -565,7 +565,6 @@
     <Content Include="AdminLTE\plugins\ionicons\fonts\ionicons.ttf" />
     <Content Include="AdminLTE\plugins\ionicons\fonts\ionicons.woff" />
     <Content Include="Images\Login_Background.png" />
-    <Content Include="Images\non.png" />
     <Content Include="Images\RestaurantLogos\default.png" />
     <Content Include="Models\TabemashouModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

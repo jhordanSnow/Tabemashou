@@ -146,6 +146,19 @@ namespace Tabemashou_Admin.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_CreateCustomer", idCardParameter, usernameParameter, passwordParameter, genderParameter, birthDateParameter, nationalityParameter, firstNameParameter, middleNameParameter, lastNameParameter, secondLastNameParameter, photoParameter, accountNumberParameter);
         }
     
+        public virtual int PR_CreateDetailCheck(Nullable<int> idDish, Nullable<int> idCheck)
+        {
+            var idDishParameter = idDish.HasValue ?
+                new ObjectParameter("IdDish", idDish) :
+                new ObjectParameter("IdDish", typeof(int));
+    
+            var idCheckParameter = idCheck.HasValue ?
+                new ObjectParameter("IdCheck", idCheck) :
+                new ObjectParameter("IdCheck", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_CreateDetailCheck", idDishParameter, idCheckParameter);
+        }
+    
         public virtual ObjectResult<Nullable<decimal>> PR_CreateLocal(Nullable<int> idRestaurant, Nullable<int> idDistrict, string detail, string latitude, string longitude)
         {
             var idRestaurantParameter = idRestaurant.HasValue ?
@@ -169,6 +182,19 @@ namespace Tabemashou_Admin.Models
                 new ObjectParameter("Longitude", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("PR_CreateLocal", idRestaurantParameter, idDistrictParameter, detailParameter, latitudeParameter, longitudeParameter);
+        }
+    
+        public virtual int PR_CreatePaymentCheck(Nullable<decimal> idCard, Nullable<int> idCheck)
+        {
+            var idCardParameter = idCard.HasValue ?
+                new ObjectParameter("IdCard", idCard) :
+                new ObjectParameter("IdCard", typeof(decimal));
+    
+            var idCheckParameter = idCheck.HasValue ?
+                new ObjectParameter("IdCheck", idCheck) :
+                new ObjectParameter("IdCheck", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_CreatePaymentCheck", idCardParameter, idCheckParameter);
         }
     
         public virtual int PR_CreateUser(Nullable<decimal> idCard, string username, string password, string gender, Nullable<System.DateTime> birthDate, Nullable<int> nationality, string firstName, string middleName, string lastName, string secondLastName)
@@ -287,14 +313,37 @@ namespace Tabemashou_Admin.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_DeleteRestaurantTypes", restaurantIdParameter);
         }
     
+        public virtual int PR_DeleteUnusedTypes()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_DeleteUnusedTypes");
+        }
+    
         public virtual ObjectResult<PR_DishTypes_Result> PR_DishTypes()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PR_DishTypes_Result>("PR_DishTypes");
         }
     
+        public virtual ObjectResult<PR_GetChecks_Result> PR_GetChecks(Nullable<decimal> idCard)
+        {
+            var idCardParameter = idCard.HasValue ?
+                new ObjectParameter("IdCard", idCard) :
+                new ObjectParameter("IdCard", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PR_GetChecks_Result>("PR_GetChecks", idCardParameter);
+        }
+    
         public virtual ObjectResult<PR_GetDistricts_Result> PR_GetDistricts()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PR_GetDistricts_Result>("PR_GetDistricts");
+        }
+    
+        public virtual ObjectResult<Nullable<decimal>> PR_NewCheck(Nullable<int> idLocal)
+        {
+            var idLocalParameter = idLocal.HasValue ?
+                new ObjectParameter("IdLocal", idLocal) :
+                new ObjectParameter("IdLocal", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("PR_NewCheck", idLocalParameter);
         }
     
         public virtual ObjectResult<PR_RestaurantInfo_Result> PR_RestaurantInfo(Nullable<decimal> aminId)
@@ -322,11 +371,6 @@ namespace Tabemashou_Admin.Models
                 new ObjectParameter("TypeList", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_UpdateRestaurantTypes", restaurantIdParameter, typeListParameter);
-        }
-    
-        public virtual int PR_DeleteUnusedTypes()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_DeleteUnusedTypes");
         }
     }
 }

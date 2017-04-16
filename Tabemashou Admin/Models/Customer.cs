@@ -25,8 +25,8 @@ namespace Tabemashou_Admin.Models
         }
     
         public decimal IdCard { get; set; }
-        public decimal AccountNumber { get; set; }
         public byte[] Photo { get; set; }
+        public decimal AccountNumber { get; set; }
     
         public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -26,50 +26,52 @@
     <![endif]-->
 </head>
 <body class="hold-transition login-page">
-    <div class="login-box">
-        <div class="login-logo">
-            <a href="@Url.Action("Index", "Home")">Welcome to <b>Tabemashou!</b></a>
-        </div>
-        <div class="login-box-body">
-            <p class="login-box-msg">Sign in to start your session</p>
-            @if (TempData["Success"] != null)
-            {
-                <div class="callout callout-success">
-                    <h4>Registration Success!</h4>
-                    <p>Please log in to continue.</p>
-                </div>
-            }
-            @using (Html.BeginForm("Login", "Account", new {ReturnUrl = ViewBag.ReturnUrl}, FormMethod.Post, new {role = "form"}))
-            {
-                @Html.ValidationSummary(true, "", new {@class = "text-danger"})
-                @Html.AntiForgeryToken()
-                <div class="form-group has-feedback">
-                    @Html.TextBoxFor(m => m.Username, new {@class = "form-control", type = "text", placeholder = "Username"})
-                    @Html.ValidationMessageFor(m => m.Username, "", new {@class = "text-danger"})
-                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                </div>
-                <div class="form-group has-feedback">
-                    @Html.PasswordFor(m => m.Password, new {@class = "form-control", type = "password", placeholder = "Password"})
-                    @Html.ValidationMessageFor(m => m.Password, "", new {@class = "text-danger"})
-                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                </div>
-                <div class="row">
-                    <div class="col-xs-8">
-                        <div class="checkbox icheck">
-                            @Html.CheckBoxFor(m => m.RememberMe)
-                            @Html.LabelFor(m => m.RememberMe)
-                        </div>
-                    </div>
-                    <div class="col-xs-4">
-                        <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
-                    </div>
-                </div>
-            }
-            <div class="text-center">
-                <a href="@Url.Action("Register", "Account")" class="text-center">Register as a new user</a>
+<div class="login-box">
+    <div class="login-logo">
+        <a href="@Url.Action("Index", "Home")">Welcome to <b>Tabemashou!</b></a>
+    </div>
+    <div class="login-box-body">
+        <p class="login-box-msg">Sign in to start your session</p>
+        @if (TempData["Success"] != null)
+        {
+            <div class="callout callout-success">
+                <h4>Registration Success!</h4>
+                <p>Please log in to continue.</p>
             </div>
+        }
+        @using (Html.BeginForm("Login", "Account", new {ReturnUrl = ViewBag.ReturnUrl}, FormMethod.Post, new {role = "form"}))
+        {
+            @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+            @Html.AntiForgeryToken()
+            <div class="form-group has-feedback">
+                @Html.TextBoxFor(m => m.Username, new {@class = "form-control", type = "text", placeholder = "Username"})
+                @Html.ValidationMessageFor(m => m.Username, "", new {@class = "text-danger"})
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                @Html.PasswordFor(m => m.Password, new {@class = "form-control", type = "password", placeholder = "Password"})
+                @Html.ValidationMessageFor(m => m.Password, "", new {@class = "text-danger"})
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            </div>
+            <div class="row">
+                <div class="col-xs-8">
+                    <div class="checkbox icheck">
+                        @Html.CheckBoxFor(m => m.RememberMe)
+                        @Html.LabelFor(m => m.RememberMe)
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                </div>
+            </div>
+        }
+        <div class="text-center">
+            <a href="@Url.Action("Register", "Account")" class="text-center">Register as a new user</a>
         </div>
     </div>
+</div>
+    
+    <img src="../../Images/Tabemashou_124.png" style="background-color: #9dc7f8; bottom: 20px; right: 20px; position: absolute; border-radius:65px">
 
     @Scripts.Render("~/AdminLTE/plugins/jquery/js")
     @Scripts.Render("~/AdminLTE/bootstrap/js")

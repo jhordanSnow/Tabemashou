@@ -3189,10 +3189,14 @@ table.text-center th {
  */
 .login-logo,
 .register-logo {
-  font-size: 35px;
-  text-align: center;
-  margin-bottom: 25px;
-  font-weight: 300;
+    font-size: 35px;
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 300;
+    background: white; 
+    border-radius: 5px; 
+    max-width: 80%; 
+    margin: 20px auto
 }
 .login-logo a,
 .register-logo a {
@@ -3200,7 +3204,8 @@ table.text-center th {
 }
 .login-page,
 .register-page {
-  background: #d2d6de;
+    background-color: rgba(17, 119, 239, 0.41);
+    background-image: url("../../../Images/Login_Background.png");
 }
 .login-box,
 .register-box {
@@ -3218,6 +3223,7 @@ table.text-center th {
 .register-box-body {
   background: #fff;
   padding: 20px;
+  border-radius: 5px; 
   border-top: 0;
   color: #666;
 }

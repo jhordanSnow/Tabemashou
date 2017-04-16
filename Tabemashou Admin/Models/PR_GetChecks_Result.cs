@@ -10,18 +10,13 @@
 namespace Tabemashou_Admin.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class DishesByCheck
+    public partial class PR_GetChecks_Result
     {
-        public decimal UnitaryPrice { get; set; }
-        public decimal Quantity { get; set; }
-        public decimal SellTax { get; set; }
-        public decimal ServiceTax { get; set; }
-        public int IdDish { get; set; }
         public int IdCheck { get; set; }
-    
-        public virtual Check Check { get; set; }
-        public virtual Dish Dish { get; set; }
+        public int IdLocal { get; set; }
+        public System.DateTime Date { get; set; }
+        public string State { get; set; }
+        public decimal Balance { get; set; }
     }
 }

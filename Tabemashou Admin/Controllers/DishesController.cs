@@ -58,6 +58,7 @@ namespace Tabemashou_Admin.Controllers
             DishRegister model = new DishRegister();
             model.dish = new Dish();
             model.restaurant = db.Restaurant.Find(id);
+            db.PR_DeleteUnusedTypes();
             return View(model);
         }
 
@@ -132,7 +133,7 @@ namespace Tabemashou_Admin.Controllers
                 idRestaurant = dish.IdRestaurant,
                 selectedItems = new MultiSelectList(db.Type, "IdType", "Name", dish.Type.Select(t => t.IdType))
         };
-          
+            db.PR_DeleteUnusedTypes();
             return View(model);
         }
 
