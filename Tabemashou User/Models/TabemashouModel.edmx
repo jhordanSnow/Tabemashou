@@ -44,7 +44,7 @@
           <Property Name="IdLocal" Type="int" Nullable="false" />
           <Property Name="Date" Type="datetime" Nullable="false" />
           <Property Name="State" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Balance" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="Balance" Type="smallmoney" Nullable="false" />
         </EntityType>
         <EntityType Name="Country">
           <Key>
@@ -68,15 +68,15 @@
           <Property Name="IdDish" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Description" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Price" Type="smallmoney" Nullable="false" />
           <Property Name="IdRestaurant" Type="int" Nullable="false" />
-          <Property Name="Price" Type="decimal" Precision="18" Scale="0" Nullable="false" />
         </EntityType>
         <EntityType Name="DishesByCheck">
           <Key>
             <PropertyRef Name="IdDish" />
             <PropertyRef Name="IdCheck" />
           </Key>
-          <Property Name="UnitaryPrice" Type="numeric" Precision="20" Scale="0" Nullable="false" />
+          <Property Name="UnitaryPrice" Type="smallmoney" Nullable="false" />
           <Property Name="Quantity" Type="numeric" Precision="3" Scale="0" Nullable="false" />
           <Property Name="SellTax" Type="numeric" Precision="3" Scale="0" Nullable="false" />
           <Property Name="ServiceTax" Type="numeric" Precision="3" Scale="0" Nullable="false" />
@@ -133,9 +133,10 @@
             <PropertyRef Name="IdCheck" />
           </Key>
           <Property Name="IdCard" Type="numeric" Precision="20" Scale="0" Nullable="false" />
+          <Property Name="AccountNumber" Type="numeric" Precision="20" Scale="0" Nullable="false" />
           <Property Name="IdCheck" Type="int" Nullable="false" />
           <Property Name="Date" Type="datetime" Nullable="false" />
-          <Property Name="TotalPrice" Type="numeric" Precision="20" Scale="0" Nullable="false" />
+          <Property Name="TotalPrice" Type="smallmoney" Nullable="false" />
         </EntityType>
         <EntityType Name="Photo">
           <Key>
@@ -406,7 +407,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_IdDish">
-          <End Role="Dish" Type="Self.Dish" Multiplicity="1" />
+          <End Role="Dish" Type="Self.Dish" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="TypesPerDish" Type="Self.TypesPerDish" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Dish">
@@ -707,6 +710,9 @@
         <Function Name="PR_DeleteRestaurantTypes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="RestaurantId" Type="int" Mode="In" />
         </Function>
+        <Function Name="PR_GetChecks" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdCard" Type="numeric" Mode="In" />
+        </Function>
         <Function Name="PR_GetDistricts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="PR_NewCheck" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdLocal" Type="int" Mode="In" />
@@ -914,7 +920,7 @@
           <Property Name="IdLocal" Type="Int32" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Balance" Type="Decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="Balance" Type="Decimal" Precision="10" Scale="4" Nullable="false" />
           <NavigationProperty Name="Local" Relationship="Self.FK_CheckIdLocal" FromRole="Check" ToRole="Local" />
           <NavigationProperty Name="DishesByCheck" Relationship="Self.FK_DishesByCheckCheck" FromRole="Check" ToRole="DishesByCheck" />
           <NavigationProperty Name="PaymentByCustomer" Relationship="Self.FK_PaymentByCustomerIdCheck" FromRole="Check" ToRole="PaymentByCustomer" />
@@ -950,7 +956,7 @@
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="IdRestaurant" Type="Int32" Nullable="false" />
-          <Property Name="Price" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="10" Scale="4" Nullable="false" />
           <NavigationProperty Name="DishesByCheck" Relationship="Self.FK_DishesByCheckDish" FromRole="Dish" ToRole="DishesByCheck" />
           <NavigationProperty Name="Restaurant" Relationship="Self.FK_DishIdRestaurant" FromRole="Dish" ToRole="Restaurant" />
           <NavigationProperty Name="DishesPerLocal" Relationship="Self.FK_LocalDish" FromRole="Dish" ToRole="DishesPerLocal" />
@@ -962,7 +968,7 @@
             <PropertyRef Name="IdDish" />
             <PropertyRef Name="IdCheck" />
           </Key>
-          <Property Name="UnitaryPrice" Type="Decimal" Precision="20" Scale="0" Nullable="false" />
+          <Property Name="UnitaryPrice" Type="Decimal" Precision="10" Scale="4" Nullable="false" />
           <Property Name="Quantity" Type="Decimal" Precision="3" Scale="0" Nullable="false" />
           <Property Name="SellTax" Type="Decimal" Precision="3" Scale="0" Nullable="false" />
           <Property Name="ServiceTax" Type="Decimal" Precision="3" Scale="0" Nullable="false" />
@@ -1026,9 +1032,10 @@
           <Property Name="IdCard" Type="Decimal" Precision="20" Scale="0" Nullable="false" />
           <Property Name="IdCheck" Type="Int32" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="TotalPrice" Type="Decimal" Precision="20" Scale="0" Nullable="false" />
+          <Property Name="TotalPrice" Type="Decimal" Precision="10" Scale="4" Nullable="false" />
           <NavigationProperty Name="Check" Relationship="Self.FK_PaymentByCustomerIdCheck" FromRole="PaymentByCustomer" ToRole="Check" />
           <NavigationProperty Name="Customer" Relationship="Self.FK_PaymentByCustomerIdCard" FromRole="PaymentByCustomer" ToRole="Customer" />
+          <Property Name="AccountNumber" Type="Decimal" Nullable="false" Precision="20" Scale="0" />
         </EntityType>
         <EntityType Name="Photo">
           <Key>
@@ -1590,6 +1597,9 @@
             <Parameter Name="RestaurantId" Mode="In" Type="Int32" />
             <Parameter Name="TypeList" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="PR_GetChecks" ReturnType="Collection(TabemashouModel.PR_GetChecks_Result)">
+          <Parameter Name="IdCard" Mode="In" Type="Decimal" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="PR_GetDistricts_Result">
           <Property Type="Int32" Name="IdDistrict" Nullable="false" />
@@ -1601,6 +1611,13 @@
           <Property Type="Binary" Name="Logo" Nullable="true" />
           <Property Type="Decimal" Name="IdAdmin" Nullable="false" Precision="20" Scale="0" />
           <Property Type="Int32" Name="CantLocal" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="PR_GetChecks_Result">
+          <Property Type="Int32" Name="IdCheck" Nullable="false" />
+          <Property Type="Int32" Name="IdLocal" Nullable="false" />
+          <Property Type="DateTime" Name="Date" Nullable="false" Precision="23" />
+          <Property Type="String" Name="State" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="Balance" Nullable="false" Precision="10" Scale="3" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1727,6 +1744,7 @@
           <EntitySetMapping Name="PaymentByCustomer">
             <EntityTypeMapping TypeName="TabemashouModel.PaymentByCustomer">
               <MappingFragment StoreEntitySet="PaymentByCustomer">
+                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
                 <ScalarProperty Name="IdCard" ColumnName="IdCard" />
                 <ScalarProperty Name="IdCheck" ColumnName="IdCheck" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
@@ -1887,6 +1905,17 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="PR_UpdateRestaurantTypes" FunctionName="TabemashouModel.Store.PR_UpdateRestaurantTypes" />
+          <FunctionImportMapping FunctionImportName="PR_GetChecks" FunctionName="TabemashouModel.Store.PR_GetChecks">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TabemashouModel.PR_GetChecks_Result">
+                <ScalarProperty Name="IdCheck" ColumnName="IdCheck" />
+                <ScalarProperty Name="IdLocal" ColumnName="IdLocal" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

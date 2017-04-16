@@ -39,6 +39,19 @@ namespace Tabemashou_User.Controllers
             }
             return File(array, "image/jpg");
         }
+        public ActionResult ShowPhotoProfile(int? id)
+        {
+            var imagedata = db.Customer.Find(id).Photo;
+            if (imagedata != null) return File(imagedata, "image/jpg");
+            string path = Server.MapPath("~/Images/RestaurantLogos/default.png");
+            byte[] array;
+            using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))
+            {
+                array = new byte[fs.Length];
+                fs.Read(array, 0, (int)fs.Length);
+            }
+            return File(array, "image/jpg");
+        }
 
         public string DistrictCompleteName(int? id)
         {

@@ -1,0 +1,108 @@
+﻿@using Tabemashou_User.Models
+@model Tabemashou_User.Models.Check
+
+@Styles.Render("~/AdminLTE/plugins/datatables/css")
+<div class="row">
+    <div class="col-md-8">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Details</h3>
+                <div class="box-tools pull-right">
+                    <div class="has-feedback">
+                        <input type="text" id="tableSearch" class="form-control input-sm" placeholder="Search...">
+                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="box-body">
+                <table id="checkoutTable" class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>Qty</th>
+                        <th>Product</th>
+                        <th>Description</th>
+                        <th>Subtotal</th>
+                        <th>Total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (DishesByCheck dish in Model.DishesByCheck)
+                    {
+                        <tr>
+                            <td>@dish.Quantity</td>
+                            <td>@dish.Dish.Name</td>
+                            <td>@dish.Dish.Description</td>
+                            <td>$@dish.UnitaryPrice</td>
+                            <td>$ @dish.getTotal()</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Final caca</h3>
+            </div>
+            <div class="box-body">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th style="width: 50%">Subtotal:</th>
+                            <td>$@Model.getSubtotal()</td>
+                        </tr>
+                        <tr>
+                            <th>Sell Tax (@Model.getSellTax()%)</th>
+                            <td>$@Model.getSellTaxTotal()</td>
+                        </tr>
+                        <tr>
+                            <th>Service Tax (@Model.getServiceTax()%):</th>
+                            <td>$@Model.getServiceTaxTotal()</td>
+                        </tr>
+                        <tr>
+                            <th>Total:</th>
+                            <td>$@Model.getTotal()</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Pay @Model.Local.Restaurant.Name - Local @Model.Local.Name - @Model.Date</h3>
+                </div>
+               
+                <div class="row box-body">
+                    @foreach (PaymentByCustomer client in Model.PaymentByCustomer)
+                    {
+                        <div class="col-md-3">
+                            <img class="img-responsive" src="@Url.Action("ShowPhotoProfile", "Common", new {id = client.Customer.IdCard})" />
+                        </div>
+                        <div class="col-md-8">
+                            @client.Customer.User.getCompleteName()
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <p>
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+
+
+    @section Scripts {
+        @Scripts.Render("~/AdminLTE/plugins/datatables/js")
+        @Scripts.Render("~/Scripts/Checks/Pay")
+    }

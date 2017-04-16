@@ -330,5 +330,14 @@ namespace Tabemashou_User.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_UpdateRestaurantTypes", restaurantIdParameter, typeListParameter);
         }
+    
+        public virtual ObjectResult<PR_GetChecks_Result> PR_GetChecks(Nullable<decimal> idCard)
+        {
+            var idCardParameter = idCard.HasValue ?
+                new ObjectParameter("IdCard", idCard) :
+                new ObjectParameter("IdCard", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PR_GetChecks_Result>("PR_GetChecks", idCardParameter);
+        }
     }
 }

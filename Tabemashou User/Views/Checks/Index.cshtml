@@ -6,28 +6,43 @@
 
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Balance)
-        </th>
-        <th></th>
-    </tr>
+@Styles.Render("~/AdminLTE/plugins/datatables/css")
+    
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">Checkout</h3>
+    </div>
+    <div class="box-body">
+        <table id="checkout" class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>@Html.DisplayName("Restaurant")</th>
+                <th>@Html.DisplayNameFor(model => model.Balance)</th>
+                <th>@Html.DisplayNameFor(model => model.State)</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Local.Restaurant.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Balance)</td>
+                    <td>@Html.DisplayFor(modelItem => item.State)</td>
+                    <td>
+                        @Html.ActionLink(" ", "Edit", new {id = item.IdCheck}, new { @Class = "btn btn-sm btn-danger fa fa-ban", @Title = "Cancel"})
+                        @Html.ActionLink("  ", "Pay", new {id = item.IdCheck}, new { @Class = "btn btn-sm btn-success fa fa-dollar", @Title = "Pay"})
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+    
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Balance)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.IdCheck }) |
-            @Html.ActionLink("Details", "Details", new { id=item.IdCheck }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.IdCheck })
-        </td>
-    </tr>
+
+@section Scripts {
+    @Scripts.Render("~/AdminLTE/plugins/datatables/js")
+    @Scripts.Render("~/Scripts/Checks/Table")
 }
-
-</table>
