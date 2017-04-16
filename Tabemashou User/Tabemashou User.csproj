@@ -264,14 +264,10 @@
     <Compile Include="Models\PR_GetFollowers_Result.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>
-
     <Compile Include="Models\PR_GetFriends_Result.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PR_RestaurantInfo_Result.cs">
-      <DependentUpon>TabemashouModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\PR_RestaurantTypes_Result.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Restaurant.cs">
@@ -605,7 +601,6 @@
     <Content Include="Scripts\Shared\LeftMenu.js" />
     <Content Include="Scripts\Checks\Pay.js" />
     <Content Include="Scripts\Checks\Data.js" />
-
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

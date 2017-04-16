@@ -10,19 +10,10 @@
 namespace Tabemashou_User.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Review
+    public partial class PR_DishTypes_Result
     {
-        public int IdReview { get; set; }
-        public System.DateTime Date { get; set; }
-        public string Description { get; set; }
-        public decimal Price { get; set; }
-        public decimal Quality { get; set; }
-        public decimal IdCustomer { get; set; }
-        public int IdLocal { get; set; }
-    
-        public virtual Customer Customer { get; set; }
-        public virtual Local Local { get; set; }
+        public int IdType { get; set; }
+        public string Name { get; set; }
     }
 }
