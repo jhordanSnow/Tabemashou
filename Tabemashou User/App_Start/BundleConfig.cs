@@ -186,6 +186,9 @@ namespace Tabemashou_User
             bundles.Add(new ScriptBundle("~/AdminLTE/plugins/jquery-ui/js").Include(
                                          "~/AdminLTE/plugins/jquery-ui/js/jquery-ui.min.js"));
 
+            bundles.Add(new StyleBundle("~/AdminLTE/plugins/jquery-ui/css").Include(
+                            "~/AdminLTE/plugins/jquery-ui/css/jquery-ui.css"));
+
             // plugins | jvectormap
             bundles.Add(new ScriptBundle("~/AdminLTE/plugins/jvectormap/js").Include(
                                          "~/AdminLTE/plugins/jvectormap/js/jquery-jvectormap-1.2.2.min.js",

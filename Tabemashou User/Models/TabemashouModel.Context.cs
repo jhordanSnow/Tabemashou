@@ -242,6 +242,15 @@ namespace Tabemashou_User.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_CreateUser", idCardParameter, usernameParameter, passwordParameter, genderParameter, birthDateParameter, nationalityParameter, firstNameParameter, middleNameParameter, lastNameParameter, secondLastNameParameter);
         }
     
+        public virtual int PR_DeleteDish(Nullable<int> dishId)
+        {
+            var dishIdParameter = dishId.HasValue ?
+                new ObjectParameter("DishId", dishId) :
+                new ObjectParameter("DishId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_DeleteDish", dishIdParameter);
+        }
+    
         public virtual int PR_DeleteDishPhoto(Nullable<int> idDish, Nullable<int> idPhoto)
         {
             var idDishParameter = idDish.HasValue ?
@@ -253,6 +262,15 @@ namespace Tabemashou_User.Models
                 new ObjectParameter("IdPhoto", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_DeleteDishPhoto", idDishParameter, idPhotoParameter);
+        }
+    
+        public virtual int PR_DeleteDishTypes(Nullable<int> dishId)
+        {
+            var dishIdParameter = dishId.HasValue ?
+                new ObjectParameter("DishId", dishId) :
+                new ObjectParameter("DishId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_DeleteDishTypes", dishIdParameter);
         }
     
         public virtual int PR_DeleteLocal(Nullable<int> idLocal)
@@ -295,9 +313,46 @@ namespace Tabemashou_User.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_DeleteRestaurantTypes", restaurantIdParameter);
         }
     
+        public virtual int PR_DeleteUnusedTypes()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_DeleteUnusedTypes");
+        }
+    
+        public virtual ObjectResult<PR_DishTypes_Result> PR_DishTypes()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PR_DishTypes_Result>("PR_DishTypes");
+        }
+    
+        public virtual ObjectResult<PR_GetChecks_Result> PR_GetChecks(Nullable<decimal> idCard)
+        {
+            var idCardParameter = idCard.HasValue ?
+                new ObjectParameter("IdCard", idCard) :
+                new ObjectParameter("IdCard", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PR_GetChecks_Result>("PR_GetChecks", idCardParameter);
+        }
+    
         public virtual ObjectResult<PR_GetDistricts_Result> PR_GetDistricts()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PR_GetDistricts_Result>("PR_GetDistricts");
+        }
+    
+        public virtual ObjectResult<PR_GetFriends_Result> PR_GetFriends(Nullable<decimal> idCard)
+        {
+            var idCardParameter = idCard.HasValue ?
+                new ObjectParameter("IdCard", idCard) :
+                new ObjectParameter("IdCard", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PR_GetFriends_Result>("PR_GetFriends", idCardParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> PR_GetTypes(Nullable<int> idRestaurant)
+        {
+            var idRestaurantParameter = idRestaurant.HasValue ?
+                new ObjectParameter("IdRestaurant", idRestaurant) :
+                new ObjectParameter("IdRestaurant", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("PR_GetTypes", idRestaurantParameter);
         }
     
         public virtual ObjectResult<Nullable<decimal>> PR_NewCheck(Nullable<int> idLocal)
@@ -318,6 +373,11 @@ namespace Tabemashou_User.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PR_RestaurantInfo_Result>("PR_RestaurantInfo", aminIdParameter);
         }
     
+        public virtual ObjectResult<PR_RestaurantTypes_Result> PR_RestaurantTypes()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PR_RestaurantTypes_Result>("PR_RestaurantTypes");
+        }
+    
         public virtual int PR_UpdateRestaurantTypes(Nullable<int> restaurantId, string typeList)
         {
             var restaurantIdParameter = restaurantId.HasValue ?
@@ -329,15 +389,6 @@ namespace Tabemashou_User.Models
                 new ObjectParameter("TypeList", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_UpdateRestaurantTypes", restaurantIdParameter, typeListParameter);
-        }
-    
-        public virtual ObjectResult<PR_GetChecks_Result> PR_GetChecks(Nullable<decimal> idCard)
-        {
-            var idCardParameter = idCard.HasValue ?
-                new ObjectParameter("IdCard", idCard) :
-                new ObjectParameter("IdCard", typeof(decimal));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PR_GetChecks_Result>("PR_GetChecks", idCardParameter);
         }
     }
 }

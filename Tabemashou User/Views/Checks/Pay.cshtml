@@ -2,6 +2,18 @@
 @model Tabemashou_User.Models.Check
 
 @Styles.Render("~/AdminLTE/plugins/datatables/css")
+@Styles.Render("~/AdminLTE/plugins/jquery-ui/css")
+
+@if (!ViewContext.ViewData.ModelState.IsValid || TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <h4><i class="icon fa fa-ban"></i> Error!</h4>
+        @TempData["Error"]
+        @Html.ValidationSummary("", new { @class = "text" })
+    </div>
+}
+
 <div class="row">
     <div class="col-md-8">
         <div class="box box-default">
@@ -44,7 +56,7 @@
     <div class="col-md-4">
         <div class="box box-default">
             <div class="box-header with-border">
-                <h3 class="box-title">Final caca</h3>
+                <h3 class="box-title">Amount Due @Model.Date</h3>
             </div>
             <div class="box-body">
                 <table class="table">
@@ -65,6 +77,10 @@
                             <th>Total:</th>
                             <td>$@Model.getTotal()</td>
                         </tr>
+                        <tr>
+                            <th>Balance:</th>
+                            <td id="balance_check">$-@Model.getTotal()</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -77,32 +93,77 @@
             <div class="box box-danger">
                 <div class="box-header with-border">
                     <h3 class="box-title">Pay @Model.Local.Restaurant.Name - Local @Model.Local.Name - @Model.Date</h3>
+                    <button id="add-customer" data-toggle="modal" data-target="#modalAddCustomer" class="pull-right btn btn-success fa fa-user-plus"></button>
                 </div>
-               
-                <div class="row box-body">
-                    @foreach (PaymentByCustomer client in Model.PaymentByCustomer)
+                <div class="box-body">
+                    <input type="hidden" id="max_slide" value="@Model.getTotal().ToString()" />
+                    <input type="hidden" id="balance" value="-@Model.getTotal().ToString()" />
+                    @using (Html.BeginForm("SubmitPayment", "Checks", FormMethod.Post))
                     {
-                        <div class="col-md-3">
-                            <img class="img-responsive" src="@Url.Action("ShowPhotoProfile", "Common", new {id = client.Customer.IdCard})" />
-                        </div>
-                        <div class="col-md-8">
-                            @client.Customer.User.getCompleteName()
-                        </div>
+                        foreach (PaymentByCustomer client in Model.PaymentByCustomer)
+                         {
+                             <div class="row">
+                                 <input type="hidden" id="total_@client.IdCard" value="@Model.getTotal()"/>
+                                 <div class="col-md-2">
+                                     <img class="img-responsive" src="@Url.Action("ShowPhotoProfile", "Common", new {id = client.Customer.IdCard})"/>
+                                 </div>
+                                 <div class="col-md-8 row">
+                                     <h3> @client.Customer.User.getCompleteName() </h3>
+                                     <div class="col-md-8">
+                                         <ul style="list-style-type: none;"><li>
+                                             <div class="slider" id="slide_@client.IdCard" user-id="@client.IdCard"></div><span class="value hidden">0</span></li></ul>
+                                     </div>
+                                     <div class="col-md-4 row">
+                                         <div class="col-md-3">Paying: </div>
+                                         <div class="col-md-9" style="margin-top: -7px;">
+                                             <input type="hidden" name="UserAdd.Index" value="@client.IdCard" />
+                                             <input type="hidden" name="UserAdd[@client.IdCard].CheckId" value="@Model.IdCheck"/>
+                                             <input type="hidden" name="UserAdd[@client.IdCard].UserId" value="@client.IdCard"/>
+                                             <input type="number" name="UserAdd[@client.IdCard].TotalPay" class="form-control slide-text" data-id="@client.IdCard" id="lbl_@client.IdCard" value="@client.TotalPrice"/>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                         }
+                        <button id="real_submit_button" type="submit" class="hidden"></button>
                     }
                 </div>
             </div>
         </div>
-
     </div>
-
-
-
     <p>
         @Html.ActionLink("Back to List", "Index")
+        <a class="btn btn-success fa pull-right fa-credit-card" onclick="pay()"> Submit Payment</a>
     </p>
 
 
-    @section Scripts {
-        @Scripts.Render("~/AdminLTE/plugins/datatables/js")
-        @Scripts.Render("~/Scripts/Checks/Pay")
-    }
+
+<div class="modal modal-success" id="modalAddCustomer">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Add Customer to payment</h4>
+            </div>
+            @using (Html.BeginForm("AddCustomer", "Checks", FormMethod.Post))
+            {
+                <div class="modal-body">
+                    @Html.Editor("UserName", new { htmlAttributes = new { @class = "form-control", @placeholder = "Search" } })
+                    @Html.Hidden("CheckId", Model.IdCheck)
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-outline" onclick="addCustomer()">Add</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/AdminLTE/plugins/datatables/js")
+    @Scripts.Render("~/AdminLTE/plugins/jquery-ui/js")
+    @Scripts.Render("~/Scripts/Checks/Pay")
+}

@@ -10,17 +10,18 @@
 namespace Tabemashou_User.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class PaymentByCustomer
+    public partial class PR_GetFriends_Result
     {
         public decimal IdCard { get; set; }
-        public decimal AccountNumber { get; set; }
-        public int IdCheck { get; set; }
-        public System.DateTime Date { get; set; }
-        public decimal TotalPrice { get; set; }
-    
-        public virtual Check Check { get; set; }
-        public virtual Customer Customer { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public string Gender { get; set; }
+        public System.DateTime BirthDate { get; set; }
+        public int Nationality { get; set; }
+        public string FirstName { get; set; }
+        public string MiddleName { get; set; }
+        public string LastName { get; set; }
+        public string SecondLastName { get; set; }
     }
 }

@@ -69,6 +69,7 @@ namespace Tabemashou_User.Controllers
                 model.CheckRestaurant = requestTable.Local.Restaurant;
                 model.DistrictCompeteName = _common.DistrictCompleteName(requestTable.Local.IdDistrict);
                 model.UserDishes = "";
+                model.types = db.PR_GetTypes(requestTable.Local.Restaurant.IdRestaurant).Select(m => db.Type.Find(m)).ToList();
                 return View(model);
             }
             return RedirectToAction("Invalid","Checks");
@@ -179,6 +180,41 @@ namespace Tabemashou_User.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        [HttpPost]
+        public ActionResult AddCustomer([Bind(Include = "UserName, CheckId")] UserAdd userAdd)
+        {
+            var existe = db.User.Where(m => m.Username == userAdd.UserName);
+
+            if (existe.Any())
+            {
+                Customer customer = db.Customer.First(m => m.User.Username.Equals(userAdd.UserName));
+                if (customer != null)
+                {
+                    db.PR_CreatePaymentCheck(customer.IdCard, userAdd.CheckId);
+                    db.SaveChanges();
+                }
+            }
+            else
+            {
+                TempData["Error"] = "User not found.";
+                ModelState.AddModelError("", "There is no user named " + userAdd.UserName + ".");
+            }
+            return RedirectToAction("Pay","Checks", new{id = userAdd.CheckId});
+        }
+
+        [HttpPost]
+        public ActionResult SubmitPayment(ICollection<UserAdd> userAdd)
+        {
+            foreach (UserAdd user in userAdd)
+            {
+                Debug.WriteLine("-------------------------------- caca -------------------");
+                Debug.WriteLine(user.CheckId);
+                Debug.WriteLine(user.TotalPay);
+                Debug.WriteLine(user.UserId);
+            }
+            return RedirectToAction("Index", "Checks");
         }
     }
 }

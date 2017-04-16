@@ -351,3 +351,46 @@ AS BEGIN
 		)
 END
 GO
+
+CREATE PROCEDURE [PR_GetTypes](
+	@IdRestaurant INT
+)AS BEGIN
+	SELECT T.IdType FROM [Type] T
+		INNER JOIN [TypesPerDish] TPD ON TPD.IdType = T.IdType
+		INNER JOIN [Dish] D ON D.IdDish = TPD.IdDish AND D.IdRestaurant = 9
+	GROUP BY T.IdType
+END
+GO
+
+CREATE PROCEDURE [PR_GetFriends](
+	@IdCard NUMERIC(20)
+)AS BEGIN
+	SELECT U.* 
+	FROM [FriendsByCustomer] FBC
+	INNER JOIN [User] U
+		ON FBC.IdFriend = U.IdCard
+	WHERE FBC.IdCard = @IdCard
+END
+GO
+
+CREATE PROCEDURE [PR_GetFriends](
+	@IdCard NUMERIC(20)
+)AS BEGIN
+	SELECT U.* 
+	FROM [FriendsByCustomer] FBC
+	INNER JOIN [User] U
+		ON FBC.IdFriend = U.IdCard
+	WHERE FBC.IdCard = @IdCard
+END
+GO
+
+CREATE PROCEDURE [PR_GetFollowers](
+	@IdCard NUMERIC(20)
+)AS BEGIN
+	SELECT U.* 
+	FROM [FriendsByCustomer] FBC
+	INNER JOIN [User] U
+		ON FBC.IdFriend = @IdCard
+	WHERE FBC.IdCard = U.IdCard
+END
+GO

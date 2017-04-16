@@ -10,17 +10,10 @@
 namespace Tabemashou_User.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class PaymentByCustomer
+    public partial class PR_RestaurantTypes_Result
     {
-        public decimal IdCard { get; set; }
-        public decimal AccountNumber { get; set; }
-        public int IdCheck { get; set; }
-        public System.DateTime Date { get; set; }
-        public decimal TotalPrice { get; set; }
-    
-        public virtual Check Check { get; set; }
-        public virtual Customer Customer { get; set; }
+        public int IdType { get; set; }
+        public string Name { get; set; }
     }
 }
