@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="TabemashouModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="TabemashouModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Achievement">
           <Key>
             <PropertyRef Name="IdAchivement" />
@@ -188,7 +188,7 @@
           <Property Name="Price" Type="numeric" Precision="1" Scale="0" Nullable="false" />
           <Property Name="Quality" Type="numeric" Precision="1" Scale="0" Nullable="false" />
           <Property Name="IdCustomer" Type="numeric" Precision="20" Scale="0" Nullable="false" />
-          <Property Name="IdLocal" Type="int" Nullable="false" />
+          <Property Name="IdCheck" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Table">
           <Key>
@@ -604,6 +604,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ReviewIdCheck">
+          <End Role="Check" Type="Self.Check" Multiplicity="1" />
+          <End Role="Review" Type="Self.Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Check">
+              <PropertyRef Name="IdCheck" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="IdCheck" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ReviewIdCustmoer">
           <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
           <End Role="Review" Type="Self.Review" Multiplicity="*" />
@@ -613,18 +625,6 @@
             </Principal>
             <Dependent Role="Review">
               <PropertyRef Name="IdCustomer" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ReviewIdLocal">
-          <End Role="Local" Type="Self.Local" Multiplicity="1" />
-          <End Role="Review" Type="Self.Review" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Local">
-              <PropertyRef Name="IdLocal" />
-            </Principal>
-            <Dependent Role="Review">
-              <PropertyRef Name="IdLocal" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -729,6 +729,10 @@
           <Parameter Name="AminId" Type="numeric" Mode="In" />
         </Function>
         <Function Name="PR_RestaurantTypes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="PR_UpdateDishTypes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdDish" Type="int" Mode="In" />
+          <Parameter Name="TypeList" Type="varchar(max)" Mode="In" />
+        </Function>
         <Function Name="PR_UpdateRestaurantTypes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="RestaurantId" Type="int" Mode="In" />
           <Parameter Name="TypeList" Type="varchar(max)" Mode="In" />
@@ -876,12 +880,12 @@
             <End Role="Photo" EntitySet="Photo" />
             <End Role="PhotosPerLocal" EntitySet="PhotosPerLocal" />
           </AssociationSet>
-          <AssociationSet Name="FK_ReviewIdCustmoer" Association="Self.FK_ReviewIdCustmoer">
-            <End Role="Customer" EntitySet="Customer" />
+          <AssociationSet Name="FK_ReviewIdCheck" Association="Self.FK_ReviewIdCheck">
+            <End Role="Check" EntitySet="Check" />
             <End Role="Review" EntitySet="Review" />
           </AssociationSet>
-          <AssociationSet Name="FK_ReviewIdLocal" Association="Self.FK_ReviewIdLocal">
-            <End Role="Local" EntitySet="Local" />
+          <AssociationSet Name="FK_ReviewIdCustmoer" Association="Self.FK_ReviewIdCustmoer">
+            <End Role="Customer" EntitySet="Customer" />
             <End Role="Review" EntitySet="Review" />
           </AssociationSet>
           <AssociationSet Name="FK_UserCountry" Association="Self.FK_UserCountry">
@@ -889,8 +893,7 @@
             <End Role="User" EntitySet="User" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TabemashouModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -934,6 +937,7 @@
           <NavigationProperty Name="Local" Relationship="Self.FK_CheckIdLocal" FromRole="Check" ToRole="Local" />
           <NavigationProperty Name="DishesByCheck" Relationship="Self.FK_DishesByCheckCheck" FromRole="Check" ToRole="DishesByCheck" />
           <NavigationProperty Name="PaymentByCustomer" Relationship="Self.FK_PaymentByCustomerIdCheck" FromRole="Check" ToRole="PaymentByCustomer" />
+          <NavigationProperty Name="Review" Relationship="TabemashouModel.FK_ReviewIdCheck" FromRole="Check" ToRole="Review" />
         </EntityType>
         <EntityType Name="Country">
           <Key>
@@ -953,10 +957,10 @@
           <Property Name="AccountNumber" Type="Decimal" Precision="20" Scale="0" Nullable="false" />
           <NavigationProperty Name="User" Relationship="Self.FK_CustomerIdCard" FromRole="Customer" ToRole="User" />
           <NavigationProperty Name="PaymentByCustomer" Relationship="Self.FK_PaymentByCustomerIdCard" FromRole="Customer" ToRole="PaymentByCustomer" />
-          <NavigationProperty Name="Review" Relationship="Self.FK_ReviewIdCustmoer" FromRole="Customer" ToRole="Review" />
           <NavigationProperty Name="Achievement" Relationship="Self.AchievementsByCustomer" FromRole="Customer" ToRole="Achievement" />
           <NavigationProperty Name="Customer1" Relationship="Self.FriendsByCustomer" FromRole="Customer" ToRole="Customer1" />
           <NavigationProperty Name="Customer2" Relationship="Self.FriendsByCustomer" FromRole="Customer1" ToRole="Customer" />
+          <NavigationProperty Name="Review" Relationship="TabemashouModel.FK_ReviewIdCustmoer" FromRole="Customer" ToRole="Review" />
         </EntityType>
         <EntityType Name="Dish">
           <Key>
@@ -1024,7 +1028,6 @@
           <NavigationProperty Name="District" Relationship="Self.FK_IdDistrict" FromRole="Local" ToRole="District" />
           <NavigationProperty Name="Restaurant" Relationship="Self.FK_LocalIdRestaurant" FromRole="Local" ToRole="Restaurant" />
           <NavigationProperty Name="Table" Relationship="Self.FK_LocalTable" FromRole="Local" ToRole="Table" />
-          <NavigationProperty Name="Review" Relationship="Self.FK_ReviewIdLocal" FromRole="Local" ToRole="Review" />
           <NavigationProperty Name="Photo" Relationship="Self.PhotosPerLocal" FromRole="Local" ToRole="Photo" />
         </EntityType>
         <EntityType Name="PARAMETER">
@@ -1078,20 +1081,6 @@
           <NavigationProperty Name="Dish" Relationship="Self.FK_DishIdRestaurant" FromRole="Restaurant" ToRole="Dish" />
           <NavigationProperty Name="Local" Relationship="Self.FK_LocalIdRestaurant" FromRole="Restaurant" ToRole="Local" />
           <NavigationProperty Name="Type" Relationship="Self.TypesPerRestaurant" FromRole="Restaurant" ToRole="Type" />
-        </EntityType>
-        <EntityType Name="Review">
-          <Key>
-            <PropertyRef Name="IdReview" />
-          </Key>
-          <Property Name="IdReview" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Price" Type="Decimal" Precision="1" Scale="0" Nullable="false" />
-          <Property Name="Quality" Type="Decimal" Precision="1" Scale="0" Nullable="false" />
-          <Property Name="IdCustomer" Type="Decimal" Precision="20" Scale="0" Nullable="false" />
-          <Property Name="IdLocal" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Customer" Relationship="Self.FK_ReviewIdCustmoer" FromRole="Review" ToRole="Customer" />
-          <NavigationProperty Name="Local" Relationship="Self.FK_ReviewIdLocal" FromRole="Review" ToRole="Local" />
         </EntityType>
         <EntityType Name="Table">
           <Key>
@@ -1261,18 +1250,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ReviewIdCustmoer">
-          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
-          <End Role="Review" Type="Self.Review" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="IdCard" />
-            </Principal>
-            <Dependent Role="Review">
-              <PropertyRef Name="IdCustomer" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_DishesByCheckDish">
           <End Role="Dish" Type="Self.Dish" Multiplicity="1" />
           <End Role="DishesByCheck" Type="Self.DishesByCheck" Multiplicity="*" />
@@ -1365,18 +1342,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ReviewIdLocal">
-          <End Role="Local" Type="Self.Local" Multiplicity="1" />
-          <End Role="Review" Type="Self.Review" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Local">
-              <PropertyRef Name="IdLocal" />
-            </Principal>
-            <Dependent Role="Review">
-              <PropertyRef Name="IdLocal" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="AchievementsByCustomer">
           <End Role="Achievement" Type="Self.Achievement" Multiplicity="*" />
           <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
@@ -1418,7 +1383,6 @@
           <EntitySet Name="Photo" EntityType="Self.Photo" />
           <EntitySet Name="Province" EntityType="Self.Province" />
           <EntitySet Name="Restaurant" EntityType="Self.Restaurant" />
-          <EntitySet Name="Review" EntityType="Self.Review" />
           <EntitySet Name="Table" EntityType="Self.Table" />
           <EntitySet Name="Type" EntityType="Self.Type" />
           <EntitySet Name="User" EntityType="Self.User" />
@@ -1466,10 +1430,6 @@
             <End Role="Customer" EntitySet="Customer" />
             <End Role="PaymentByCustomer" EntitySet="PaymentByCustomer" />
           </AssociationSet>
-          <AssociationSet Name="FK_ReviewIdCustmoer" Association="Self.FK_ReviewIdCustmoer">
-            <End Role="Customer" EntitySet="Customer" />
-            <End Role="Review" EntitySet="Review" />
-          </AssociationSet>
           <AssociationSet Name="FK_DishesByCheckDish" Association="Self.FK_DishesByCheckDish">
             <End Role="Dish" EntitySet="Dish" />
             <End Role="DishesByCheck" EntitySet="DishesByCheck" />
@@ -1497,10 +1457,6 @@
           <AssociationSet Name="FK_LocalTable" Association="Self.FK_LocalTable">
             <End Role="Local" EntitySet="Local" />
             <End Role="Table" EntitySet="Table" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ReviewIdLocal" Association="Self.FK_ReviewIdLocal">
-            <End Role="Local" EntitySet="Local" />
-            <End Role="Review" EntitySet="Review" />
           </AssociationSet>
           <AssociationSet Name="AchievementsByCustomer" Association="Self.AchievementsByCustomer">
             <End Role="Achievement" EntitySet="Achievement" />
@@ -1580,45 +1536,58 @@
             <Parameter Name="SecondLastName" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="PR_DeleteDish">
-            <Parameter Name="DishId" Mode="In" Type="Int32" />
+          <Parameter Name="DishId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="PR_DeleteDishPhoto">
             <Parameter Name="IdDish" Mode="In" Type="Int32" />
             <Parameter Name="IdPhoto" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="PR_DeleteDishTypes">
-            <Parameter Name="DishId" Mode="In" Type="Int32" />
+          <Parameter Name="DishId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="PR_DeleteLocal">
-            <Parameter Name="IdLocal" Mode="In" Type="Int32" />
+          <Parameter Name="IdLocal" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="PR_DeleteLocalPhoto">
             <Parameter Name="IdLocal" Mode="In" Type="Int32" />
             <Parameter Name="IdPhoto" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="PR_DeleteRestaurant">
-            <Parameter Name="RestaurantId" Mode="In" Type="Int32" />
+          <Parameter Name="RestaurantId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="PR_DeleteRestaurantTypes">
-            <Parameter Name="RestaurantId" Mode="In" Type="Int32" />
+          <Parameter Name="RestaurantId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="PR_DeleteUnusedTypes" />
           <FunctionImport Name="PR_DishTypes" ReturnType="Collection(TabemashouModel.PR_DishTypes_Result)" />
           <FunctionImport Name="PR_GetChecks" ReturnType="Collection(TabemashouModel.PR_GetChecks_Result)">
-            <Parameter Name="IdCard" Mode="In" Type="Decimal" />
+          <Parameter Name="IdCard" Mode="In" Type="Decimal" />
           </FunctionImport>
           <FunctionImport Name="PR_GetDistricts" ReturnType="Collection(TabemashouModel.PR_GetDistricts_Result)" />
           <FunctionImport Name="PR_NewCheck" ReturnType="Collection(Decimal)">
-            <Parameter Name="IdLocal" Mode="In" Type="Int32" />
+          <Parameter Name="IdLocal" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="PR_RestaurantInfo" ReturnType="Collection(TabemashouModel.PR_RestaurantInfo_Result)">
-            <Parameter Name="AminId" Mode="In" Type="Decimal" />
+          <Parameter Name="AminId" Mode="In" Type="Decimal" />
           </FunctionImport>
           <FunctionImport Name="PR_RestaurantTypes" ReturnType="Collection(TabemashouModel.PR_RestaurantTypes_Result)" />
           <FunctionImport Name="PR_UpdateRestaurantTypes">
             <Parameter Name="RestaurantId" Mode="In" Type="Int32" />
             <Parameter Name="TypeList" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="PR_UpdateDishTypes">
+            <Parameter Name="IdDish" Mode="In" Type="Int32" />
+            <Parameter Name="TypeList" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="Review" EntityType="TabemashouModel.Review" />
+          <AssociationSet Name="FK_ReviewIdCheck" Association="TabemashouModel.FK_ReviewIdCheck">
+            <End Role="Check" EntitySet="Check" />
+            <End Role="Review" EntitySet="Review" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReviewIdCustmoer" Association="TabemashouModel.FK_ReviewIdCustmoer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Review" EntitySet="Review" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="PR_DishTypes_Result">
           <Property Type="Int32" Name="IdType" Nullable="false" />
@@ -1646,6 +1615,44 @@
           <Property Type="Int32" Name="IdType" Nullable="false" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="20" />
         </ComplexType>
+        <EntityType Name="Review">
+          <Key>
+            <PropertyRef Name="IdReview" />
+          </Key>
+          <Property Name="IdReview" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="1" Scale="0" />
+          <Property Name="Quality" Type="Decimal" Nullable="false" Precision="1" Scale="0" />
+          <Property Name="IdCustomer" Type="Decimal" Nullable="false" Precision="20" Scale="0" />
+          <Property Name="IdCheck" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Check" Relationship="TabemashouModel.FK_ReviewIdCheck" FromRole="Review" ToRole="Check" />
+          <NavigationProperty Name="Customer" Relationship="TabemashouModel.FK_ReviewIdCustmoer" FromRole="Review" ToRole="Customer" />
+        </EntityType>
+        <Association Name="FK_ReviewIdCheck">
+          <End Type="TabemashouModel.Check" Role="Check" Multiplicity="1" />
+          <End Type="TabemashouModel.Review" Role="Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Check">
+              <PropertyRef Name="IdCheck" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="IdCheck" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReviewIdCustmoer">
+          <End Type="TabemashouModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="TabemashouModel.Review" Role="Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="IdCard" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="IdCustomer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1806,19 +1813,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Review">
-            <EntityTypeMapping TypeName="TabemashouModel.Review">
-              <MappingFragment StoreEntitySet="Review">
-                <ScalarProperty Name="IdReview" ColumnName="IdReview" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Quality" ColumnName="Quality" />
-                <ScalarProperty Name="IdCustomer" ColumnName="IdCustomer" />
-                <ScalarProperty Name="IdLocal" ColumnName="IdLocal" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Table">
             <EntityTypeMapping TypeName="TabemashouModel.Table">
               <MappingFragment StoreEntitySet="Table">
@@ -1962,6 +1956,20 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="PR_UpdateRestaurantTypes" FunctionName="TabemashouModel.Store.PR_UpdateRestaurantTypes" />
+          <FunctionImportMapping FunctionImportName="PR_UpdateDishTypes" FunctionName="TabemashouModel.Store.PR_UpdateDishTypes" />
+          <EntitySetMapping Name="Review">
+            <EntityTypeMapping TypeName="TabemashouModel.Review">
+              <MappingFragment StoreEntitySet="Review">
+                <ScalarProperty Name="IdCheck" ColumnName="IdCheck" />
+                <ScalarProperty Name="IdCustomer" ColumnName="IdCustomer" />
+                <ScalarProperty Name="Quality" ColumnName="Quality" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="IdReview" ColumnName="IdReview" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -21,7 +21,6 @@
         <EntityTypeShape EntityType="TabemashouModel.Photo" Width="1.5" PointX="12" PointY="16.375" IsExpanded="true" />
         <EntityTypeShape EntityType="TabemashouModel.Province" Width="1.5" PointX="3" PointY="11.25" IsExpanded="true" />
         <EntityTypeShape EntityType="TabemashouModel.Restaurant" Width="1.5" PointX="7.5" PointY="14.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="TabemashouModel.Review" Width="1.5" PointX="17" PointY="10.875" IsExpanded="true" />
         <EntityTypeShape EntityType="TabemashouModel.Table" Width="1.5" PointX="12" PointY="22.5" IsExpanded="true" />
         <EntityTypeShape EntityType="TabemashouModel.Type" Width="1.5" PointX="19.5" PointY="15.25" IsExpanded="true" />
         <EntityTypeShape EntityType="TabemashouModel.User" Width="1.5" PointX="3" PointY="14" IsExpanded="true" />
@@ -36,7 +35,6 @@
         <AssociationConnector Association="TabemashouModel.FK_UserCountry" ManuallyRouted="false" />
         <AssociationConnector Association="TabemashouModel.FK_CustomerIdCard" ManuallyRouted="false" />
         <AssociationConnector Association="TabemashouModel.FK_PaymentByCustomerIdCard" ManuallyRouted="false" />
-        <AssociationConnector Association="TabemashouModel.FK_ReviewIdCustmoer" ManuallyRouted="false" />
         <AssociationConnector Association="TabemashouModel.FK_DishesByCheckDish" ManuallyRouted="false" />
         <AssociationConnector Association="TabemashouModel.FK_DishIdRestaurant" ManuallyRouted="false" />
         <AssociationConnector Association="TabemashouModel.FK_LocalDish" ManuallyRouted="false" />
@@ -44,13 +42,15 @@
         <AssociationConnector Association="TabemashouModel.FK_IdDistrict" ManuallyRouted="false" />
         <AssociationConnector Association="TabemashouModel.FK_LocalIdRestaurant" ManuallyRouted="false" />
         <AssociationConnector Association="TabemashouModel.FK_LocalTable" ManuallyRouted="false" />
-        <AssociationConnector Association="TabemashouModel.FK_ReviewIdLocal" ManuallyRouted="false" />
         <AssociationConnector Association="TabemashouModel.AchievementsByCustomer" ManuallyRouted="false" />
         <AssociationConnector Association="TabemashouModel.FriendsByCustomer" ManuallyRouted="false" />
         <AssociationConnector Association="TabemashouModel.PhotosPerDish" ManuallyRouted="false" />
         <AssociationConnector Association="TabemashouModel.PhotosPerLocal" ManuallyRouted="false" />
         <AssociationConnector Association="TabemashouModel.TypesPerDish" ManuallyRouted="false" />
         <AssociationConnector Association="TabemashouModel.TypesPerRestaurant" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="TabemashouModel.Review" Width="1.5" PointX="17.25" PointY="10.875" />
+        <AssociationConnector Association="TabemashouModel.FK_ReviewIdCheck" />
+        <AssociationConnector Association="TabemashouModel.FK_ReviewIdCustmoer" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

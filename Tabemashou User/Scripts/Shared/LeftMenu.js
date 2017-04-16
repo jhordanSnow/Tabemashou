@@ -2,9 +2,10 @@
     $.ajax({
         type: "POST",
         url: "/Social/FindCustomerByUsername/",
-        data: { 'name': $('#socialSearch').val()},
+        data: { 'name': $('#socialSearch').val() },
+        dataType: "json",
         success: function (id) {
-            window.location.href = '/Social/Profile/' + id;
+            location.href = '/Social/Profile/' + id;
         },
         error: function (xhr) {
             alert('No user found.');

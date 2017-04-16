@@ -4,6 +4,7 @@ using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
+    using System.Linq.Expressions;
     using System.Net;
     using System.Web;
 using System.Web.Mvc;
@@ -78,6 +79,11 @@ namespace Tabemashou_User.Controllers
             {
                 return HttpNotFound();
             }
+            var idCard = ((System.Web.HttpContext.Current.User as MyIdentity.MyPrincipal).Identity as MyIdentity).User.IdCard;
+            if (user.IdCard == idCard)
+            {
+                return RedirectToAction("UserProfile", "Account");
+            }
 
             ProfileModel model = new ProfileModel();
             model.IdCard = user.IdCard;
@@ -119,7 +125,7 @@ namespace Tabemashou_User.Controllers
             return Json(true);
         }
 
-        public ActionResult Unfollow(int? id)
+        public JsonResult Unfollow(int? id)
         {
             if (id == null)
             {
@@ -159,14 +165,15 @@ namespace Tabemashou_User.Controllers
             return (db.Customer.Find(id) != null);
         }
 
-        public decimal FindCustomerByUsername(string name)
+        public JsonResult FindCustomerByUsername(string name)
         {
+
             User user = db.User.FirstOrDefault(m => m.Username == name);
             if (user != null && IsACustomer((int)user.IdCard))
             {
-                return user.IdCard;
+                return Json(user.IdCard);
             }
-            throw new Exception("oh no");
+            throw new Exception(null);
         }
 
         public bool IsFollowing(int id)
@@ -180,8 +187,6 @@ namespace Tabemashou_User.Controllers
             var idCard = ((System.Web.HttpContext.Current.User as MyIdentity.MyPrincipal).Identity as MyIdentity).User.IdCard;
             return db.PR_GetFriends(idCard).ToList();
         }
-
-        
 
     }
 }
