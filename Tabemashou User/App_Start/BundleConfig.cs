@@ -20,6 +20,7 @@ namespace Tabemashou_User
 
             RegisterReviews(bundles);
 
+            RegisterRestaurants(bundles);
 
             RegisterHome(bundles);
         }
@@ -33,6 +34,17 @@ namespace Tabemashou_User
         {
             bundles.Add(new ScriptBundle("~/Scripts/Reviews/Create").Include(
                 "~/Scripts/Reviews/Create.js"));
+            
+        }
+
+
+        private static void RegisterRestaurants(BundleCollection bundles)
+        {
+            bundles.Add(new ScriptBundle("~/Scripts/Restaurants/Index").Include(
+                "~/Scripts/Restaurants/Index.js"));
+
+            bundles.Add(new ScriptBundle("~/Scripts/Restaurants/geocomplete").Include(
+                "~/Scripts/Restaurants/jquery.geocomplete.js"));
         }
 
 

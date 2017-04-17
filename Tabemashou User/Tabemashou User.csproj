@@ -199,6 +199,8 @@
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MyIdentity.cs" />
+
+    <Compile Include="Controllers\RestaurantsController.cs" />
     <Compile Include="Controllers\ReviewsController.cs" />
     <Compile Include="Controllers\SocialController.cs" />
     <Compile Include="Filter\UserAuth.cs" />
@@ -602,6 +604,9 @@
     <Content Include="Scripts\Checks\Create.js" />
     <Content Include="Scripts\Home\Index.js" />
     <Content Include="Scripts\Reviews\Create.js" />
+    <Content Include="Scripts\Restaurants\Index.js" />
+    <Content Include="Scripts\Restaurants\jquery.geocomplete.js" />
+    <Content Include="Scripts\Restaurants\jquery.geocomplete.min.js" />
     <Content Include="Scripts\Social\Following.js" />
     <Content Include="Scripts\Social\Profile.js" />
     <Content Include="Scripts\Shared\LeftMenu.js" />
@@ -653,6 +658,7 @@
     <Content Include="Models\TabemashouModel.edmx.diagram">
       <DependentUpon>TabemashouModel.edmx</DependentUpon>
     </Content>
+    <Content Include="Views\Restaurants\Index.cshtml" />
     <Content Include="Views\Reviews\Create.cshtml" />
     <Content Include="Views\Reviews\Details.cshtml" />
     <Content Include="P404.cshtml" />

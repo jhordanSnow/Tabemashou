@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Tabemashou_User.Models
 {
@@ -27,5 +28,20 @@ namespace Tabemashou_User.Models
         public int CheckId { get; set; }
         public decimal UserId { get; set; }
         public decimal TotalPay { get; set; }
+    }
+
+    public class TypeFilter
+    {
+        public Models.Type TypeMap { get; set; }
+        public bool CheckFilter { get; set; }
+        public int TypeId { get; set; }
+    }
+
+    public class MapView
+    {
+        public List<Local> Locals { get; set; }
+        public List<int> IdDistrict { get; set; }
+        public List<Models.TypeFilter> Types { get; set; }
+        public SelectList SelectOptions { get; set; }
     }
 }
