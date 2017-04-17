@@ -294,7 +294,7 @@ namespace Tabemashou_Admin.Controllers
                     int cantMesas = db.Table.Count(cantTable => cantTable.IdLocal == local.IdLocal);
                     if (dataModel.cantMesas > cantMesas)
                     {
-                        for (int i = cantMesas+1; i <= dataModel.cantMesas; i++)
+                        for (int i = cantMesas+1; i < dataModel.cantMesas; i++)
                         {
                             Table tmpTable = new Table();
                             tmpTable.IdLocal = local.IdLocal;
