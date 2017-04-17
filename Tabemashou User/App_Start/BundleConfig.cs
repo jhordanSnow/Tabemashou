@@ -17,7 +17,7 @@ namespace Tabemashou_User
             RegisterShared(bundles);
 
             RegisterSocial(bundles);
-
+    
             RegisterReviews(bundles);
 
             RegisterRestaurants(bundles);

@@ -123,5 +123,6 @@ namespace Tabemashou_User.Models
 
         public decimal Followers { get; set; }
         public decimal Following { get; set; }
+        public decimal Reviews { get; set; }
     }
 }

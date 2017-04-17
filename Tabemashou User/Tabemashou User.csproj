@@ -199,7 +199,6 @@
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MyIdentity.cs" />
-
     <Compile Include="Controllers\RestaurantsController.cs" />
     <Compile Include="Controllers\ReviewsController.cs" />
     <Compile Include="Controllers\SocialController.cs" />
@@ -351,12 +350,20 @@
     <Content Include="AdminLTE\dist\img\avatar5.png" />
     <Content Include="AdminLTE\dist\img\boxed-bg.jpg" />
     <Content Include="AdminLTE\dist\img\boxed-bg.png" />
+    <Content Include="AdminLTE\dist\img\credit\american-express.png" />
+    <Content Include="AdminLTE\dist\img\credit\cirrus.png" />
+    <Content Include="AdminLTE\dist\img\credit\mastercard.png" />
+    <Content Include="AdminLTE\dist\img\credit\mestro.png" />
+    <Content Include="AdminLTE\dist\img\credit\paypal.png" />
+    <Content Include="AdminLTE\dist\img\credit\paypal2.png" />
+    <Content Include="AdminLTE\dist\img\credit\visa.png" />
     <Content Include="AdminLTE\dist\img\default-50x50.gif" />
     <Content Include="AdminLTE\dist\img\icons.png" />
     <Content Include="AdminLTE\dist\img\photo1.png" />
     <Content Include="AdminLTE\dist\img\photo2.png" />
     <Content Include="AdminLTE\dist\img\photo3.jpg" />
     <Content Include="AdminLTE\dist\img\photo4.jpg" />
+    <Content Include="AdminLTE\dist\img\user.png" />
     <Content Include="AdminLTE\dist\img\user.svg" />
     <Content Include="AdminLTE\dist\js\app.js" />
     <Content Include="AdminLTE\dist\js\app.min.js" />
@@ -662,6 +669,8 @@
     <Content Include="Views\Reviews\Create.cshtml" />
     <Content Include="Views\Reviews\Details.cshtml" />
     <Content Include="P404.cshtml" />
+    <Content Include="Views\Checks\Invoice.cshtml" />
+    <Content Include="Views\Checks\InvoicePrint.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

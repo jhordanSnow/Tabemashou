@@ -12,6 +12,7 @@
 
 @Styles.Render("~/AdminLTE/plugins/datepicker/css")
 @Styles.Render("~/AdminLTE/dist/css")
+@Styles.Render("~/AdminLTE/plugins/bootstrap-star-rating/css")
 
 <div class="row">
 <div class="col-md-3">
@@ -30,6 +31,9 @@
                 <li class="list-group-item">
                     <b>Following</b> <a class="pull-right">@Model.Following</a>
                 </li>
+                <li class="list-group-item">
+                    <b>Reviews</b> <a class="pull-right">@Model.Reviews</a>
+                </li>
             </ul>
         </div>
     </div>
@@ -42,105 +46,52 @@
 </ul>
 <div class="tab-content">
     <div class="tab-pane active" id="activity">
-        <div class="post">
-            <div class="user-block">
-                <img class="img-circle img-bordered-sm" src="~/AdminLTE/dist/img/user.svg" alt="user image">
-                <span class="username">
-                    <a href="#">Jonathan Burke Jr.</a>
-                    <a href="#" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a>
-                </span>
-                <span class="description">Shared publicly - 7:30 PM today</span>
-            </div>
-            <p>
-                Lorem ipsum represents a long-held tradition for designers,
-                typographers and the like. Some people hate it and argue for
-                its demise, but others ignore the hate as they create awesome
-                tools to help create filler text for everyone from bacon lovers
-                to Charlie Sheen fans.
-            </p>
-            <ul class="list-inline">
-                <li><a href="#" class="link-black text-sm"><i class="fa fa-share margin-r-5"></i> Share</a></li>
-                <li>
-                    <a href="#" class="link-black text-sm"><i class="fa fa-thumbs-o-up margin-r-5"></i> Like</a>
-                </li>
-                <li class="pull-right">
-                    <a href="#" class="link-black text-sm">
-                        <i class="fa fa-comments-o margin-r-5"></i> Comments
-                        (5)
-                    </a>
-                </li>
-            </ul>
-            <input class="form-control input-sm" type="text" placeholder="Type a comment">
-        </div>
-        <div class="post clearfix">
-            <div class="user-block">
-                <img class="img-circle img-bordered-sm" src="~/AdminLTE/dist/img/user.svg" alt="User Image">
-                <span class="username">
-                    <a href="#">Sarah Ross</a>
-                    <a href="#" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a>
-                </span>
-                <span class="description">Sent you a message - 3 days ago</span>
-            </div>
-            <p>
-                Lorem ipsum represents a long-held tradition for designers,
-                typographers and the like. Some people hate it and argue for
-                its demise, but others ignore the hate as they create awesome
-                tools to help create filler text for everyone from bacon lovers
-                to Charlie Sheen fans.
-            </p>
-            <form class="form-horizontal">
-                <div class="form-group margin-bottom-none">
-                    <div class="col-sm-9">
-                        <input class="form-control input-sm" placeholder="Response">
-                    </div>
-                    <div class="col-sm-3">
-                        <button type="submit" class="btn btn-danger pull-right btn-block btn-sm">Send</button>
-                    </div>
+        @foreach (var review in Model.Timeline)
+        {
+            <div class="post">
+                <div class="user-block">
+                    <img class="img-circle img-bordered-sm" src="@Url.Action("ShowRestLogo","Common", new { id = review.Check.Local.Restaurant.IdRestaurant})" alt="Rest Photo">
+                    <span class="username">
+                        <a href="#">@review.Check.Local.Restaurant.Name</a>
+                    </span>
+                    <span class="description">@review.Date.ToString("dddd, dd MMMM yyyy HH: mm")</span>
                 </div>
-            </form>
-        </div>
-        <div class="post">
-            <div class="user-block">
-                <img class="img-circle img-bordered-sm" src="~/AdminLTE/dist/img/user.svg" alt="User Image">
-                <span class="username">
-                    <a href="#">Adam Jones</a>
-                    <a href="#" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a>
-                </span>
-                <span class="description">Posted 5 photos - 5 days ago</span>
-            </div>
-            <div class="row margin-bottom">
-                <div class="col-sm-6">
-                    <img class="img-responsive" src="../../AdminLTE/dist/img/photo1.png" alt="Photo">
-                </div>
-                <div class="col-sm-6">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <img class="img-responsive" src="../../AdminLTE/dist/img/photo2.png" alt="Photo">
-                            <br>
-                            <img class="img-responsive" src="../../AdminLTE/dist/img/photo3.jpg" alt="Photo">
-                        </div>
-                        <div class="col-sm-6">
-                            <img class="img-responsive" src="../../AdminLTE/dist/img/photo4.jpg" alt="Photo">
-                            <br>
-                            <img class="img-responsive" src="../../AdminLTE/dist/img/photo1.png" alt="Photo">
-                        </div>
+                <div>
+                    
+                    <div>
+                        <p>
+                            <dl class="dl-horizontal">
+                                <dt>Price:</dt>
+                                <dd>
+                                    <input class="rating" data-min="0" data-max="5" data-step="1" data-size="xxs" value="@review.Price">
+                                </dd>
+                            </dl>
+                        </p>
+                        <p>
+                            <dl class="dl-horizontal">
+                                <dt>Quality:</dt>
+                                <dd>
+                                    <input class="rating" data-min="0" data-max="5" data-step="1" data-size="xxs" value="@review.Quality">
+                                </dd>
+                            </dl>
+                        </p>
+                        <p>
+                            <div class="box box-solid">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Description</h3>
+                                </div>
+                                <div class="box-body">
+                                    <blockquote>
+                                        <p>@review.Description</p>
+                                    </blockquote>
+                                </div>
+                            </div>
+
+                        </p>
                     </div>
                 </div>
             </div>
-            <ul class="list-inline">
-                <li><a href="#" class="link-black text-sm"><i class="fa fa-share margin-r-5"></i> Share</a></li>
-                <li>
-                    <a href="#" class="link-black text-sm"><i class="fa fa-thumbs-o-up margin-r-5"></i> Like</a>
-                </li>
-                <li class="pull-right">
-                    <a href="#" class="link-black text-sm">
-                        <i class="fa fa-comments-o margin-r-5"></i> Comments
-                        (5)
-                    </a>
-                </li>
-            </ul>
-            <input class="form-control input-sm" type="text" placeholder="Type a comment">
-        </div>
+        } 
     </div>
     <div class="tab-pane " id="about">
         <div class="box box-primary">
@@ -188,5 +139,6 @@
     @Scripts.Render("~/AdminLTE/plugins/datepicker/js")
     @Scripts.Render("~/Scripts/Social/Profile")
     @Scripts.Render("~/AdminLTE/plugins/icheck/js")
+    @Scripts.Render("~/AdminLTE/plugins/bootstrap-star-rating/js")
 }
 

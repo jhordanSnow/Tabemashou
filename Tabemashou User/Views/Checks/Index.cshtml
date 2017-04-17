@@ -58,11 +58,11 @@
                             }
                             else if (item.intState == 2)
                             {
-                                @Html.ActionLink("  ", "Review", new { id = item.IdCheck }, new { @Class = "btn btn-sm btn-primary fa fa-star", @Title = "Review" })
+                                @Html.ActionLink("  ", "Review", new { id = item.IdCheck }, new { @Class = "btn btn-sm btn-warning fa fa-star", @Title = "Review" })
                             }
                             else if (item.intState == 3)
                             {
-                                <p>mostrar invoce ak7</p>
+                                @Html.ActionLink("  ", "Invoice", new {id = item.IdCheck}, new {@Class = "btn btn-sm btn-success fa fa-eye", @Title = "Invoice"})
                             }
                         }
                     </td>

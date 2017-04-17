@@ -31,5 +31,7 @@ namespace Tabemashou_User.Models
         public decimal AccountNumber { get; set; }
         public decimal Followers { get; set; }
         public decimal Following { get; set; }
+        public decimal Reviews { get; set; }
+        public List<Review> Timeline { get; set; }
     }
 }

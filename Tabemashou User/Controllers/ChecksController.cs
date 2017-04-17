@@ -37,6 +37,34 @@ namespace Tabemashou_User.Controllers
             return View(model);
         }
 
+        public ActionResult Invoice(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Check check = db.Check.Find(id);
+            if (check == null)
+            {
+                return HttpNotFound();
+            }
+            return View(check);
+        }
+
+        public ActionResult InvoicePrint(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Check check = db.Check.Find(id);
+            if (check == null)
+            {
+                return HttpNotFound();
+            }
+            return View(check);
+        }
+
         public ActionResult Cancel(int? id)
         {
             try

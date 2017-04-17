@@ -1,5 +1,6 @@
 ﻿$(function () {
     IsFollowing();
+    $(".rating").rating({ disabled: true, showCaption: false, showClear: false, });
 });
 
 function IsFollowing() {

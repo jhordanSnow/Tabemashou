@@ -16,8 +16,8 @@ namespace Tabemashou_User.Controllers
 
         public ActionResult Index()
         {
-            var idCard = ((System.Web.HttpContext.Current.User as MyIdentity.MyPrincipal).Identity as MyIdentity).User.IdCard;
-            Customer customer = db.Customer.Find(idCard);
+            var identity = (System.Web.HttpContext.Current.User as MyIdentity.MyPrincipal).Identity as MyIdentity;
+            Customer customer = db.Customer.Find(identity.User.IdCard);
             List<Review> modelReview = new List<Review>();
             foreach (var account in customer.Customer1)
             {

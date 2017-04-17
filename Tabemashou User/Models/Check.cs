@@ -42,7 +42,7 @@ namespace Tabemashou_User.Models
             decimal subTotal = 0;
             foreach (DishesByCheck dish in DishesByCheck)
             {
-                subTotal += dish.UnitaryPrice;
+                subTotal += dish.UnitaryPrice * dish.Quantity;
             }
             return subTotal;
         }
@@ -72,7 +72,7 @@ namespace Tabemashou_User.Models
             decimal subTotal = 0;
             foreach (DishesByCheck dish in DishesByCheck)
             {
-                subTotal += dish.UnitaryPrice * dish.SellTax / 100;
+                subTotal += dish.UnitaryPrice * dish.Quantity * dish.SellTax / 100;
             }
             return subTotal;
         }
@@ -82,7 +82,7 @@ namespace Tabemashou_User.Models
             decimal subTotal = 0;
             foreach (DishesByCheck dish in DishesByCheck)
             {
-                subTotal += dish.UnitaryPrice * dish.ServiceTax / 100;
+                subTotal += dish.UnitaryPrice * dish.Quantity * dish.ServiceTax / 100;
             }
             return subTotal;
         }
@@ -91,7 +91,7 @@ namespace Tabemashou_User.Models
             decimal total = 0;
             foreach (DishesByCheck dish in DishesByCheck)
             {
-                total += dish.getTotal();
+                total += dish.getTotal() ;
             }
             return total;
         }

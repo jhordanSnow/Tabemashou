@@ -73,7 +73,29 @@
                                     <a class="btn btn-xs pull-right fa fa-plus" OnClick="addDish(this)" dish-price="@dish.Price" dish-id="@dish.IdDish"></a>
                                 </div>
                                 <div class="box-body">
-                                    mostrar imagenes <br/>
+                                    <div id="carousel_@dish.IdDish" class="carousel slide" data-ride="carousel" style="max-width: 50%; margin: 0 auto">
+                                        <ol class="carousel-indicators">
+                                        @for(int i =0; i < dish.Photo.Count; i++)
+                                        {
+                                            <li data-target="#carousel_@dish.IdDish" data-slide-to="@i" class="@((i==0)?"active":"")"></li>
+                                        }
+                                        </ol>
+                                        <div class="carousel-inner">
+                                            @for(int i =0; i < dish.Photo.Count; i++)
+                                            {
+                                                <div class="item @((i==0)?"active":"")">
+                                                    <img src="@Url.Action("ShowPhoto","Common", new {id = dish.Photo.ToArray()[i].IdPhoto})">
+                                                </div>
+                                            }
+                                        </div>
+                                        <a class="left carousel-control" href="#carousel_@dish.IdDish" data-slide="prev">
+                                            <span class="fa fa-angle-left"></span>
+                                        </a>
+                                        <a class="right carousel-control" href="#carousel_@dish.IdDish" data-slide="next">
+                                            <span class="fa fa-angle-right"></span>
+                                        </a>
+                                    </div>
+                                    <br/>
                                     <p id="desc_@dish.IdDish">@dish.Description</p>
                                 </div>
                             </div>

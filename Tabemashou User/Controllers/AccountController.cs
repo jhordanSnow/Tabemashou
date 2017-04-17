@@ -91,6 +91,7 @@ namespace Tabemashou_User.Controllers
             ObjectParameter followingQty = new ObjectParameter("Qty", typeof(int));
             db.PR_GetFriendsCount(identity.User.IdCard, followingQty);
 
+
             model.profileData = new ProfileViewModel
             {
                 Username = loggedUser.Username,
@@ -104,7 +105,8 @@ namespace Tabemashou_User.Controllers
                 Nationality = loggedUser.Nationality,
                 AccountNumber = customer.AccountNumber,
                 Followers = (int)followersQty.Value,
-                Following = (int)followingQty.Value
+                Following = (int)followingQty.Value,
+                Reviews = customer.Review.Count
 
         };
             model.Timeline = db.Review.Where(r => r.IdCustomer == identity.User.IdCard).OrderByDescending(review => review.Date).ToList();
@@ -287,7 +289,7 @@ namespace Tabemashou_User.Controllers
                 int query = db.PR_CreateCustomer(model.IdCard, model.Username, hashPassword(model.Password), model.Gender, model.BirthDate,
                                           model.Nationality, model.FirstName, model.MiddleName, model.LastName, model.SecondLastName, dbImage,model.AccountNumber);
                 TempData["Success"] = "Success.";
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Login", "Account");
             }
             ViewBag.Nationality = new SelectList(db.Country, "IdCountry", "Name", model.Nationality);
             return View(model);
@@ -341,14 +343,14 @@ namespace Tabemashou_User.Controllers
             Customer customer = db.Customer.Find(identity.User.IdCard);
             var imagedata = customer.Photo;
             if (imagedata != null && imagedata.Length > 0) return File(imagedata, "image/jpg");
-            string path = Server.MapPath("~/AdminLTE/dist/img/user.svg");
+            string path = Server.MapPath("~/AdminLTE/dist/img/user.png");
             byte[] array;
             using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
                 array = new byte[fs.Length];
                 fs.Read(array, 0, (int)fs.Length);
             }
-            return File(array, "image/jpg");
+            return File(array, "image/png");
         }
     }
 }

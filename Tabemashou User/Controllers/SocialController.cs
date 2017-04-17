@@ -38,6 +38,7 @@ namespace Tabemashou_User.Controllers
                 ObjectParameter followersQty = new ObjectParameter("Qty", typeof(int));
                 db.PR_GetFollowersCount(account.IdCard, followersQty);
                 profile.Followers = (int)followersQty.Value;
+                profile.Reviews = db.Customer.Find(account.IdCard).Review.Count;
                 profileModels.Add(profile);
             }
             model.Customers = profileModels;
@@ -62,6 +63,7 @@ namespace Tabemashou_User.Controllers
                 ObjectParameter followersQty = new ObjectParameter("Qty", typeof(int));
                 db.PR_GetFollowersCount(account.IdCard, followersQty);
                 profile.Followers = (int)followersQty.Value;
+                profile.Reviews = db.Customer.Find(account.IdCard).Review.Count;
                 profileModels.Add(profile);
             }
             model.Customers = profileModels;
@@ -75,6 +77,7 @@ namespace Tabemashou_User.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             User user = db.User.Find(id);
+            Customer customer = db.Customer.Find(id);
             if (user == null && !IsACustomer(id))
             {
                 return HttpNotFound();
@@ -102,6 +105,9 @@ namespace Tabemashou_User.Controllers
             ObjectParameter followingQty = new ObjectParameter("Qty", typeof(int));
             db.PR_GetFriendsCount(id, followingQty);
             model.Following = (int) followingQty.Value;
+            model.Reviews = customer.Review.Count;
+
+            model.Timeline = customer.Review.OrderByDescending( r => r.Date).ToList();
             return View(model);
         }
 
