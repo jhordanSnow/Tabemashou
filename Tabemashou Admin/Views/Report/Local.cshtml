@@ -1,0 +1,24 @@
+﻿@using Tabemashou_Admin.Models
+@model ReportLocal
+
+
+<div class="box box-solid box-default">
+    <div class="box-header with-border">
+        <h3 class="box-title">Local Report</h3>
+        <div class="box-tools pull-right">
+        </div>
+    </div>
+    <div class="box-body">
+        <div class="form-group row">
+            @Html.LabelFor(model => model.RestaurantId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-8">
+                @Html.ListBoxFor(m => m.RestaurantId, new SelectList((new TabemashouEntities()).PR_RestaurantTypes(), "IdType", "Name"))
+            </div>
+            <div class="col-md-2">
+                <button type="button" data-toggle="modal" data-target="#modalAddType" class="btn btn-block btn-success">
+                    <i class="fa fa-plus"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

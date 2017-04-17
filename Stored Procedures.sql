@@ -181,45 +181,6 @@ AS BEGIN
 END
 GO
 
-CREATE PROCEDURE [PR_UpdateDishTypes](
-	@IdDish INT,
-	@TypeList VARCHAR(MAX)
-)
-
-AS BEGIN
-
-	DECLARE @TypesId TABLE([IdType] INT)
-	INSERT INTO @TypesId ([IdType])
-			(	SELECT TR.IdType
-				FROM [TypesPerDish] TR
-				WHERE TR.IdDish = @IdDish
-			)
-
-	EXEC [PR_DeleteDishTypes] @IdDish
-	IF @TypeList IS NOT NULL
-	BEGIN
-		INSERT INTO [TypesPerDish]
-			SELECT @IdDish, VALUE FROM string_split(@TypeList,',')
-	END
-
-	DELETE T FROM [Type] T
-	INNER JOIN (SELECT T2.IdType
-				FROM [Type] T2
-					LEFT JOIN [TypesPerDish] TR ON TR.IdType = T2.IdType
-				WHERE T2.IdType IN (SELECT IdType FROM @TypesId)
-				GROUP BY T2.IdType
-				HAVING COUNT(TR.IdDish) = 0
-	) NoType ON NoType.IdType = T.IdType
-END
-GO
-
-CREATE PROCEDURE [PR_DeleteDishTypes](
-	@DishId INT
-)AS BEGIN
-	DELETE FROM [TypesPerDish] WHERE IdDish = @DishId
-END
-GO
-
 CREATE PROCEDURE [PR_GetDistricts]
 AS BEGIN
 
@@ -305,7 +266,12 @@ DELETE T FROM [Type] T
 END
 GO
 
-
+CREATE PROCEDURE [PR_DeleteDishTypes](
+	@DishId INT
+)AS BEGIN
+	DELETE FROM [TypesPerDish] WHERE IdDish = @DishId
+END
+GO
 
 CREATE PROCEDURE [PR_DishTypes]
 AS BEGIN
@@ -531,7 +497,7 @@ END
 GO
 
 
-CREATE PROCEDURE [PR_BestSalesDays](
+CREATE PROCEDURE [PR_BestSalesDaysReport](
 	@idRestaurant INT,
 	@date1 DATETIME,
 	@date2 DATETIME,
