@@ -276,12 +276,14 @@ GO
 CREATE PROCEDURE [PR_DishTypes]
 AS BEGIN
 	SELECT T.* FROM [Type] T INNER JOIN [TypesPerDish] TPD ON T.IdType = TPD.IdType
+	GROUP BY T.IdType, T.Name
 END
 GO
 
 CREATE PROCEDURE [PR_RestaurantTypes]
 AS BEGIN
 	SELECT T.* FROM [Type] T INNER JOIN [TypesPerRestaurant] TPR ON T.IdType = TPR.IdType
+	GROUP BY T.IdType, T.Name
 END
 GO
 
@@ -361,7 +363,7 @@ CREATE PROCEDURE [PR_GetTypes](
 )AS BEGIN
 	SELECT T.IdType FROM [Type] T
 		INNER JOIN [TypesPerDish] TPD ON TPD.IdType = T.IdType
-		INNER JOIN [Dish] D ON D.IdDish = TPD.IdDish AND D.IdRestaurant = 9
+		INNER JOIN [Dish] D ON D.IdDish = TPD.IdDish AND D.IdRestaurant = @IdRestaurant
 	GROUP BY T.IdType
 END
 GO
@@ -478,5 +480,40 @@ AS BEGIN
 				GROUP BY T2.IdType
 				HAVING COUNT(TR.IdDish) = 0
 	) NoType ON NoType.IdType = T.IdType
+END
+GO
+
+CREATE PROCEDURE [PR_LocalReport](
+	@idRestaurant INT,
+	@date1 DATETIME,
+	@date2 DATETIME
+)AS BEGIN
+	SELECT L.IdLocal , Count(C.IdCheck) as Sales
+	FROM [Local] L
+		RIGHT JOIN [Check] C ON L.IdLocal = C.IdLocal
+	WHERE C.[State] = 'Paid' AND L.IdRestaurant = @idRestaurant AND C.[Date] BETWEEN @date1 AND @date2
+	GROUP BY L.IdLocal
+END
+GO
+
+
+CREATE PROCEDURE [PR_BestSalesDays](
+	@idRestaurant INT,
+	@date1 DATETIME,
+	@date2 DATETIME,
+	@top INT
+)AS BEGIN
+	SELECT TOP(@top)
+		CONVERT(DATE, C.[Date]) [Day], SUM(TotalCheck.Total) [Total]
+	FROM [Check] C
+	INNER JOIN (
+			SELECT C.IdCheck [IdC], SUM(PBC.TotalPrice) [Total]
+			FROM [PaymentByCustomer] PBC
+				INNER JOIN [Check] C ON C.IdCheck = PBC.IdCheck
+				INNER JOIN [Local] L ON L.IdLocal = C.IdLocal
+			WHERE C.[State] = 'Paid' AND L.IdRestaurant = @idRestaurant AND C.[Date] BETWEEN @date1 AND @date2
+			GROUP BY C.IdCheck) TotalCheck ON TotalCheck.IdC = C.IdCheck
+	GROUP BY CONVERT(DATE, C.[Date]), C.IdLocal
+	ORDER BY SUM(TotalCheck.Total) DESC
 END
 GO

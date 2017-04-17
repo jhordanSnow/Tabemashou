@@ -1,0 +1,103 @@
+﻿@using Tabemashou_User.Models
+@model MapView
+
+@Styles.Render("~/AdminLTE/plugins/select2/css")
+@Styles.Render("~/AdminLTE/plugins/datatables/css")
+
+<div class="box box-solid box-success">
+    <div class="box-header with-border">
+        <h3 class="box-title">Search Map</h3>
+        <a class="btn btn-outline pull-right fa fa-filter" data-toggle="modal" data-target="#modalFilter"></a>
+    </div>
+    <div class="box-body row">
+        <div class="col-md-12">
+            <div id="Mapau" style="width: 100%; height: 420px;"></div>
+        </div>
+        @foreach (Local localtmp in Model.Locals)
+        {
+            <input type="hidden" class="info_local" value="@localtmp.IdLocal" data-lat="@localtmp.Latitude" data-lng="@localtmp.Longitude"/>
+            <div class="hidden" id="content_@localtmp.IdLocal">
+                <div class="row">
+                    <div class="col-md-4">
+                        <img class="img-responsive" style="max-width: 100% !important;" src="@Url.Action("ShowRestLogo", "Common", new {id = localtmp.Restaurant.IdRestaurant})"/>
+                    </div>
+                    <div class="col-md-8">
+                        <h3>@localtmp.Restaurant.Name</h3>
+                        <p>
+                            Local @localtmp.Name <br/>
+                            @localtmp.District.Name<br/>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+
+<div class="modal" id="modalFilter">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Filter Dishes</h4>
+            </div>
+                
+                @using (Html.BeginForm("Index", "Restaurants", FormMethod.Post, new { enctype = "multipart/form-data", data_ajax = "false" }))
+                {
+                    <div class="modal-body row">
+                        <div class="form-group col-md-12 row">
+                            <div class="col-md-3">
+                                @Html.Label("District", new { @class = "control-label col-md-2" })
+                            </div>
+                            <div class="col-md-9">
+                                @Html.ListBoxFor(model => model.IdDistrict, new MultiSelectList((new TabemashouEntities()).PR_GetDistricts(), "IdDistrict", "Name"))
+                            </div>
+                        </div>
+                        <div class="col-md-12 table-responsive">
+                        @*
+
+     <table class="table-responsive table-hover" id="table_tags" style="width: 100%;">
+        <thead>
+        <tr>
+            <th style="padding: 10px">Type</th>
+            <th style="padding: 10px">Check</th>
+        </tr>
+        </thead>
+        <tbody>
+        @for (int i = 0 ; i < Model.Types.Count; i++)
+        {
+            <tr>
+                <td style="padding: 10px">@Model.Types[i].TypeMap.Name</td>
+                <td style="padding: 10px">
+                    <input type="hidden" name="Types.Index" value="@i" />
+                    @Html.CheckBoxFor(model => model.Types[i].CheckFilter)
+                    @Html.HiddenFor(model => model.Types[i].TypeId)
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+                        *@
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                    </div>
+                }
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/Restaurants/Index")
+    @Scripts.Render("~/Scripts/Restaurants/geocomplete")
+    @Scripts.Render("http://maps.google.com/maps/api/js?sensor=false&libraries=places&key=AIzaSyB5X6uRx6dH760xD31ytAdVGBZbEbXRrJM")
+    @Scripts.Render("~/AdminLTE/plugins/select2/js")
+    @Scripts.Render("~/AdminLTE/plugins/datatables/js")
+}

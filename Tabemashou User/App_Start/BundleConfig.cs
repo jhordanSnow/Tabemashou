@@ -17,7 +17,20 @@ namespace Tabemashou_User
             RegisterShared(bundles);
 
             RegisterSocial(bundles);
+
+            RegisterRestaurants(bundles);
         }
+
+
+        private static void RegisterRestaurants(BundleCollection bundles)
+        {
+            bundles.Add(new ScriptBundle("~/Scripts/Restaurants/Index").Include(
+                "~/Scripts/Restaurants/Index.js"));
+
+            bundles.Add(new ScriptBundle("~/Scripts/Restaurants/geocomplete").Include(
+                "~/Scripts/Restaurants/jquery.geocomplete.js"));
+        }
+
 
         private static void RegisterSocial(BundleCollection bundles)
         {
