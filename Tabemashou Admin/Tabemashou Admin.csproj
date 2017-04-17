@@ -237,6 +237,9 @@
     <Compile Include="Models\PR_BestSalesDaysReport_Result.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PR_DishSalesReport_Result.cs">
+      <DependentUpon>TabemashouModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PR_DishTypes_Result.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>
@@ -255,10 +258,16 @@
     <Compile Include="Models\PR_LocalReport_Result.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PR_LocalRestaurantInfo_Result.cs">
+      <DependentUpon>TabemashouModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PR_RestaurantInfo_Result.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PR_RestaurantTypes_Result.cs">
+      <DependentUpon>TabemashouModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PR_SalesAge_Result.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ReportModels.cs" />
@@ -644,6 +653,8 @@
     <Content Include="Views\Dishes\Index.cshtml" />
     <Content Include="Views\Report\Local.cshtml" />
     <Content Include="Views\Report\DaySales.cshtml" />
+    <Content Include="Views\Report\SalesDish.cshtml" />
+    <Content Include="Views\Report\AgeSales.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

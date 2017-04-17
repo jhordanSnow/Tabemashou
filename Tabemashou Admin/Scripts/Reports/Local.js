@@ -34,3 +34,33 @@
     
 
 });
+
+
+function filterMenu(object) {
+    var typeId = $(object).attr("id-type");
+    var checked = $(object).prop('checked');
+    $(".filter-menu").each(function () {
+        var filter_items = $(this).attr("data-filter").split(",");
+        var filter_default = $(this).attr("data-filter-default").split(",");
+
+        if (checked && filter_default.indexOf(typeId) >= 0) {
+            if (filter_items.length == 0) {
+                filter_items = typeId;
+            } else {
+                filter_items.push(typeId);
+            }
+        } else {
+            filter_items = jQuery.grep(filter_items, function (value) {
+                return value != typeId;
+            });
+        }
+
+        if (filter_items == "") {
+            $(this).hide();
+        } else {
+            $(this).show();
+        }
+        $(this).attr("data-filter", filter_items);
+    });
+
+}

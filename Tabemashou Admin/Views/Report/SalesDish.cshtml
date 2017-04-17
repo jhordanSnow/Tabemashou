@@ -1,0 +1,116 @@
+﻿@using Tabemashou_Admin.Models
+@model ReportLocal
+
+@Styles.Render("~/AdminLTE/plugins/daterangepicker/css")
+@Styles.Render("~/AdminLTE/plugins/select2/css")
+@Styles.Render("~/AdminLTE/dist/css")
+
+<div class="box box-solid box-success box-default">
+    <div class="box-header with-border">
+        <h3 class="box-title">Dish Sales Report</h3>
+        <div class="box-tools pull-right">
+        </div>
+    </div>
+    <div class="box-body row">
+        @using (Html.BeginForm("SalesDish", "Report", FormMethod.Post))
+        {
+            <div class="col-md-6 row">
+                @Html.Label("Restaurant", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(m => m.RestaurantId, Model.Restaurants, Model.RestaurantId)
+                </div>
+            </div>
+            <div class="col-md-6 row">
+                @Html.HiddenFor(m => m.DateStart)
+                @Html.HiddenFor(m => m.DateEnd)
+                @Html.Label("Date Range", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10 form-group">
+                    <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+                        <span></span> <b class="caret"></b>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-block btn-success">
+                        <i class="fa fa-plus"></i> Generate Report
+                    </button>
+                </div>
+                <div class="col-md-6">
+                    <a class="btn btn-primary fa fa-filter" data-toggle="modal" data-target="#modalFilter"> Filter Types</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@{
+    if (Model.Result.Count > 0)
+    {
+
+        <div class="box box-solid box-success box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Result</h3>
+                <div class="box-tools pull-right">
+                </div>
+            </div>
+            <div class="box-body table">
+                <table class="table-responsive table-hover" style="width: 100%">
+                    <thead><tr>
+                        <th style="padding: 10px;">Dish</th>
+                        <th style="padding: 10px;">Quantity</th>
+                        <th style="padding: 10px;">Total</th>
+                    </tr></thead>
+                    <tbody>
+                    @foreach (var result in Model.Result)
+                    {
+                        <tr class="filter-menu" data-filter="@string.Join(",", result.DishResult.Type.Select(m => m.IdType))" data-filter-default="@string.Join(",", result.DishResult.Type.Select(m => m.IdType))">
+                            <td style="padding: 10px;">@result.DishResult.Name</td>
+                            <td style="padding: 10px;">@result.SalesResult </td>
+                            <td style="padding: 10px;">@result.TotalResult </td>
+                        </tr>
+                    }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+}
+
+
+
+<div class="modal" id="modalFilter">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Filter Dishes</h4>
+            </div>
+            <form id="deleteForm" action="" method="post">
+                <div class="modal-body row">
+                    @foreach (PR_DishTypes_Result type in Model.Types)
+                    {
+                        <div class="col-md-4">
+                            <h4>@type.Name</h4>
+                            <input type="checkbox" onclick="filterMenu(this)" id-type="@type.IdType" checked data-toggle="toggle">
+                        </div>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Salir</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/Reports/Local")
+    @Scripts.Render("~/AdminLTE/plugins/select2/js")
+    @Scripts.Render("~/AdminLTE/plugins/daterangepicker/js")
+}

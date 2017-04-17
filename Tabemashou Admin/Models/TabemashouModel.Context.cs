@@ -490,5 +490,40 @@ namespace Tabemashou_Admin.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PR_UpdateRestaurantTypes", restaurantIdParameter, typeListParameter);
         }
+    
+        public virtual ObjectResult<PR_DishSalesReport_Result> PR_DishSalesReport(Nullable<int> idLocal, Nullable<System.DateTime> dateStart, Nullable<System.DateTime> dateEnd)
+        {
+            var idLocalParameter = idLocal.HasValue ?
+                new ObjectParameter("IdLocal", idLocal) :
+                new ObjectParameter("IdLocal", typeof(int));
+    
+            var dateStartParameter = dateStart.HasValue ?
+                new ObjectParameter("DateStart", dateStart) :
+                new ObjectParameter("DateStart", typeof(System.DateTime));
+    
+            var dateEndParameter = dateEnd.HasValue ?
+                new ObjectParameter("DateEnd", dateEnd) :
+                new ObjectParameter("DateEnd", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PR_DishSalesReport_Result>("PR_DishSalesReport", idLocalParameter, dateStartParameter, dateEndParameter);
+        }
+    
+        public virtual ObjectResult<PR_LocalRestaurantInfo_Result> PR_LocalRestaurantInfo(Nullable<decimal> aminId)
+        {
+            var aminIdParameter = aminId.HasValue ?
+                new ObjectParameter("AminId", aminId) :
+                new ObjectParameter("AminId", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PR_LocalRestaurantInfo_Result>("PR_LocalRestaurantInfo", aminIdParameter);
+        }
+    
+        public virtual ObjectResult<PR_SalesAge_Result> PR_SalesAge(Nullable<int> localId)
+        {
+            var localIdParameter = localId.HasValue ?
+                new ObjectParameter("LocalId", localId) :
+                new ObjectParameter("LocalId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PR_SalesAge_Result>("PR_SalesAge", localIdParameter);
+        }
     }
 }

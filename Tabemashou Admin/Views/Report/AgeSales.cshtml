@@ -1,0 +1,73 @@
+﻿@using Tabemashou_Admin.Models
+@model ReportLocal
+
+@Styles.Render("~/AdminLTE/plugins/daterangepicker/css")
+@Styles.Render("~/AdminLTE/plugins/select2/css")
+@Styles.Render("~/AdminLTE/dist/css")
+
+<div class="box box-solid box-success box-default">
+    <div class="box-header with-border">
+        <h3 class="box-title">Ages Sales Report</h3>
+        <div class="box-tools pull-right">
+        </div>
+    </div>
+    <div class="box-body row">
+        @using (Html.BeginForm("AgeSales", "Report", FormMethod.Post))
+        {
+            <div class="col-md-6 row">
+                @Html.Label("Restaurant", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(m => m.RestaurantId, Model.Restaurants, Model.RestaurantId)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-block btn-success">
+                        <i class="fa fa-plus"></i> Generate Report
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@{
+    if (Model.Result.Count > 0)
+    {
+
+        <div class="box box-solid box-success box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Result</h3>
+                <div class="box-tools pull-right">
+                </div>
+            </div>
+            <div class="box-body table">
+                <table class="table-responsive table-hover" style="width: 100%">
+                    <thead><tr>
+                        <th style="padding: 10px;">Age</th>
+                        <th style="padding: 10px;">Gender</th>
+                        <th style="padding: 10px;">Total Sales</th>
+                    </tr></thead>
+                    <tbody>
+                    @foreach (var result in Model.Result)
+                    {
+                        <tr>
+                            <td style="padding: 10px;">@result.AgeRange</td>
+                            <td style="padding: 10px;">@result.Gender </td>
+                            <td style="padding: 10px;">@result.TotalResult </td>
+                        </tr>
+                    }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/Reports/Local")
+    @Scripts.Render("~/AdminLTE/plugins/select2/js")
+    @Scripts.Render("~/AdminLTE/plugins/daterangepicker/js")
+}

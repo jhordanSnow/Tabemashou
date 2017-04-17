@@ -13,13 +13,18 @@ namespace Tabemashou_Admin.Models
         public int RestaurantId { get; set; }
         public int Top { get; set; }
         public List<ReportLocalResult> Result { get; set; }
+        public List<PR_DishTypes_Result> Types { get; set; }
     }
 
     public class ReportLocalResult
     {
         public Local LocalResult { get; set; }
+        public Dish DishResult { get; set; }
         public int SalesResult { get; set; }
         public DateTime DayResult { get; set; }
         public decimal TotalResult { get; set; }
+
+        public string Gender { get; set; }
+        public string AgeRange { get; set; }
     }
 }

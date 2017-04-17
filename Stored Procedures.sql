@@ -1,6 +1,60 @@
 USE Tabemashou
 GO
 
+
+CREATE FUNCTION Split (
+      @InputString                  VARCHAR(8000),
+      @Delimiter                    VARCHAR(50)
+)
+
+RETURNS @Items TABLE (
+      Item                          VARCHAR(8000)
+)
+
+AS
+BEGIN
+      IF @Delimiter = ' '
+      BEGIN
+            SET @Delimiter = ','
+            SET @InputString = REPLACE(@InputString, ' ', @Delimiter)
+      END
+
+      IF (@Delimiter IS NULL OR @Delimiter = '')
+            SET @Delimiter = ','
+
+--INSERT INTO @Items VALUES (@Delimiter) -- Diagnostic
+--INSERT INTO @Items VALUES (@InputString) -- Diagnostic
+
+      DECLARE @Item                 VARCHAR(8000)
+      DECLARE @ItemList       VARCHAR(8000)
+      DECLARE @DelimIndex     INT
+
+      SET @ItemList = @InputString
+      SET @DelimIndex = CHARINDEX(@Delimiter, @ItemList, 0)
+      WHILE (@DelimIndex != 0)
+      BEGIN
+            SET @Item = SUBSTRING(@ItemList, 0, @DelimIndex)
+            INSERT INTO @Items VALUES (@Item)
+
+            -- Set @ItemList = @ItemList minus one less item
+            SET @ItemList = SUBSTRING(@ItemList, @DelimIndex+1, LEN(@ItemList)-@DelimIndex)
+            SET @DelimIndex = CHARINDEX(@Delimiter, @ItemList, 0)
+      END -- End WHILE
+
+      IF @Item IS NOT NULL -- At least one delimiter was encountered in @InputString
+      BEGIN
+            SET @Item = @ItemList
+            INSERT INTO @Items VALUES (@Item)
+      END
+
+      -- No delimiters were encountered in @InputString, so just return @InputString
+      ELSE INSERT INTO @Items VALUES (@InputString)
+
+      RETURN
+
+END -- End Function
+GO
+
 CREATE PROCEDURE [PR_CreateUser] (
 	@IdCard NUMERIC(20),
 	@Username VARCHAR(25),
@@ -516,3 +570,61 @@ CREATE PROCEDURE [PR_BestSalesDaysReport](
 	ORDER BY SUM(TotalCheck.Total) DESC
 END
 GO
+
+CREATE PROCEDURE [PR_DishSalesReport](
+	@IdLocal INT,
+	@DateStart DATETIME,
+	@DateEnd DATETIME
+)AS BEGIN
+	SELECT 
+		D.IdDish ID , 
+		ISNULL(SUM(DBC.Quantity),0) AS [Quantity] , 
+		SUM((DBC.UnitaryPrice + (DBC.UnitaryPrice * DBC.SellTax / 100) + (DBC.UnitaryPrice * DBC.ServiceTax / 100)) * DBC.Quantity) AS [Total]
+	FROM [Dish] D
+		INNER JOIN [DishesByCheck] DBC ON D.IdDish = DBC.IdDish
+		INNER JOIN [Check] C ON DBC.IdCheck = C.IdCheck AND C.[State] = 'Paid'
+	WHERE C.IdLocal = @IdLocal AND C.[Date] BETWEEN @DateStart AND @DateEnd
+	GROUP BY D.IdDish
+END
+GO
+
+CREATE PROCEDURE [PR_LocalRestaurantInfo] (
+	@AminId NUMERIC(20)
+)
+AS BEGIN
+	SELECT 
+		L.IdLocal,
+		R.[Name] + ' - Local #' + CONVERT(VARCHAR,L.[Name]) AS [Name]
+	FROM [Restaurant] R
+		INNER JOIN [Local] L ON L.IdRestaurant = R.IdRestaurant
+	WHERE R.IdAdmin = @AminId
+	ORDER BY R.[Name] ASC
+END	
+GO
+
+CREATE PROCEDURE [PR_SalesAge](
+	@LocalId INT
+)AS BEGIN
+	SELECT 
+		Ages.Gender, 
+		Ages.AgeRange,
+		COUNT(PPC.IdCheck) AS [Total Sales]
+	FROM (SELECT U.Gender, U.IdCard [CardId],
+						CASE  
+							WHEN DATEDIFF(yy,U.BirthDate, GETDATE()) between 0 and 9 then '0 - 9'
+							WHEN DATEDIFF(yy,U.BirthDate, GETDATE()) between 10 and 19 then '10 - 19'
+							WHEN DATEDIFF(yy,U.BirthDate, GETDATE()) between 20 and 29 then '20 - 29'
+							WHEN DATEDIFF(yy,U.BirthDate, GETDATE()) between 30 and 39 then '30 - 39'
+							WHEN DATEDIFF(yy,U.BirthDate, GETDATE()) between 40 and 49 then '40 - 49'
+							WHEN DATEDIFF(yy,U.BirthDate, GETDATE()) between 50 and 59 then '50 - 59'
+							WHEN DATEDIFF(yy,U.BirthDate, GETDATE()) between 60 and 69 then '60 - 69'
+							WHEN DATEDIFF(yy,U.BirthDate, GETDATE()) between 70 and 79 then '70 - 79'
+							WHEN DATEDIFF(yy,U.BirthDate, GETDATE()) between 80 and 89 then '80 - 89'
+							WHEN DATEDIFF(yy,U.BirthDate, GETDATE()) between 90 and 99 then '90 - 99'
+							ELSE '100+' END AS AgeRange
+				FROM [User] U) Ages 
+		INNER JOIN [PaymentByCustomer] PPC ON Ages.CardId = PPC.IdCard
+		INNER JOIN [Check] CH ON PPC.IdCheck = CH.IdCheck AND CH.[State] = 'Paid'
+	WHERE CH.IdLocal = @LocalId
+	GROUP by Ages.Gender, Ages.AgeRange
+END
