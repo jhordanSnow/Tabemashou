@@ -22,14 +22,20 @@ namespace Tabemashou_Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            var restaurant = db.Restaurant.Find(id);
+            var idCard = ((System.Web.HttpContext.Current.User as MyIdentity.MyPrincipal).Identity as MyIdentity).User.IdCard;
+            if (restaurant == null || restaurant.Administrator.IdCard != idCard)
+            {
+                return HttpNotFound();
+            }
+
             var locals = (from loc in db.Local
-                where loc.IdRestaurant == id
-                select loc);
+            where loc.IdRestaurant == id
+            select loc);
 
             var dishes = (from loc in db.Dish
                 where loc.IdRestaurant == id
                 select loc);
-
             LocalsViewModels model = new LocalsViewModels();
             model.restaurant = db.Restaurant.Find(id);
             model.locals = locals;
@@ -216,7 +222,8 @@ namespace Tabemashou_Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Local local = db.Local.Find(id);
-            if (local == null)
+            var idCard = ((System.Web.HttpContext.Current.User as MyIdentity.MyPrincipal).Identity as MyIdentity).User.IdCard;
+            if (local == null || local.Restaurant.Administrator.IdCard != idCard)
             {
                 return HttpNotFound();
             }
@@ -352,7 +359,8 @@ namespace Tabemashou_Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Local local = db.Local.Find(id);
-            if (local == null)
+            var idCard = ((System.Web.HttpContext.Current.User as MyIdentity.MyPrincipal).Identity as MyIdentity).User.IdCard;
+            if (local == null || local.Restaurant.Administrator.IdCard != idCard)
             {
                 return HttpNotFound();
             }
@@ -408,5 +416,7 @@ namespace Tabemashou_Admin.Controllers
             }
             return File(array, "image/jpg");
         }
+
+       
     }
 }

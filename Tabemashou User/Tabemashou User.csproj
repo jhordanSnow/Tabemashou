@@ -199,7 +199,9 @@
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MyIdentity.cs" />
+
     <Compile Include="Controllers\RestaurantsController.cs" />
+    <Compile Include="Controllers\ReviewsController.cs" />
     <Compile Include="Controllers\SocialController.cs" />
     <Compile Include="Filter\UserAuth.cs" />
     <Compile Include="Global.asax.cs">
@@ -655,6 +657,9 @@
       <DependentUpon>TabemashouModel.edmx</DependentUpon>
     </Content>
     <Content Include="Views\Restaurants\Index.cshtml" />
+    <Content Include="Views\Reviews\Create.cshtml" />
+    <Content Include="Views\Reviews\Details.cshtml" />
+    <Content Include="P404.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

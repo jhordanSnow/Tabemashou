@@ -653,6 +653,7 @@
     <Content Include="Models\TabemashouModel.edmx.diagram">
       <DependentUpon>TabemashouModel.edmx</DependentUpon>
     </Content>
+    <Content Include="P404.cshtml" />
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>

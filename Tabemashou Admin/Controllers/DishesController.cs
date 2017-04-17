@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Tabemashou_Admin.Models;
+using Type = Tabemashou_Admin.Models.Type;
 
 namespace Tabemashou_Admin.Controllers
 {
@@ -103,6 +105,17 @@ namespace Tabemashou_Admin.Controllers
                         }
                     }
                 }
+                var locals = (from loc in db.Local
+                    where loc.IdRestaurant == model.idRestaurant
+                    select loc);
+                foreach (var local in locals)
+                {
+                    DishesPerLocal dpl = new DishesPerLocal();
+                    dpl.IdDish = model.dish.IdDish;
+                    dpl.IdLocal = local.IdLocal;
+                    dpl.State = true;
+                    db.DishesPerLocal.Add(dpl);
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index", "Locals", new { id = dish.IdRestaurant });
             }
@@ -152,6 +165,20 @@ namespace Tabemashou_Admin.Controllers
                 model.uploadFilesNames = "";
                 return View(model);
             }
+            if (model.restTypesId != null && model.restTypesId.Any())
+            {
+                String typeList = "";
+                foreach (var typeId in model.restTypesId)
+                {
+                    typeList += typeId + ",";
+                }
+                db.PR_UpdateDishTypes(model.dish.IdDish, typeList.Remove(typeList.Length - 1));
+            }
+            else
+            {
+                db.PR_DeleteDishTypes(model.dish.IdDish);
+            }
+
             Dish dish = db.Dish.Find(model.dish.IdDish);
             dish.Name = model.dish.Name;
             dish.Description = model.dish.Description;
@@ -188,6 +215,7 @@ namespace Tabemashou_Admin.Controllers
             }
 
             db.SaveChanges();
+            TempData["Success"] = dish.Name + " edited successfully.";
             return RedirectToAction("Index", "Locals", new { id = dish.IdRestaurant });
         }
 

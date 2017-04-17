@@ -2,6 +2,12 @@
 var deletedFiles = [];
 
 $(function () {
+    $('#TablesDataTable').DataTable({
+        columnDefs: [
+            { width: 150, targets: [0,1] }
+        ],
+        fixedColumns: true
+    });
     var selectType = "#local_IdDistrict";
     $(selectType).select2({
         placeholder: 'Select a District',
