@@ -129,6 +129,7 @@ namespace Tabemashou_User.Controllers
             error = (model.profileData.AccountNumber != customer.AccountNumber) ? !ValidateAccountNumber(model.profileData.AccountNumber) : error;
             error = (model.profileData.IdCard != identity.User.IdCard) ? !ValidateIdCard(model.profileData.IdCard) : error;
             error = (model.profileData.Username != identity.User.Username && !error) ? !ValidateUserName(model.profileData.Username) : error;
+            model.Timeline = db.Review.Where(r => r.IdCustomer == identity.User.IdCard).OrderByDescending(review => review.Date).ToList();
 
             if (!error && ModelState.IsValid)
             {
@@ -150,8 +151,8 @@ namespace Tabemashou_User.Controllers
 
                 return View(model);
             }
-            ViewBag.Nationality = new SelectList(db.Country, "IdCountry", "Name", loggedUser.Nationality);
             
+            ViewBag.Nationality = new SelectList(db.Country, "IdCountry", "Name", loggedUser.Nationality);
             return View(model);
         }
 
@@ -218,7 +219,7 @@ namespace Tabemashou_User.Controllers
             model.profileData.MiddleName = loggedUser.MiddleName;
             model.profileData.SecondLastName = loggedUser.SecondLastName;
             model.profileData.Gender = loggedUser.Gender;
-           
+            model.Timeline = db.Review.Where(r => r.IdCustomer == identity.User.IdCard).OrderByDescending(review => review.Date).ToList();
             ViewBag.Nationality = new SelectList(db.Country, "IdCountry", "Name", loggedUser.Nationality);
             return View("UserProfile", model);
         }
