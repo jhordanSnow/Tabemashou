@@ -107,6 +107,7 @@ namespace Tabemashou_User.Controllers
                 Following = (int)followingQty.Value
 
         };
+            model.Timeline = db.Review.Where(r => r.IdCustomer == identity.User.IdCard).OrderByDescending(review => review.Date).ToList();
 
             ViewBag.Nationality = new SelectList(db.Country, "IdCountry", "Name", loggedUser.Nationality);
             return View(model);

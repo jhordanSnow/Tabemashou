@@ -56,9 +56,18 @@ namespace Tabemashou_User.Controllers
             return RedirectToAction("Index", "Checks");
         }
 
-        public ActionResult Review()
+        public ActionResult Review(int? id)
         {
-            return null;
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Check check = db.Check.Find(id);
+            if (check == null)
+            {
+                return HttpNotFound();
+            }
+            return RedirectToAction("Create", "Reviews", new {id});
         }
 
         // GET: Checks/Details/5

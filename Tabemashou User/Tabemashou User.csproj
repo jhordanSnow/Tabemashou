@@ -600,6 +600,8 @@
     <Content Include="Scripts\Account\Register.js" />
     <Content Include="Scripts\Account\UserProfile.js" />
     <Content Include="Scripts\Checks\Create.js" />
+    <Content Include="Scripts\Home\Index.js" />
+    <Content Include="Scripts\Reviews\Create.js" />
     <Content Include="Scripts\Social\Following.js" />
     <Content Include="Scripts\Social\Profile.js" />
     <Content Include="Scripts\Shared\LeftMenu.js" />

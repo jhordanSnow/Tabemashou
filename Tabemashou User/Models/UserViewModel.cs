@@ -9,10 +9,7 @@ namespace Tabemashou_User.Models
     {
         public List<ProfileModel> Customers;
     }
-    public class UserViewModel
-    {
 
-    }
 
     public class JsonResponse
     {

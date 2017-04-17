@@ -17,7 +17,24 @@ namespace Tabemashou_User
             RegisterShared(bundles);
 
             RegisterSocial(bundles);
+
+            RegisterReviews(bundles);
+
+
+            RegisterHome(bundles);
         }
+        private static void RegisterHome(BundleCollection bundles)
+        {
+            bundles.Add(new ScriptBundle("~/Scripts/Home/Index").Include(
+                "~/Scripts/Home/Index.js"));
+        }
+
+        private static void RegisterReviews(BundleCollection bundles)
+        {
+            bundles.Add(new ScriptBundle("~/Scripts/Reviews/Create").Include(
+                "~/Scripts/Reviews/Create.js"));
+        }
+
 
         private static void RegisterSocial(BundleCollection bundles)
         {
@@ -83,6 +100,16 @@ namespace Tabemashou_User
 
             bundles.Add(new StyleBundle("~/AdminLTE/documentation/css").Include(
                 "~/AdminLTE/documentation/css/style.css"));
+
+             // plugins | bootstrap - star rating
+            bundles.Add(new ScriptBundle("~/AdminLTE/plugins/bootstrap-star-rating/js").Include(
+                "~/AdminLTE/plugins/bootstrap-star-rating/js/star-rating.min.js",
+                "~/AdminLTE/plugins/bootstrap-star-rating/js/locales/LANG.js"));
+
+            bundles.Add(new StyleBundle("~/AdminLTE/plugins/bootstrap-star-rating/css").Include(
+                "~/AdminLTE/plugins/bootstrap-star-rating/css/star-rating.min.css"));
+
+
 
             // plugins | bootstrap-slider
             bundles.Add(new ScriptBundle("~/AdminLTE/plugins/bootstrap-slider/js").Include(
