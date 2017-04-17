@@ -19,9 +19,17 @@ namespace Tabemashou_Admin
             RegisterLocals(bundles);
 
             RegisterDishes(bundles);
+
+            RegisterReports(bundles);
         }
 
       
+
+        private static void RegisterReports(BundleCollection bundles)
+        {
+            bundles.Add(new ScriptBundle("~/Scripts/Reports/Local").Include(
+                "~/Scripts/Reports/Local.js"));
+        }
 
         private static void RegisterHome(BundleCollection bundles)
         {

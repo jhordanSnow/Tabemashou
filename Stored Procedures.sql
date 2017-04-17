@@ -41,7 +41,7 @@ CREATE PROCEDURE [PR_CreateAdministrator] (
 )
 AS BEGIN
 	DECLARE @UserError INT
-	EXEC @UserError = CreateUser
+	EXEC @UserError = [PR_CreateUser]
 		@IdCard = @IdCard,
 		@Username = @Username,
 		@Password = @Password,
@@ -496,7 +496,6 @@ CREATE PROCEDURE [PR_LocalReport](
 END
 GO
 
-
 CREATE PROCEDURE [PR_BestSalesDaysReport](
 	@idRestaurant INT,
 	@date1 DATETIME,
@@ -504,7 +503,7 @@ CREATE PROCEDURE [PR_BestSalesDaysReport](
 	@top INT
 )AS BEGIN
 	SELECT TOP(@top)
-		CONVERT(DATE, C.[Date]) [Day], SUM(TotalCheck.Total) [Total]
+		C.IdLocal [LocalId], CONVERT(DATE, C.[Date]) [Day], SUM(TotalCheck.Total) [Total]
 	FROM [Check] C
 	INNER JOIN (
 			SELECT C.IdCheck [IdC], SUM(PBC.TotalPrice) [Total]

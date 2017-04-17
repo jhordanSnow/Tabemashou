@@ -10,17 +10,11 @@
 namespace Tabemashou_Admin.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class PaymentByCustomer
+    public partial class PR_BestSalesDaysReport_Result
     {
-        public decimal IdCard { get; set; }
-        public decimal AccountNumber { get; set; }
-        public int IdCheck { get; set; }
-        public System.DateTime Date { get; set; }
-        public decimal TotalPrice { get; set; }
-    
-        public virtual Check Check { get; set; }
-        public virtual Customer Customer { get; set; }
+        public int LocalId { get; set; }
+        public Nullable<System.DateTime> Day { get; set; }
+        public Nullable<decimal> Total { get; set; }
     }
 }

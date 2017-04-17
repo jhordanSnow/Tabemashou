@@ -57,6 +57,7 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
+    <Reference Include="System.Activities" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
@@ -221,8 +222,6 @@
     <Compile Include="Models\Local.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ReportModels.cs" />
-    <Compile Include="Models\LocalsViewModels.cs" />
     <Compile Include="Models\PARAMETER.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>
@@ -235,6 +234,9 @@
     <Compile Include="Models\Province.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PR_BestSalesDaysReport_Result.cs">
+      <DependentUpon>TabemashouModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PR_DishTypes_Result.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>
@@ -244,12 +246,23 @@
     <Compile Include="Models\PR_GetDistricts_Result.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PR_GetFollowers_Result.cs">
+      <DependentUpon>TabemashouModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PR_GetFriends_Result.cs">
+      <DependentUpon>TabemashouModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PR_LocalReport_Result.cs">
+      <DependentUpon>TabemashouModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PR_RestaurantInfo_Result.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PR_RestaurantTypes_Result.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ReportModels.cs" />
+    <Compile Include="Models\LocalsViewModels.cs" />
     <Compile Include="Models\Restaurant.cs">
       <DependentUpon>TabemashouModel.tt</DependentUpon>
     </Compile>
@@ -568,6 +581,7 @@
     <Content Include="Scripts\Locals\Create.js" />
     <Content Include="Scripts\Locals\Index-menu.js" />
     <Content Include="Scripts\Locals\Index.js" />
+    <Content Include="Scripts\Reports\Local.js" />
     <Content Include="Scripts\Restaurants\Create.js" />
     <Content Include="Scripts\Restaurants\Edit.js" />
     <Content Include="Scripts\Restaurants\Index-menu.js" />
@@ -629,6 +643,7 @@
     <Content Include="Views\Dishes\Edit.cshtml" />
     <Content Include="Views\Dishes\Index.cshtml" />
     <Content Include="Views\Report\Local.cshtml" />
+    <Content Include="Views\Report\DaySales.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -649,6 +664,7 @@
     <Content Include="AdminLTE\plugins\ionicons\fonts\ionicons.eot" />
     <Content Include="AdminLTE\plugins\ionicons\fonts\ionicons.ttf" />
     <Content Include="AdminLTE\plugins\ionicons\fonts\ionicons.woff" />
+    <Content Include="P404.cshtml" />
     <EntityDeploy Include="Models\TabemashouModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>TabemashouModel.Designer.cs</LastGenOutput>
@@ -656,7 +672,6 @@
     <Content Include="Models\TabemashouModel.edmx.diagram">
       <DependentUpon>TabemashouModel.edmx</DependentUpon>
     </Content>
-    <Content Include="P404.cshtml" />
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>

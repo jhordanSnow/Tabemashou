@@ -7,20 +7,26 @@
 
 <div class="box box-solid box-success box-default">
     <div class="box-header with-border">
-        <h3 class="box-title">Local Report</h3>
+        <h3 class="box-title">Day Sales Report</h3>
         <div class="box-tools pull-right">
         </div>
     </div>
     <div class="box-body row">
-        @using (Html.BeginForm("Local", "Report", FormMethod.Post))
+        @using (Html.BeginForm("DaySales", "Report", FormMethod.Post))
         {
-            <div class="col-md-6 row">
+            <div class="col-md-5 row">
                 @Html.Label("Restaurant", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.DropDownListFor(m => m.RestaurantId, Model.Restaurants, Model.RestaurantId)
                 </div>
             </div>
-            <div class="col-md-6 row">
+            <div class="col-md-3 row">
+                @Html.Label("Top", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10 form-group">
+                    @Html.EditorFor(m => m.Top)
+                </div>
+            </div>
+            <div class="col-md-4 row">
                 @Html.HiddenFor(m => m.DateStart)
                 @Html.HiddenFor(m => m.DateEnd)
                 @Html.Label("Date Range", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -54,13 +60,20 @@
             </div>
             <div class="box-body table">
                 <table class="table-responsive table-hover" style="width: 100%">
-                    <thead><tr><th style="padding: 10px;">Local</th><th style="padding: 10px;">Sales</th></tr></thead>
+                    <thead>
+                    <tr>
+                        <th style="padding: 10px;">Local</th>
+                        <th style="padding: 10px;">Date</th>
+                        <th style="padding: 10px;">Sales</th>
+                    </tr>
+                    </thead>
                     <tbody>
                     @foreach (var result in Model.Result)
                     {
                         <tr>
                             <td style="padding: 10px;">#@result.LocalResult.Name - @result.LocalResult.District.Name</td>
-                            <td style="padding: 10px;">@result.SalesResult </td>
+                            <td style="padding: 10px;">@result.DayResult.ToString("yyyy-M-d") </td>
+                            <td style="padding: 10px;">@result.TotalResult </td>
                         </tr>
                     }
 
