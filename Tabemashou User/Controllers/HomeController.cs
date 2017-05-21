@@ -25,7 +25,7 @@ namespace Tabemashou_User.Controllers
                 
             }
             
-            return View(modelReview.OrderByDescending(review => review.Date).ToList());
+            return View(modelReview.OrderByDescending(review => review.Date).Take(100).ToList());
         }
 
         public string TimeAgo(DateTime dt)

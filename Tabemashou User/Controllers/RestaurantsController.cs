@@ -20,7 +20,7 @@ namespace Tabemashou_User.Controllers
         public ActionResult Index()
         {
             MapView model = new MapView();
-            model.Locals = db.Local.ToList();
+            model.Locals = db.Local.Take(100).ToList();
             model.Types = new List<TypeFilter>();
             foreach (var typeTmp in db.PR_RestaurantTypes().ToList())
             {
